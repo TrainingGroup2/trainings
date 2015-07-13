@@ -18,20 +18,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/users")
 public class UserController {
 
-    List<User> users = new ArrayList<>();
-    public void setUsers() {
+   static List<User> users = new ArrayList<>();
 
-       User a = new User("1234455", "Petr", "Ivanovich", "Sidorov", "petya@mail.ru");
-       User b = new User("12355", "Aleksey", "Ivanovich", "Petrov", "lesha@mail.ru");
-       User c = new User("1255", "Marina", "Aleksandrovna", "Ivanova", "marina@mail.ru");
-       users.add(a);
-       users.add(b);
-       users.add(c);
-   }
+        static {
+            users.add(new User("1234455", "Petr", "Ivanovich", "Sidorov", "petya@mail.ru"));
+            users.add(new User("12355", "Aleksey", "Ivanovich", "Petrov", "lesha@mail.ru"));
+            users.add(new User("1255", "Marina", "Aleksandrovna", "Ivanova", "marina@mail.ru"));
+        }
+
+
 
     @RequestMapping(method = RequestMethod.GET)
     public @ResponseBody List<User> showUsers() {
-        setUsers();
         return users;
     }
 }

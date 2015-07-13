@@ -4,35 +4,28 @@ package com.exadel.model.entity;
  * Created by Виктория on 10.07.2015.
  */
 public class User {
-    private  long id;
+    private  String id;
     private  String name;
-    private  String secondname;
+    private  String secondName;
     private  String surname;
     private  String email;
     // private  List<Training> myTrainingList; ;
 
-    public User(long id, String name, String secondname, String surname, String email) {
+
+    public User(String id, String name, String secondName, String surname, String email) {
         this.id = id;
         this.name = name;
-        this.secondname = secondname;
-        this.surname = surname;
-        this.email = email;
-    }
-
-    public User(String id, String name, String secondname, String surname, String email) {
-        this.id = Long.parseLong(id);
-        this.name = name;
-        this.secondname = secondname;
+        this.secondName = secondName;
         this.surname = surname;
         this.email = email;
     }
 
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -44,12 +37,12 @@ public class User {
         this.name = name;
     }
 
-    public String getSecondname() {
-        return secondname;
+    public String getSecondName() {
+        return secondName;
     }
 
-    public void setSecondname(String secondname) {
-        this.secondname = secondname;
+    public void setSecondName(String secondName) {
+        this.secondName = secondName;
     }
 
     public String getSurname() {
