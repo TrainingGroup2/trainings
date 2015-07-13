@@ -1,25 +1,24 @@
 package com.exadel.model.entity;
 
 /**
- * Created by Виктория on 10.07.2015.
+ * Created by Виктория on 13.07.2015.
  */
-public class User {
-    private  String id;
-    private  String name;
-    private  String secondName;
-    private  String surname;
-    private  String email;
-    // private  List<Training> myTrainingList; ;
+public abstract class User {
+    private String id;
+    private String name;
+    private String secondName;
+    private String surname;
+    private String phone;
+    private String email;
 
-
-    public User(String id, String name, String secondName, String surname, String email) {
+    public User(String id, String name, String secondName, String surname, String phone, String email) {
         this.id = id;
         this.name = name;
         this.secondName = secondName;
         this.surname = surname;
+        this.phone = phone;
         this.email = email;
     }
-
 
     public String getId() {
         return id;
@@ -61,7 +60,11 @@ public class User {
         this.email = email;
     }
 
+    public String getPhone() {
+        return phone;
+    }
 
-
-
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 }
