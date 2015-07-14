@@ -13,6 +13,10 @@ public class ExternalVisitor extends User {
         this.visitingTrainings = visitingTrainings;
     }
 
+    public ExternalVisitor() {
+        super();
+    }
+
     public List<Training> getVisitingTrainings() {
         return visitingTrainings;
     }

@@ -14,6 +14,9 @@ public class Employee extends User {
     @JsonIgnore
     private List<Training> mentoringTrainings;
 
+    public Employee() {
+        super();
+    }
 
     public Employee(String id, String name, String secondName, String surname, String phone, String email,List<Training> visitingTrainings,    List<Training> mentoringTrainings) {
         super(id, name, secondName, surname, phone, email);

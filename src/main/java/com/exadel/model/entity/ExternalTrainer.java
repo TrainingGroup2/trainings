@@ -8,6 +8,10 @@ import java.util.List;
 public class ExternalTrainer extends User {
     private List<Training> mentoringTrainings;
 
+    public ExternalTrainer() {
+        super();
+    }
+
     public ExternalTrainer(String id, String name, String secondName, String surname, String phone, String email,List<Training> mentoringTrainings) {
         super(id, name, secondName, surname, phone, email);
         this.mentoringTrainings= mentoringTrainings;
