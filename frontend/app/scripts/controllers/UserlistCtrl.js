@@ -1,15 +1,12 @@
 'use strict';
 
 
-  angular.module('frontendApp')
-  .controller('UserlistCtrl', ['$scope', 'userlist',
-    function($scope, userlist) {
+angular.module('frontendApp')
+  .controller('UserlistCtrl', ['$scope', 'userlist', 'data',
+    function($scope, userlist, data) {
 
-      userlist.getUserList(function(resp) {
-        $scope.userlist = resp;
-      });
-
-      $scope.rowCollection = [
+      $scope.rowCollection = data;
+     /* $scope.rowCollection = [
         {id:"1" ,firstName: 'a', lastName: 'cadaba', role: 'admin', email: "cadaba1@exadel.com", login: "a", phone: "+375291488228"},
         {id:'2',firstName: 'i', lastName: 'cadaba', role: 'user', email: "cadaba2@exadel.com", login: "i", phone: "+375291488228"},
         {id:"3" ,firstName: 'u', lastName: 'cadaba', role: 'user', email: "cadaba3@exadel.com", login: "u", phone: "+375291488228"},
@@ -38,8 +35,8 @@
 
 
 
-      ];
-      $scope.itemsByPage=5;
+      ];*/
+
     }]);
 
 

@@ -4,8 +4,8 @@
   <thead>
   <tr>
     <!--    <th st-sort="id">id</th>-->
-    <th class="text-center" st-sort="firstName">first name</th>
-    <th class="text-center" st-sort="lastName">last name</th>
+    <th class="text-center" st-sort="name">first name</th>
+    <th class="text-center" st-sort="surname">last name</th>
     <th class="text-center" st-sort="role">role</th>
     <th class="text-center" st-sort="email">email</th>
     <th class="text-center" st-sort="login">login</th>
@@ -13,9 +13,9 @@
   </tr>
   <tr>
     <!--  <th><input st-search="id" placeholder="search by id" class="input-sm form-control" type="search"/></th>-->
-    <th><input st-search="firstName" placeholder="search by first name" class="input-sm form-control" type="search"/>
+    <th><input st-search="name" placeholder="search by first name" class="input-sm form-control" type="search"/>
     </th>
-    <th><input st-search="lastName" placeholder="search by last name" class="input-sm form-control" type="search"/></th>
+    <th><input st-search="surname" placeholder="search by last name" class="input-sm form-control" type="search"/></th>
     <th><input st-search="role" placeholder="search by role" class="input-sm form-control" type="search"/></th>
     <th><input st-search="email" placeholder="search by email" class="input-sm form-control" type="search"/></th>
     <th><input st-search="login" placeholder="search by login" class="input-sm form-control" type="search"/></th>
@@ -25,8 +25,8 @@
   <tbody>
   <tr ng-repeat="row in rowCollection">
     <!--   <td>{{row.id}}</td>-->
-    <td>{{row.firstName}}</td>
-    <td>{{row.lastName}}</td>
+    <td>{{row.name}}</td>
+    <td>{{row.surname}}</td>
     <td>{{row.role}}</td>
     <td>{{row.email}}</td>
     <td>{{row.login}}</td>
@@ -36,22 +36,12 @@
   <tfoot>
   <tr>
     <td colspan="10" class="text-center">
-      <script type="text/ng-template" id="pagination.custom.html">
-        <nav>
-          <ul class="pagination">
-            <li><a ng-click="selectPage(1)">First</a></li>
-            <li><a ng-click="selectPage(currentPage - 1)">&lt;</a></li>
-            <li><a>
-              <page-select></page-select>
-              of {{numPages}}</a>
-            </li>
-            <li><a ng-click="selectPage(currentPage + 1)">&gt;</a></li>
-            <li><a ng-click="selectPage(numPages)">Last</a></li>
-            <li><a><entry-change></entry-change> entries on page </a></li>
-          </ul>
-        </nav>
-      </script>
-      <div st-items-by-page="10" st-pagination="" st-template="pagination.custom.html"></div>
+
+      <!--<script type="text/ng-template" id="pagination.custom.html">
+
+      </script>-->
+
+      <div st-items-by-page="10" st-pagination="" st-template="views/pagination/pagination.html"></div>
     </td>
   </tr>
   </tfoot>
