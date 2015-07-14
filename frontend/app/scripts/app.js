@@ -15,7 +15,8 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'smart-table'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -23,6 +24,11 @@ angular
         templateUrl: 'views/main.html',
         controller: 'MainCtrl',
         controllerAs: 'main'
+      })
+      .when('/users', {
+        templateUrl: 'views/userlist.html',
+        controller: 'UserlistCtrl',
+        controllerAs: 'userlist'
       })
       .when('/about', {
         templateUrl: 'views/about.html',
