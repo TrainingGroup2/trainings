@@ -1,6 +1,6 @@
 <h1>Userlist</h1>
 
-<table st-table="rowCollection" class="table table-striped text-center">
+<table st-table="users" class="table table-striped text-center">
   <thead>
   <tr>
     <!--    <th st-sort="id">id</th>-->
@@ -23,24 +23,19 @@
   </tr>
   </thead>
   <tbody>
-  <tr ng-repeat="row in rowCollection">
+  <tr ng-repeat="user in users">
     <!--   <td>{{row.id}}</td>-->
-    <td>{{row.name}}</td>
-    <td>{{row.surname}}</td>
-    <td>{{row.role}}</td>
-    <td>{{row.email}}</td>
-    <td>{{row.login}}</td>
-    <td>{{row.phone}}</td>
+    <td>{{user.name}}</td>
+    <td>{{user.surname}}</td>
+    <td>{{user.role}}</td>
+    <td>{{user.email}}</td>
+    <td>{{user.login}}</td>
+    <td>{{user.phone}}</td>
   </tr>
   </tbody>
   <tfoot>
   <tr>
     <td colspan="10" class="text-center">
-
-      <!--<script type="text/ng-template" id="pagination.custom.html">
-
-      </script>-->
-
       <div st-items-by-page="10" st-pagination="" st-template="views/pagination/pagination.html"></div>
     </td>
   </tr>
