@@ -39,6 +39,12 @@ public class TrainingPageController {
         return visitor;
     }
 
+    @RequestMapping(value="/rating", method = RequestMethod.POST)
+    public int addTrainingRating(@RequestBody int rating/*,@RequestParam String trainingId*/) {
+       // Training trainingToEstimate = TrainingsController.getTrainingById(trainingId);
+        return rating;
+    }
+
     @RequestMapping(method = RequestMethod.POST)
     public Employee registerOnTraining(@RequestBody String id,@RequestParam String trainingId) {
         Employee employee = new Employee(UserController.getUserById(id));

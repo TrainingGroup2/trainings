@@ -9,9 +9,9 @@ import java.util.List;
  * Created by Виктория on 10.07.2015.
  */
 public class Employee extends User {
-   // @JsonIgnore
+   @JsonIgnore
     private List<Training> visitingTrainings;
-  //  @JsonIgnore
+    @JsonIgnore
     private List<Training> mentoringTrainings;
 
     public Employee() {

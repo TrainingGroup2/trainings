@@ -7,11 +7,8 @@ package com.exadel.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.exadel.model.entity.Employee;
-import com.exadel.model.entity.User;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import com.exadel.model.entity.*;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -34,6 +31,14 @@ public class UserController {
             }
         }
         return null;
+    }
+
+    @RequestMapping(value="/newTrainer", method = RequestMethod.POST)
+    public ExternalTrainer addExternalTrainer(@RequestBody ExternalTrainer trainer,@RequestParam String trainingId) {
+        List<Training> trainings = new ArrayList<>();
+        trainings.add(TrainingsController.getTrainingById(trainingId));
+        trainer.setMentoringTrainings(trainings);
+        return trainer;
     }
 
     @RequestMapping(method = RequestMethod.GET)
