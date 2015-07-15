@@ -1,6 +1,6 @@
 package com.exadel.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.exadel.model.constants.TrainingStatus;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.Date;
@@ -16,15 +16,17 @@ public class Training {
     private User trainer;
     private String targetAudience;
     private double rating;
-    private int feedbackNumber;
     private int membersCountMax;
     private int membersCount;
+    private TrainingStatus status;
     private List<User> participants;
+    private List<TrainingFeedback> feedbacks;
 
     public Training() {
     }
 
-    public Training(String id, String name, String place, Date beginTime, Date endTime, User trainer, String targetAudience, double rating, int feedbackNumber, int membersCountMax, int membersCount) {
+    public Training(String id, String name, String place, Date beginTime, Date endTime, User trainer, String targetAudience,
+                    double rating, int membersCountMax, int membersCount, TrainingStatus status, List<User> participants, List<TrainingFeedback> feedbacks) {
         this.id = id;
         this.name = name;
         this.place = place;
@@ -33,9 +35,11 @@ public class Training {
         this.trainer = trainer;
         this.targetAudience = targetAudience;
         this.rating = rating;
-        this.feedbackNumber = feedbackNumber;
         this.membersCountMax = membersCountMax;
         this.membersCount = membersCount;
+        this.status = status;
+        this.participants = participants;
+        this.feedbacks = feedbacks;
     }
 
     public String getId() {
@@ -51,7 +55,6 @@ public class Training {
         this.setTrainer(training.getTrainer());
         this.setTargetAudience(training.getTargetAudience());
         this.setRating(training.getRating());
-        this.setFeedbackNumber(training.getFeedbackNumber());
         this.setMembersCount(training.getMembersCount());
         this.setMembersCountMax(training.getMembersCountMax());
     }
@@ -92,6 +95,14 @@ public class Training {
         this.endTime = endTime;
     }
 
+    public User getTrainer() {
+        return trainer;
+    }
+
+    public void setTrainer(User trainer) {
+        this.trainer = trainer;
+    }
+
     public String getTargetAudience() {
         return targetAudience;
     }
@@ -104,40 +115,32 @@ public class Training {
         return rating;
     }
 
-    public int getFeedbackNumber() {
-        return feedbackNumber;
+    public void setRating(double rating) {
+        this.rating = rating;
     }
 
     public int getMembersCountMax() {
         return membersCountMax;
     }
 
-    public int getMembersCount() {
-        return membersCount;
-    }
-
-    public void setRating(double rating) {
-        this.rating = rating;
-    }
-
-    public void setFeedbackNumber(int feedbackNumber) {
-        this.feedbackNumber = feedbackNumber;
-    }
-
     public void setMembersCountMax(int membersCountMax) {
         this.membersCountMax = membersCountMax;
+    }
+
+    public int getMembersCount() {
+        return membersCount;
     }
 
     public void setMembersCount(int membersCount) {
         this.membersCount = membersCount;
     }
 
-    public void setTrainer(User trainer) {
-        this.trainer = trainer;
+    public TrainingStatus getStatus() {
+        return status;
     }
 
-    public User getTrainer() {
-        return trainer;
+    public void setStatus(TrainingStatus status) {
+        this.status = status;
     }
 
     public List<User> getParticipants() {
@@ -146,5 +149,13 @@ public class Training {
 
     public void setParticipants(List<User> participants) {
         this.participants = participants;
+    }
+
+    public List<TrainingFeedback> getFeedbacks() {
+        return feedbacks;
+    }
+
+    public void setFeedbacks(List<TrainingFeedback> feedbacks) {
+        this.feedbacks = feedbacks;
     }
 }

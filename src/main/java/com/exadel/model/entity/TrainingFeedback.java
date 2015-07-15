@@ -5,6 +5,8 @@ import javax.validation.constraints.Min;
 import java.util.Date;
 
 public class TrainingFeedback {
+    private String id;
+    private Training training;
     private boolean understandable;
     private boolean interesting;
     private boolean newKnowledge;
@@ -14,14 +16,16 @@ public class TrainingFeedback {
     private boolean studyWithTrainer;
     private boolean recommend;
     private String otherInfo;
-    private User feedbacker;
+    private User feedbacker;      //who leaves feedback
     private Date date;
 
     public TrainingFeedback() {
     }
 
-    public TrainingFeedback(boolean understandable, boolean interesting, boolean newKnowledge, int effectiveness,
+    public TrainingFeedback(String id, Training training, boolean understandable, boolean interesting, boolean newKnowledge, int effectiveness,
                             boolean studyWithTrainer, boolean recommend, String otherInfo, User feedbacker, Date date) {
+        this.id = id;
+        this.training = training;
         this.understandable = understandable;
         this.interesting = interesting;
         this.newKnowledge = newKnowledge;
@@ -103,5 +107,21 @@ public class TrainingFeedback {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Training getTraining() {
+        return training;
+    }
+
+    public void setTraining(Training training) {
+        this.training = training;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

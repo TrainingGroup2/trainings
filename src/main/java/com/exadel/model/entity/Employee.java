@@ -13,6 +13,8 @@ public class Employee extends User {
     private List<Training> visitingTrainings;
     @JsonIgnore
     private List<Training> mentoringTrainings;
+    private List<TrainingFeedback> writedFeedbacks;
+    private List<UserFeedback> receivedFeedbacks;
 
     public Employee() {
         super();
@@ -49,5 +51,21 @@ public class Employee extends User {
 
     public void setMentoringTrainings(List<Training> mentoringTrainings) {
         this.mentoringTrainings = mentoringTrainings;
+    }
+
+    public List<TrainingFeedback> getWritedFeedbacks() {
+        return writedFeedbacks;
+    }
+
+    public void setWritedFeedbacks(List<TrainingFeedback> writedFeedbacks) {
+        this.writedFeedbacks = writedFeedbacks;
+    }
+
+    public List<UserFeedback> getReceivedFeedbacks() {
+        return receivedFeedbacks;
+    }
+
+    public void setReceivedFeedbacks(List<UserFeedback> receivedFeedbacks) {
+        this.receivedFeedbacks = receivedFeedbacks;
     }
 }

@@ -6,7 +6,8 @@ import java.util.Random;
 /**
  * Created by Виктория on 13.07.2015.
  */
-public /*abstract*/ class User {
+
+public class User {
     private String id;
     private String name;
     private String secondName;

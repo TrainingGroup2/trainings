@@ -1,36 +1,42 @@
 package com.exadel.model.entity;
 
+import com.exadel.model.constants.EnglishLevel;
+
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.util.Date;
 
 public class UserFeedback {
+    private String id;
+    private Employee visitor;  //we can leave feedback only on employee
     private String attendance;
     private String attitude;
     private String communicationSkills;
     private boolean questions;
     private boolean interest;
     private boolean focusOnResult;
-    private String level;   //for English PreInt, Int, UppInt, Ad
+    private EnglishLevel englishLevel;
     @Min(1)
     @Max(4)
-    private int rating;    //for English from 1 to 4
+    private int grade;    //for English from 1 to 4
     private String otherInfo;
-    private User feedbacker;
+    private User feedbacker;   //who leaves feedback
     private Date date;
 
     public UserFeedback() {}
 
-    public UserFeedback(String attendance, String attitude, String communicationSkills, boolean questions, boolean interest,
-                        boolean focusOnResult, String level, int rating, String otherInfo, User feedbacker, Date date) {
+    public UserFeedback(String id, Employee visitor, String attendance, String attitude, String communicationSkills, boolean questions, boolean interest,
+                        boolean focusOnResult, EnglishLevel englishLevel, int grade, String otherInfo, User feedbacker, Date date) {
+        this.id = id;
+        this.visitor = visitor;
         this.attendance = attendance;
         this.attitude = attitude;
         this.communicationSkills = communicationSkills;
         this.questions = questions;
         this.interest = interest;
         this.focusOnResult = focusOnResult;
-        this.level = level;
-        this.rating = rating;
+        this.englishLevel = englishLevel;
+        this.grade = grade;
         this.otherInfo = otherInfo;
         this.feedbacker = feedbacker;
         this.date = date;
@@ -84,20 +90,12 @@ public class UserFeedback {
         this.focusOnResult = focusOnResult;
     }
 
-    public String getLevel() {
-        return level;
+    public int getGrade() {
+        return grade;
     }
 
-    public void setLevel(String level) {
-        this.level = level;
-    }
-
-    public int getRating() {
-        return rating;
-    }
-
-    public void setRating(int rating) {
-        this.rating = rating;
+    public void setGrade(int grade) {
+        this.grade = grade;
     }
 
     public String getOtherInfo() {
@@ -122,5 +120,29 @@ public class UserFeedback {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Employee getVisitor() {
+        return visitor;
+    }
+
+    public void setVisitor(Employee visitor) {
+        this.visitor = visitor;
+    }
+
+    public EnglishLevel getEnglishLevel() {
+        return englishLevel;
+    }
+
+    public void setEnglishLevel(EnglishLevel englishLevel) {
+        this.englishLevel = englishLevel;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
