@@ -9,6 +9,7 @@ import java.util.Date;
 public class UserFeedback {
     private String id;
     private Employee visitor;  //we can leave feedback only on employee
+    private User trainer;   //who leaves feedback
     private String attendance;
     private String attitude;
     private String communicationSkills;
@@ -20,13 +21,12 @@ public class UserFeedback {
     @Max(4)
     private int grade;    //for English from 1 to 4
     private String otherInfo;
-    private User feedbacker;   //who leaves feedback
     private Date date;
 
     public UserFeedback() {}
 
     public UserFeedback(String id, Employee visitor, String attendance, String attitude, String communicationSkills, boolean questions, boolean interest,
-                        boolean focusOnResult, EnglishLevel englishLevel, int grade, String otherInfo, User feedbacker, Date date) {
+                        boolean focusOnResult, EnglishLevel englishLevel, int grade, String otherInfo, User trainer, Date date) {
         this.id = id;
         this.visitor = visitor;
         this.attendance = attendance;
@@ -38,7 +38,7 @@ public class UserFeedback {
         this.englishLevel = englishLevel;
         this.grade = grade;
         this.otherInfo = otherInfo;
-        this.feedbacker = feedbacker;
+        this.trainer = trainer;
         this.date = date;
     }
 
@@ -106,12 +106,12 @@ public class UserFeedback {
         this.otherInfo = otherInfo;
     }
 
-    public User getFeedbacker() {
-        return feedbacker;
+    public User getTrainer() {
+        return trainer;
     }
 
-    public void setFeedbacker(User feedbacker) {
-        this.feedbacker = feedbacker;
+    public void setTrainer(User trainer) {
+        this.trainer = trainer;
     }
 
     public Date getDate() {
