@@ -15,6 +15,7 @@ public class Training {
     private Date endTime;
     private User trainer;
     private String targetAudience;
+    private String language;
     private double rating;
     private int membersCountMax;
     private int membersCount;
@@ -25,7 +26,7 @@ public class Training {
     public Training() {
     }
 
-    public Training(String id, String name, String place, Date beginTime, Date endTime, User trainer, String targetAudience,
+    public Training(String id, String name, String place, Date beginTime, Date endTime, User trainer, String targetAudience, String language,
                     double rating, int membersCountMax, int membersCount, TrainingStatus status, List<User> participants, List<TrainingFeedback> feedbacks) {
         this.id = id;
         this.name = name;
@@ -34,6 +35,7 @@ public class Training {
         this.endTime = endTime;
         this.trainer = trainer;
         this.targetAudience = targetAudience;
+        this.language = language;
         this.rating = rating;
         this.membersCountMax = membersCountMax;
         this.membersCount = membersCount;
@@ -52,11 +54,14 @@ public class Training {
         this.setName(training.getName());
         this.setPlace(training.getPlace());
         this.setBeginTime(training.getBeginTime());
+        this.setEndTime(training.getEndTime());
         this.setTrainer(training.getTrainer());
         this.setTargetAudience(training.getTargetAudience());
+        this.setLanguage((training.getLanguage()));
         this.setRating(training.getRating());
         this.setMembersCount(training.getMembersCount());
         this.setMembersCountMax(training.getMembersCountMax());
+        this.setStatus(training.getStatus());
     }
 
     public void setId(String id) {
@@ -157,5 +162,13 @@ public class Training {
 
     public void setFeedbacks(List<TrainingFeedback> feedbacks) {
         this.feedbacks = feedbacks;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 }
