@@ -1,0 +1,22 @@
+<form name="loginForm" ng-controller="LoginCtrl as loginController"
+      ng-submit="loginForm.$valid && loginController.login()" novalidate>
+  <h4>Login Form</h4>
+  <fieldset class="form-group">
+    <input type="email" ng-model="loginController.user.email" required
+           class="form-control" placeholder="Email"/>
+  </fieldset>
+  <fieldset class="form-group">
+    <input type="password" ng-model="loginController.user.password" required
+           class="form-control" placeholder="Password"/>
+  </fieldset>
+  <div class="checkbox">
+    <label>
+      <input type="checkbox" id="rememberMe"/>
+      Remember me
+    </label>
+  </div>
+  <fieldset class="form-group">
+    <input type="submit" class="btn btn-primary pull-right"
+           value="Login"/>
+  </fieldset>
+</form>

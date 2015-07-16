@@ -16,7 +16,8 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'smart-table'
+    'smart-table',
+    'ngStorage'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -52,6 +53,11 @@ angular
         templateUrl: 'views/userprofile.html',
         controller: 'UserProfileCtrl',
         controllerAs: 'userprofile'
+      })
+      .when('/login', {
+        templateUrl: 'views/login.html',
+        controller: 'LoginCtrl',
+        controllerAs: 'loginController'
       })
       .otherwise({
         redirectTo: '/'
