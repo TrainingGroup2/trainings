@@ -9,8 +9,8 @@ import java.util.List;
 public class ExternalVisitor extends User {
     private List<Training> visitingTrainings;
 
-    public ExternalVisitor(String id, String name, String secondName, String surname, String phone, String email, List<Training> visitingTrainings) {
-        super(id, name, secondName, surname, phone, email);
+    public ExternalVisitor(String id, String name, String surname, String phone, String email, List<Training> visitingTrainings) {
+        super(id, name, surname, phone, email);
         this.visitingTrainings = visitingTrainings;
     }
 
@@ -19,7 +19,7 @@ public class ExternalVisitor extends User {
     }
 
     public ExternalVisitor(ExternalVisitor externalVisitor) {
-        super(externalVisitor.generateId(), externalVisitor.getName(), externalVisitor.getSecondName(), externalVisitor.getSurname(), externalVisitor.getPhone(), externalVisitor.getEmail());
+        super(externalVisitor.generateId(), externalVisitor.getName(), externalVisitor.getSurname(), externalVisitor.getPhone(), externalVisitor.getEmail());
         this.visitingTrainings = new ArrayList<>();
     }
 

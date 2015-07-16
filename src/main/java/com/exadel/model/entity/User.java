@@ -10,17 +10,15 @@ import java.util.Random;
 public class User {
     private String id;
     private String name;
-    private String secondName;
     private String surname;
     private String phone;
     private String email;
 
     public User(){}
 
-    public User(String id, String name, String secondName, String surname, String phone, String email) {
+    public User(String id, String name, String surname, String phone, String email) {
         this.id = id;
         this.name = name;
-        this.secondName = secondName;
         this.surname = surname;
         this.phone = phone;
         this.email = email;
@@ -45,14 +43,6 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getSecondName() {
-        return secondName;
-    }
-
-    public void setSecondName(String secondName) {
-        this.secondName = secondName;
     }
 
     public String getSurname() {

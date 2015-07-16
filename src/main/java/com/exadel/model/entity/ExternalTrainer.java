@@ -12,8 +12,8 @@ public class ExternalTrainer extends User {
         super();
     }
 
-    public ExternalTrainer(String id, String name, String secondName, String surname, String phone, String email,List<Training> mentoringTrainings) {
-        super(id, name, secondName, surname, phone, email);
+    public ExternalTrainer(String id, String name, String surname, String phone, String email,List<Training> mentoringTrainings) {
+        super(id, name, surname, phone, email);
         this.mentoringTrainings= mentoringTrainings;
     }
 
