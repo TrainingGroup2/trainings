@@ -21,7 +21,7 @@ public class UserController {
         this.userService = userService;
         this.trainingService = trainingService;
     }
-
+    
     @RequestMapping(value="/newTrainer", method = RequestMethod.POST)
     public ExternalTrainer addExternalTrainer(@RequestBody ExternalTrainer trainer,
                                               @RequestParam long trainingId) {
