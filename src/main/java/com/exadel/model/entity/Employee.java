@@ -1,40 +1,39 @@
 package com.exadel.model.entity;
 
+import com.exadel.model.constants.UserRole;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.persistence.*;
 import java.util.List;
 
+@Entity
+@Table(name = "users")
+@DiscriminatorValue(value = "1")
 public class Employee extends User {
+
+    @ManyToMany(mappedBy = "participants")
+    @Column(name = "visiting_Trainings")
     @JsonIgnore
     private List<Training> visitingTrainings;
 
+    @OneToMany(mappedBy = "trainer", cascade = CascadeType.ALL)
+    @Column(name = "mentoring_trainings")
     @JsonIgnore
     private List<Training> mentoringTrainings;
-    private List<TrainingFeedback> writedFeedbacks;
+
+    @OneToMany(mappedBy = "feedbacker", cascade = CascadeType.ALL)
+    @Column(name = "written_feedbacks")
+    @JsonIgnore
+    private List<TrainingFeedback> writtenFeedbacks;
+
+    @OneToMany(mappedBy = "trainer", cascade = CascadeType.ALL)
+    @Column(name = "received_feedbacks")
+    @JsonIgnore
     private List<UserFeedback> receivedFeedbacks;
 
     public Employee() {
-        super();
+        super.setRole(UserRole.EMPLOYEE);
     }
-
-  /*  public Employee(String id, String name, String surname, String phone, String email,List<Training> visitingTrainings,    List<Training> mentoringTrainings) {
-        super(id, name, surname, phone, email, UserRole.EMPLOYEE);
-        this.visitingTrainings = visitingTrainings;
-        this.mentoringTrainings = mentoringTrainings;
-    }*/
-
-    /*public Employee(String id, String name, String surname, String phone, String email) {
-        super(id, name, surname, phone, email, UserRole.EMPLOYEE);
-        this.mentoringTrainings = new ArrayList<>();
-        this.visitingTrainings = new ArrayList<>();
-    }*/
-
-    /*public Employee(User user) {
-        super(user.getId(), user.getName(), user.getSurname(),user.getPhone(),
-                user.getEmail(), user.getRole());
-        this.mentoringTrainings = new ArrayList<>();
-        this.visitingTrainings = new ArrayList<>();
-    }*/
 
     public List<Training> getVisitingTrainings() {
         return visitingTrainings;
@@ -52,12 +51,12 @@ public class Employee extends User {
         this.mentoringTrainings = mentoringTrainings;
     }
 
-    public List<TrainingFeedback> getWritedFeedbacks() {
-        return writedFeedbacks;
+    public List<TrainingFeedback> getWrittenFeedbacks() {
+        return writtenFeedbacks;
     }
 
-    public void setWritedFeedbacks(List<TrainingFeedback> writedFeedbacks) {
-        this.writedFeedbacks = writedFeedbacks;
+    public void setWrittenFeedbacks(List<TrainingFeedback> writtenFeedbacks) {
+        this.writtenFeedbacks = writtenFeedbacks;
     }
 
     public List<UserFeedback> getReceivedFeedbacks() {

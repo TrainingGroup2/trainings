@@ -6,6 +6,8 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="role", discriminatorType=DiscriminatorType.INTEGER)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -14,18 +16,10 @@ public class User {
     private String surname;
     private String phone;
     private String email;
+    @Column(insertable = false, updatable = false)
     private UserRole role;
 
     public User(){}
-
-    public User(long id, String name, String surname, String phone, String email, UserRole role) {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
-        this.phone = phone;
-        this.email = email;
-        this.role = role;
-    }
 
     public long getId() {
         return id;

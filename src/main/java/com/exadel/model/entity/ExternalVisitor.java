@@ -1,27 +1,27 @@
 package com.exadel.model.entity;
 
+import com.exadel.model.constants.UserRole;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.util.List;
 
 /**
  * Created by Виктория on 13.07.2015.
  */
+@Entity
+@Table(name = "users")
+@DiscriminatorValue(value = "3")
 public class ExternalVisitor extends User {
+
+    @ManyToMany(mappedBy = "participants")
+    @Column(name = "visiting_Trainings")
+    @JsonIgnore
     private List<Training> visitingTrainings;
 
-    /*public ExternalVisitor(String id, String name, String surname, String phone, String email, List<Training> visitingTrainings) {
-        super(id, name, surname, phone, email, UserRole.USER);
-        this.visitingTrainings = visitingTrainings;
-    }*/
-
     public ExternalVisitor() {
-        super();
+        super.setRole(UserRole.EXTERNAL_VISITOR);
     }
-
-    /*public ExternalVisitor(ExternalVisitor externalVisitor) {
-        super(externalVisitor.getId(), externalVisitor.getName(), externalVisitor.getSurname(),
-                externalVisitor.getPhone(), externalVisitor.getEmail(), UserRole.USER);
-        this.visitingTrainings = new ArrayList<>();
-    }*/
 
     public List<Training> getVisitingTrainings() {
         return visitingTrainings;

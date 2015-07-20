@@ -1,6 +1,5 @@
 package com.exadel.model.constants;
 
 public enum UserRole {
-    USER, ADMIN, EMPLOYEE, EXTERNAL_TRAINER
+    ADMIN, EMPLOYEE, EXTERNAL_TRAINER, EXTERNAL_VISITOR
 }
-
