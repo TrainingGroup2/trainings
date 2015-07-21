@@ -1,12 +1,12 @@
 <div>
-  <h2>Enqueued users: {{wlSize}}</h2>
+  <h2>{{translation.ENQUEUED}}: {{wlSize}}</h2>
 </div>
 <div class="ngdialog-message">
   <table st-table="participants" class="table table-striped text-center">
     <thead>
-      <th class="text-center">Name</th>
-      <th class="text-center">Surname</th>
-      <th class="text-center">isExternal</th>
+      <th class="text-center">{{translation.NAME}}</th>
+      <th class="text-center">{{translation.SURNAME}}</th>
+      <th class="text-center">{{translation.EXTERNAL}}</th>
     </thead>
     <tbody>
       <tr ng-repeat="participant in participants">
@@ -19,6 +19,6 @@
 </div>
 <div class="ngdialog-buttons mt">
   <button type="button" class="btn btn-default" ng-click="closeThisDialog()" style="float: right">
-    Close
+    {{translation.CLOSE}}
   </button>
 </div>

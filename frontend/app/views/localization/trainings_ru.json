@@ -3,5 +3,12 @@
   "ALL_TRAININGS" : "Все тренинги",
   "USERS_LIST" : "Сотрудники",
   "SELECT_LANGUAGE" : "Выберите язык:",
-  "LOGOUT" : "Выход"
+  "LOGOUT" : "Выход",
+  "NAME" : "Имя",
+  "SURNAME" : "Фамилия",
+  "ENQUEUED" : "Пользовотельей в очереди",
+  "EXTERNAL" : "Внешний?",
+  "REGISTERED" : "Зарегестрирован",
+  "WAITLIST" : "Список Ожидания",
+  "CLOSE" : "Закрыть"
 }

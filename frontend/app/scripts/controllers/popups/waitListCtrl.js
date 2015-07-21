@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('frontendApp')
-  .controller('WaitListCtrl', ['participants','$scope', function(participants, $scope) {
+  .controller('WaitListCtrl', ['$scope', 'training', function($scope, training) {
 
-    $scope.participants = participants.participants;
-    $scope.wlSize = participants.membersCount - participants.membersCountMax;
+    $scope.participants = training.participants;
+    $scope.wlSize = training.membersCount - training.membersCountMax;
 
   }]);

@@ -46,12 +46,8 @@ angular.module('frontendApp')
           template: "views/popups/waitList.html",
           controller: 'WaitListCtrl',
           resolve: {
-            participants: function() {
-              return {
-                participants: $scope.training.participants,
-                membersCountMax: $scope.training.membersCountMax,
-                membersCount: $scope.training.membersCount
-              };
+            training: function() {
+              return _.pick($scope.training, 'participants', 'membersCountMax', 'membersCount');
             }
           }
         })

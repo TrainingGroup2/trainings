@@ -3,5 +3,12 @@
   "ALL_TRAININGS" : "All Trainings",
   "USERS_LIST" : "Users List",
   "SELECT_LANGUAGE" : "Select language:",
-  "LOGOUT" : "Logout"
+  "LOGOUT" : "Logout",
+  "NAME" : "Name",
+  "SURNAME" : "Surname",
+  "ENQUEUED" : "Enqueued users",
+  "EXTERNAL" : "isExternal",
+  "REGISTERED" : "registered",
+  "WAITLIST" : "Wait List",
+  "CLOSE" : "Close"
 }
