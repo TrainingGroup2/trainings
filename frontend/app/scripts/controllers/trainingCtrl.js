@@ -4,6 +4,12 @@ angular.module('frontendApp')
   .controller('TrainingCtrl', ['$scope', '$location', 'ngDialog', 'trainingInfo', 'trainingParticipants', 'trainingFeedbacks',
     function ($scope, $location, ngDialog, trainingInfo, trainingParticipants, trainingFeedbacks) {
 
+
+      $scope.attachments = [{
+        key: "name",
+        value: "link"
+      }];
+
       $scope.rating = 0;
       $scope.ratings = {
         current: 3,
@@ -33,6 +39,22 @@ angular.module('frontendApp')
             }
           }
         });
+      };
+
+      $scope.openWaitList = function() {
+        ngDialog.open({
+          template: "views/popups/waitList.html",
+          controller: 'WaitListCtrl',
+          resolve: {
+            participants: function() {
+              return {
+                participants: $scope.training.participants,
+                membersCountMax: $scope.training.membersCountMax,
+                membersCount: $scope.training.membersCount
+              };
+            }
+          }
+        })
       };
 
       $scope.leaveTrainingFeedback = function () {
@@ -66,7 +88,6 @@ angular.module('frontendApp')
 
       $scope.registrated = false;
 
-
       $scope.training = {
         id: 2,
         name: "Angular",
@@ -83,7 +104,7 @@ angular.module('frontendApp')
         description: "Interesting course",
         status: "DRAFTED",
         membersCountMax: 30,
-        membersCount: 25,
+        membersCount: 35,
         rating: 0,
         participants: [
           {
@@ -127,8 +148,4 @@ angular.module('frontendApp')
 
       };
 
-      $scope.attachments = [{
-        key: "name",
-        value: "link"
-      }];
     }]);

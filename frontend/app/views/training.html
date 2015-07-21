@@ -64,7 +64,13 @@
         </tab>
 
         <tab select="openParticipantsList()" heading="Participants">
-          <h2>Registrated: {{training.membersCount}}/{{training.membersCountMax}}</h2>
+          <h2>
+            Registrated: {{training.membersCount}}/{{training.membersCountMax}}
+            <button ng-if="isAdmin()" type="button" class="btn btn-default" style="float: right" ng-click="openWaitList()">
+              Wait List
+            </button>
+          </h2>
+
           <table st-table="training.participants" class="table table-striped text-center">
             <thead>
               <th class="text-center" st-sort="name">name</th>

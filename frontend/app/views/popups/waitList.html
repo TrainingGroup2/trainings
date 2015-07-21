@@ -1,0 +1,24 @@
+<div>
+  <h2>Enqueued users: {{wlSize}}</h2>
+</div>
+<div class="ngdialog-message">
+  <table st-table="participants" class="table table-striped text-center">
+    <thead>
+      <th class="text-center">Name</th>
+      <th class="text-center">Surname</th>
+      <th class="text-center">isExternal</th>
+    </thead>
+    <tbody>
+      <tr ng-repeat="participant in participants">
+        <th class="text-center">{{participant.name}}</th>
+        <th class="text-center">{{participant.surname}}</th>
+        <th class="text-center">{{(participant.role === 'EXTERNAL_VISITOR') | yesNo}}</th>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="ngdialog-buttons mt">
+  <button type="button" class="btn btn-default" ng-click="closeThisDialog()" style="float: right">
+    Close
+  </button>
+</div>
