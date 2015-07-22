@@ -1,8 +1,6 @@
 package com.exadel.controller;
 
 import com.exadel.dto.UserDTO;
-import com.exadel.model.entity.user.ExternalTrainer;
-import com.exadel.model.entity.user.ExternalVisitor;
 import com.exadel.model.entity.user.User;
 import com.exadel.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
