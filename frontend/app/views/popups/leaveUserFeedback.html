@@ -9,7 +9,7 @@
         <p>Attendance</p>
       </div>
       <div class="col-md-offcet-2 feedback-text-input">
-        <input type="text" data-ng-model="attendance" value=""/>
+        <input type="text" data-ng-model="entity.attendance" value=""/>
       </div>
     </div>
 
@@ -18,7 +18,7 @@
         <p>Attitude</p>
       </div>
       <div class="col-md-offcet-2 feedback-text-input">
-        <input type="text" data-ng-model="attitude" value=""/>
+        <input type="text" data-ng-model="entity.attitude" value=""/>
       </div>
     </div>
 
@@ -28,11 +28,11 @@
       </div>
       <div class="col-md-2">
         <p>Yes</p>
-        <input type="radio" data-ng-model="questions" value="true"/>
+        <input type="radio" data-ng-model="entity.questions" value="true"/>
       </div>
       <div class="col-md-2">
         <p>No</p>
-        <input type="radio" data-ng-model="questions" value="false"/>
+        <input type="radio" data-ng-model="entity.questions" value="false"/>
       </div>
     </div>
 
@@ -42,11 +42,11 @@
       </div>
       <div class="col-md-2">
         <p>Yes</p>
-        <input type="radio" data-ng-model="interested" value="true"/>
+        <input type="radio" data-ng-model="entity.interested" value="true"/>
       </div>
       <div class="col-md-2">
         <p>No</p>
-        <input type="radio" data-ng-model="interested" value="false"/>
+        <input type="radio" data-ng-model="entity.interested" value="false"/>
       </div>
     </div>
 
@@ -56,11 +56,11 @@
       </div>
       <div class="col-md-2">
         <p>Yes</p>
-        <input type="radio" data-ng-model="focusOnResult" value="true"/>
+        <input type="radio" data-ng-model="entity.focusOnResult" value="true"/>
       </div>
       <div class="col-md-2">
         <p>No</p>
-        <input type="radio" data-ng-model="focusOnResult" value="false"/>
+        <input type="radio" data-ng-model="entity.focusOnResult" value="false"/>
       </div>
     </div>
 
@@ -69,7 +69,7 @@
         <p>English level</p>
       </div>
       <div ng-controller="LeaveFeedbackCtrl" class="feedback-field">
-        <select ng-model="ddlLevle" ng-options="levle.Name as levle.Name for levle in levles"></select>
+        <select ng-model="entity.ddlLevel" ng-options="level.Name as level.Name for level in levels"></select>
       </div>
     </div>
 
@@ -78,7 +78,7 @@
         <p>Mark</p>
       </div>
       <div ng-controller="LeaveFeedbackCtrl" class="feedback-field">
-        <select ng-model="ddlMark" ng-options="mark.grade as mark.grade for mark in marks"></select>
+        <select ng-model="entity.ddlMark" ng-options="mark.grade as mark.grade for mark in marks"></select>
       </div>
     </div>
 
@@ -88,7 +88,7 @@
       </div>
       <div>
         <label for="feedbackInputId"></label>
-        <textarea rows="10" class="form-control feedback-text" id="feedbackInputId" ng-model="$parent.feedbackInput"></textarea>
+        <textarea rows="10" class="form-control feedback-text" id="feedbackInputId" ng-model="entity.otherInfo"></textarea>
       </div>
     </div>
 

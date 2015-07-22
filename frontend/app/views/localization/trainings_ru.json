@@ -10,5 +10,11 @@
   "EXTERNAL" : "Внешний?",
   "REGISTERED" : "Зарегестрирован",
   "WAITLIST" : "Список Ожидания",
-  "CLOSE" : "Закрыть"
+  "CLOSE" : "Закрыть",
+  "EVENT_AUTHOR" : "Автор",
+  "EVENT_DATE" : "Дата создания",
+  "EVENT_TEXT" : "Текст",
+  "EVENT_APPLY" : "Подтвердить",
+  "EVENT_DECLINE" : "Отклонить",
+  "EVENT_SEARCH" : "Поиск"
 }
