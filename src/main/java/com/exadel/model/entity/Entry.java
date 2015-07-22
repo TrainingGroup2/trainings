@@ -23,7 +23,7 @@ public class Entry {
 
     @ManyToOne
     @JoinColumn(name = "training_id", nullable = false)
-    //@JsonIgnore
+    @JsonIgnore
     private Training training;
 
     @ManyToMany

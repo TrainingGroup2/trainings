@@ -29,6 +29,11 @@ public class TrainingFeedbackServiceImpl implements TrainingFeedbackService{
     }
 
     @Override
+    public Collection<TrainingFeedback> getTrainingFeedbacksByTrainingId(long trainingId) {
+        return trainingFeedbackRepository.findByTrainingId(trainingId);
+    }
+
+    @Override
     public Optional<TrainingFeedback> addTrainingFeedback(TrainingFeedback trainingFeedback) {
         System.out.println(trainingFeedback);
 

@@ -11,5 +11,7 @@ public interface TrainingFeedbackService {
 
     Collection<TrainingFeedback> getAllTrainingFeedbacks();
 
+    Collection<TrainingFeedback> getTrainingFeedbacksByTrainingId(long trainingId);
+
     Optional<TrainingFeedback> addTrainingFeedback(TrainingFeedback trainingFeedback);
 }

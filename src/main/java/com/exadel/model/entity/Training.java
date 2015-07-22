@@ -18,7 +18,7 @@ public class Training {
 
     @ManyToOne
     @JoinColumn(name = "trainer_id")
-    private User trainer;
+    private ExternalTrainer trainer;
 
     @Column(name = "target_audience")
     private String targetAudience;
@@ -44,6 +44,7 @@ public class Training {
     @JoinTable(name = "training_users", joinColumns = @JoinColumn(name = "training_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     @JsonManagedReference
+    //@JsonIgnore
     private List<User> participants;
 
     @OneToMany(mappedBy = "training", cascade = CascadeType.ALL)
@@ -63,6 +64,10 @@ public class Training {
     }
 
     public Training() {}
+
+    public void addParticipant(User user){
+        this.participants.add(user);
+    }
 
     @Override
     public String toString() {
@@ -96,11 +101,11 @@ public class Training {
         this.name = name;
     }
 
-    public User getTrainer() {
+    public ExternalTrainer getTrainer() {
         return trainer;
     }
 
-    public void setTrainer(User trainer) {
+    public void setTrainer(ExternalTrainer trainer) {
         this.trainer = trainer;
     }
 

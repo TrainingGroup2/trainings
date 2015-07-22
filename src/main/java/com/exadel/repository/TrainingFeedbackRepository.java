@@ -9,6 +9,8 @@ import java.util.List;
 public interface TrainingFeedbackRepository extends JpaRepository<TrainingFeedback, Long> {
     List<TrainingFeedback> findAll();
 
+    List<TrainingFeedback> findByTrainingId(long trainingId);
+
     void delete(TrainingFeedback deleted);
 
     TrainingFeedback save(TrainingFeedback persisted);

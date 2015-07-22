@@ -1,23 +1,23 @@
 package com.exadel.model.entity;
 
 import com.exadel.model.constants.UserRole;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "users")
 @DiscriminatorValue(value = "1")
 public class Employee extends ExternalTrainer {
 
     @ManyToMany(mappedBy = "participants")
-    @Column(name = "visiting_trainings")
-    @JsonIgnore
+    //@Column(name = "visiting_trainings")
+    @JsonBackReference
     private List<Training> visitingTrainings;
 
     @OneToMany(mappedBy = "feedbacker", cascade = CascadeType.ALL)
-    @Column(name = "written_feedbacks")
+    //@Column(name = "written_feedbacks")
     @JsonIgnore
     private List<TrainingFeedback> writtenFeedbacks;
 

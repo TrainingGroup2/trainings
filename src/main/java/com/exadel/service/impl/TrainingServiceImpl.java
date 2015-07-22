@@ -2,7 +2,6 @@ package com.exadel.service.impl;
 
 import com.exadel.model.entity.Rating;
 import com.exadel.model.entity.Training;
-import com.exadel.model.entity.User;
 import com.exadel.repository.RatingRepository;
 import com.exadel.repository.TrainingRepository;
 import com.exadel.service.TrainingService;
@@ -47,13 +46,11 @@ public class TrainingServiceImpl implements TrainingService{
 
     @Override
     public Optional<Training> addTraining(Training training) {
-        return Optional.ofNullable(trainingRepository.save(training));
+        return Optional.ofNullable(trainingRepository.saveAndFlush(training));
     }
 
     @Override
-    public void addTrainer(User trainer, long id) {
-        Training training = trainingRepository.getOne(id);
-        training.setTrainer(trainer);
-        trainingRepository.save(training);
+    public void deleteById(long id) {
+        trainingRepository.delete(id);
     }
 }

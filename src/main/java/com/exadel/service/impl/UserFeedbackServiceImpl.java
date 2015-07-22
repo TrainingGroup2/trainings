@@ -30,6 +30,6 @@ public class UserFeedbackServiceImpl implements UserFeedbackService{
 
     @Override
     public UserFeedback addFeedback(UserFeedback feedback) {
-        return userFeedbackRepository.save(feedback);
+        return userFeedbackRepository.saveAndFlush(feedback);
     }
 }
