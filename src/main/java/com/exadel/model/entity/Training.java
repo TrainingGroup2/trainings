@@ -1,13 +1,16 @@
 package com.exadel.model.entity;
 
 import com.exadel.model.constants.TrainingStatus;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "trainings")
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Training {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -43,8 +46,7 @@ public class Training {
     @ManyToMany
     @JoinTable(name = "training_users", joinColumns = @JoinColumn(name = "training_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
-    @JsonManagedReference
-    //@JsonIgnore
+    @JsonIgnore
     private List<User> participants;
 
     @OneToMany(mappedBy = "training", cascade = CascadeType.ALL)

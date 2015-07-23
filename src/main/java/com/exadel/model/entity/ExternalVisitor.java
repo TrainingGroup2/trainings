@@ -1,7 +1,7 @@
 package com.exadel.model.entity;
 
 import com.exadel.model.constants.UserRole;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -17,7 +17,7 @@ public class ExternalVisitor extends User {
 
     @ManyToMany(mappedBy = "participants")
     //@Column(name = "visiting_Trainings")
-    @JsonBackReference
+    @JsonIgnore
     private List<Training> visitingTrainings;
 
     public ExternalVisitor() {
