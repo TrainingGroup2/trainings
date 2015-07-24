@@ -5,52 +5,70 @@
   <form class="form-horizontal">
 
     <div class="form-group feedbackBlock">
-      <div class="col-md-8 feedback-field">
+      <div class="col-sm-7 feedback-field control-label">
         <p>Was the training understandable?</p>
       </div>
-      <div class="col-md-2">
-        <p>Yes</p>
-        <input type="radio" data-ng-model="entity.understandable" value="true"/>
-      </div>
-      <div class="col-md-2">
-        <p>No</p>
-        <input type="radio" data-ng-model="entity.understandable" value="false"/>
+      <div class="feedback-radio-input">
+        <div class="col-sm-1 control-label">
+          <p>Yes</p>
+        </div>
+        <div class="col-sm-1 control-label">
+          <input type="radio" data-ng-model="entity.understandable" value="true"/>
+        </div>
+        <div class="col-sm-1 control-label">
+          <p>No</p>
+        </div>
+        <div class="col-sm-1 control-label">
+          <input type="radio" data-ng-model="entity.understandable" value="false"/>
+        </div>
       </div>
     </div>
 
     <div class="form-group feedbackBlock">
-      <div class="col-md-8 feedback-field">
+      <div class="col-sm-7 feedback-field control-label">
         <p>Was it interesting for you?</p>
       </div>
-      <div class="col-md-2">
-        <p>Yes</p>
-        <input type="radio" data-ng-model="entity.interesting" value="true"/>
-      </div>
-      <div class="col-md-2">
-        <p>No</p>
-        <input type="radio" data-ng-model="entity.interesting" value="false"/>
+      <div class="feedback-radio-input">
+        <div class="col-sm-1 control-label">
+          <p>Yes</p>
+        </div>
+        <div class="col-sm-1 control-label">
+          <input type="radio" data-ng-model="entity.interesting" value="true"/>
+        </div>
+        <div class="col-sm-1 control-label">
+          <p>No</p>
+        </div>
+        <div class="col-sm-1 control-label">
+          <input type="radio" data-ng-model="entity.interesting" value="false"/>
+        </div>
       </div>
     </div>
 
     <div class="form-group feedbackBlock">
-      <div class="col-md-8 feedback-field">
+      <div class="col-sm-7 feedback-field control-label">
         <p>Have you learnt something new?</p>
       </div>
-      <div class="col-md-2">
-        <p>Yes</p>
-        <input type="radio" data-ng-model="entity.newKnowledge" value="true"/>
-      </div>
-      <div class="col-md-2">
-        <p>No</p>
-        <input type="radio" data-ng-model="entity.newKnowledge" value="false"/>
+      <div class="feedback-radio-input">
+        <div class="col-sm-1 control-label">
+          <p>Yes</p>
+        </div>
+        <div class="col-sm-1 control-label">
+          <input type="radio" data-ng-model="entity.newKnowledge" value="true"/>
+        </div>
+        <div class="col-sm-1 control-label">
+          <p>No</p>
+        </div>
+        <div class="col-sm-1 control-label">
+          <input type="radio" data-ng-model="entity.newKnowledge" value="false"/>
+        </div>
       </div>
     </div>
 
     <div class="form-group feedbackBlock">
-      <div class="col-md-8 feedback-field">
+      <div class="col-sm-7 feedback-field control-label">
         <p>Set effectiveness of the class (rate it from 1 to 5)?</p>
       </div>
-      <div ng-controller="LeaveFeedbackCtrl" class="feedback-training-effect">
+      <div ng-controller="LeaveFeedbackCtrl" class="feedback-training-effect col-sm-4">
         <span ng-model="ratings">
           <div star-rating rating-value="ratings.current" ng-model="ratings" max="ratings.max" ></div>
         </span>
@@ -58,40 +76,52 @@
     </div>
 
     <div class="form-group feedbackBlock">
-      <div class="col-md-8 feedback-field">
+      <div class="col-sm-7 feedback-field control-label">
         <p>Would you like to learn from this trainer?</p>
       </div>
-      <div class="col-md-2">
-        <p>Yes</p>
-        <input type="radio" data-ng-model="entity.studyWithTrainer" value="true"/>
-      </div>
-      <div class="col-md-2">
-        <p>No</p>
-        <input type="radio" data-ng-model="entity.studyWithTrainer" value="false"/>
+      <div class="feedback-radio-input">
+        <div class="col-sm-1 control-label">
+          <p>Yes</p>
+        </div>
+        <div class="col-sm-1 control-label">
+          <input type="radio" data-ng-model="entity.studyWithTrainer" value="true"/>
+        </div>
+        <div class="col-sm-1 control-label">
+          <p>No</p>
+        </div>
+        <div class="col-sm-1 control-label">
+          <input type="radio" data-ng-model="entity.studyWithTrainer" value="false"/>
+        </div>
       </div>
     </div>
 
     <div class="form-group feedbackBlock">
-      <div class="col-md-8 feedback-field">
+      <div class="col-sm-7 feedback-field control-label">
         <p>Will you recommend your colleagues this training to attend?</p>
       </div>
-      <div class="col-md-2">
-        <p>Yes</p>
-        <input type="radio" data-ng-model="entity.recommend" value="true"/>
-      </div>
-      <div class="col-md-2">
-        <p>No</p>
-        <input type="radio" data-ng-model="entity.recommend" value="false"/>
+      <div class="feedback-radio-input">
+        <div class="col-sm-1 control-label">
+          <p>Yes</p>
+        </div>
+        <div class="col-sm-1 control-label">
+          <input type="radio" data-ng-model="entity.recommend" value="true"/>
+        </div>
+        <div class="col-sm-1 control-label">
+          <p>No</p>
+        </div>
+        <div class="col-sm-1 control-label">
+          <input type="radio" data-ng-model="entity.recommend" value="false"/>
+        </div>
       </div>
     </div>
 
     <div class="form-group">
-      <div class="col-md-8 feedback-field feedback-info">
+      <div class="col-sm-3 feedback-field feedback-info control-label">
         <p>Other info</p>
       </div>
-      <div>
+      <div class="col-sm-6">
         <label for="feedbackInputId"></label>
-        <textarea rows="10" class="form-control feedback-text" id="feedbackInputId" ng-model="entity.otherInfo"></textarea>
+        <textarea rows="9" class="form-control feedback-text" id="feedbackInputId" ng-model="entity.otherInfo"></textarea>
       </div>
     </div>
 
