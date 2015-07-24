@@ -16,11 +16,7 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'smart-table',
-    'ngStorage',
-    'ngDialog',
-    'ui.bootstrap',
-    'ngAside'
+    'smart-table'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -57,20 +53,10 @@ angular
         controller: 'UserProfileCtrl',
         controllerAs: 'userprofile'
       })
-      .when('/login', {
-        templateUrl: 'views/login.html',
-        controller: 'LoginCtrl',
-        controllerAs: 'loginController'
-      })
-      .when('/trainings/training/:trainingId', {
-        templateUrl: 'views/training.html',
-        controller: 'TrainingCtrl',
-        controllerAs: 'training'
-      })
       .otherwise({
         redirectTo: '/'
       })
-  }).run(function ($rootScope, translationService) {
+  }).run(function ($rootScope) {
     //TODO provide role from userService here
     $rootScope.isAdmin = function () {
       return true;
@@ -82,14 +68,6 @@ angular
     $rootScope.isEmployee = function () {
       return false;
     };
-    //perhaps there is need to add new module for localization
-    $rootScope.translate = function(){
-      translationService.getTranslation($rootScope.i10n.selectedLanguage);
-    };
 
-    $rootScope.i10n = {};
-    $rootScope.i10n.selectedLanguage = 'en';
-
-    $rootScope.translate();
   });
 
