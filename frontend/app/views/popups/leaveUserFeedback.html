@@ -1,104 +1,121 @@
-<div class="header-feedback">
-  <h2 class="feedback-name">Leave feedback on this user</h2>
-</div>
 <div class="ngdialog-message feedback-container">
-  <form class="form-horizontal">
+  <div class="modal-header">
+    <h2 class="feedback-name">Leave feedback on this user</h2>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal">
 
-    <div class="form-group feedbackBlock">
-      <div class="col-md-8 feedback-field">
-        <p>Attendance</p>
+      <div class="form-group feedbackBlock">
+        <div class="col-sm-3 feedback-field control-label">
+          <p>Attendance</p>
+        </div>
+        <div class="col-sm-8 feedback-field control-label">
+          <input type="text" class="form-control" data-ng-model="entity.attendance" value=""/>
+        </div>
       </div>
-      <div class="col-md-offcet-2 feedback-text-input">
-        <input type="text" data-ng-model="attendance" value=""/>
-      </div>
-    </div>
 
-    <div class="form-group feedbackBlock">
-      <div class="col-md-8 feedback-field">
-        <p>Attitude</p>
+      <div class="form-group feedbackBlock">
+        <div class="col-sm-3 feedback-field control-label">
+          <p>Attitude</p>
+        </div>
+        <div class="col-sm-8 feedback-field control-label">
+          <input type="text" class="form-control" data-ng-model="entity.attitude" value=""/>
+        </div>
       </div>
-      <div class="col-md-offcet-2 feedback-text-input">
-        <input type="text" data-ng-model="attitude" value=""/>
-      </div>
-    </div>
 
-    <div class="form-group feedbackBlock">
-      <div class="col-md-8 feedback-field">
-        <p>Asked questions?</p>
+      <div class="form-group feedbackBlock">
+        <div class="col-sm-3 feedback-field control-label">
+          <p>Asked questions?</p>
+        </div>
+        <div class="feedback-radio-input">
+          <div class="col-sm-1 control-label">
+            <input type="radio" data-ng-model="entity.questions" value="true"/>
+          </div>
+          <div class="col-sm-1 control-label">
+            <p>Yes</p>
+          </div>
+          <div class="col-sm-1 control-label">
+            <input type="radio" data-ng-model="entity.questions" value="false"/>
+          </div>
+          <div class="col-sm-1 control-label">
+            <p>No</p>
+          </div>
+        </div>
       </div>
-      <div class="col-md-2">
-        <p>Yes</p>
-        <input type="radio" data-ng-model="questions" value="true"/>
-      </div>
-      <div class="col-md-2">
-        <p>No</p>
-        <input type="radio" data-ng-model="questions" value="false"/>
-      </div>
-    </div>
 
-    <div class="form-group feedbackBlock">
-      <div class="col-md-8 feedback-field">
-        <p>Was interested in the process?</p>
+      <div class="form-group feedbackBlock">
+        <div class="col-sm-3 feedback-field control-label">
+          <p>Was interested in the process?</p>
+        </div>
+        <div class="feedback-radio-input">
+          <div class="col-sm-1 control-label">
+            <input type="radio" data-ng-model="entity.interested" value="true"/>
+          </div>
+          <div class="col-sm-1 control-label">
+            <p>Yes</p>
+          </div>
+          <div class="col-sm-1 control-label">
+            <input type="radio" data-ng-model="entity.interested" value="false"/>
+          </div>
+          <div class="col-sm-1 control-label">
+            <p>No</p>
+          </div>
+        </div>
       </div>
-      <div class="col-md-2">
-        <p>Yes</p>
-        <input type="radio" data-ng-model="interested" value="true"/>
-      </div>
-      <div class="col-md-2">
-        <p>No</p>
-        <input type="radio" data-ng-model="interested" value="false"/>
-      </div>
-    </div>
 
-    <div class="form-group feedbackBlock">
-      <div class="col-md-8 feedback-field">
-        <p>Was this employ focused on result?</p>
+      <div class="form-group feedbackBlock">
+        <div class="col-sm-3 feedback-field control-label">
+          <p>Was this employ focused on result?</p>
+        </div>
+        <div class="feedback-radio-input">
+          <div class="col-sm-1 control-label">
+            <input type="radio" data-ng-model="entity.focusOnResult" value="true"/>
+          </div>
+          <div class="col-sm-1 control-label">
+            <p>Yes</p>
+          </div>
+          <div class="col-sm-1 control-label">
+            <input type="radio" data-ng-model="entity.focusOnResult" value="false"/>
+          </div>
+          <div class="col-sm-1 control-label">
+            <p>No</p>
+          </div>
+        </div>
       </div>
-      <div class="col-md-2">
-        <p>Yes</p>
-        <input type="radio" data-ng-model="focusOnResult" value="true"/>
-      </div>
-      <div class="col-md-2">
-        <p>No</p>
-        <input type="radio" data-ng-model="focusOnResult" value="false"/>
-      </div>
-    </div>
 
-    <div class="form-group feedbackBlock">
-      <div class="col-md-8 feedback-field">
-        <p>English level</p>
+      <div class="form-group feedbackBlock">
+        <div class="col-sm-3 feedback-field control-label">
+          <p>English level</p>
+        </div>
+        <div ng-controller="LeaveFeedbackCtrl" class="feedback-field col-sm-8">
+          <select class="form-control feedback-dropdown" ng-model="entity.ddlLevel" ng-options="level.Name as level.Name for level in levels"></select>
+        </div>
       </div>
-      <div ng-controller="LeaveFeedbackCtrl" class="feedback-field">
-        <select ng-model="ddlLevle" ng-options="levle.Name as levle.Name for levle in levles"></select>
-      </div>
-    </div>
 
-    <div class="form-group feedbackBlock">
-      <div class="col-md-8 feedback-field">
-        <p>Mark</p>
+      <div class="form-group feedbackBlock">
+        <div class="col-sm-3 feedback-field control-label">
+          <p>Mark</p>
+        </div>
+        <div ng-controller="LeaveFeedbackCtrl" class="feedback-field col-sm-8">
+          <select  class="form-control feedback-dropdown" ng-model="entity.ddlMark" ng-options="mark.grade as mark.grade for mark in marks"></select>
+        </div>
       </div>
-      <div ng-controller="LeaveFeedbackCtrl" class="feedback-field">
-        <select ng-model="ddlMark" ng-options="mark.grade as mark.grade for mark in marks"></select>
-      </div>
-    </div>
 
-    <div class="form-group">
-      <div class="col-md-8 feedback-field feedback-info">
-        <p>Other info</p>
+      <div class="form-group">
+        <div class="col-sm-3 feedback-field feedback-info control-label">
+          <p>Other info</p>
+        </div>
+        <div class="col-sm-6">
+          <label for="feedbackInputId"></label>
+          <textarea rows="9" class="form-control feedback-text" id="feedbackInputId" ng-model="entity.otherInfo"></textarea>
+        </div>
       </div>
-      <div>
-        <label for="feedbackInputId"></label>
-        <textarea rows="10" class="form-control feedback-text" id="feedbackInputId" ng-model="$parent.feedbackInput"></textarea>
-      </div>
-    </div>
 
-  </form>
+    </form>
+  </div>
 </div>
-<div class="ngdialog-buttons mt">
-  <button type="button" class="btn btn-default feedback-button"
-          ng-click="closeThisDialog()">Cancel
-  </button>
-  <button type="button" class="btn btn-default feedback-button"
-          ng-click="leaveUserFeedback()">Ok
-  </button>
+<div class="modal-footer">
+  <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="closeThisDialog()">Cancel</button>
+  <button type="button" class="btn btn-primary" ng-click="leaveUserFeedback()">Ok</button>
 </div>
+

@@ -1,7 +1,7 @@
 angular.module('frontendApp').directive('starRating', function () {
   return {
     restrict: 'A',
-    template: '<ul class="rating">' +
+    template: '<ul class="rating" style="margin-top: -3%">' +
     '<li ng-repeat="star in stars" ng-class="star" ng-click="toggle($index)">' +
     '\u2605' +
     '</li>' +

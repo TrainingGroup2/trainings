@@ -50,17 +50,14 @@ angular.module('frontendApp')
       var userId =123; //id of user on we write feedback
       var feedbackerId = 1; // id of feedbacker
       var feed = new UserFeedbackService();
-      feed.userId = userId;
-      feed.feedbackerId = feedbackerId;
-      feed.attendanc = $scope.attendance;
-      feed.attitude = $scope.attitude;
-      feed.questions = $scope.questions;
-      feed.interested = $scope.interested;
-      feed.focusOnResult = $scope.focusOnResult;
-      feed.englishLevel = $scope.$$childHead.ddlLevle;      ////not good
-      feed.grade = $scope.$$childTail.ddlMark;      //not goodo
-      feed.otherInfo = $scope.feedbackInput;
-      feed.date = new Date();
+      _.extend(feed,{
+        trainer : {id: feedbackerId},
+        user : {id: userId},
+        date : new Date(),
+        englishLevel : $scope.$$childHead.ddlLevle,
+        grade : $scope.$$childTail.ddlMark
+      });
+      _.extend(feed,$scope.entity);
       feed.$save();
 
       $scope.$parent.feedbackInput = "";
