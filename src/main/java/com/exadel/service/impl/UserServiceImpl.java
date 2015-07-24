@@ -1,14 +1,22 @@
 package com.exadel.service.impl;
 
+import com.exadel.model.constants.userRole.UserRole;
 import com.exadel.model.entity.User;
 import com.exadel.repository.UserRepository;
 import com.exadel.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
-import java.util.Optional;
+
+import javax.management.Query;
+import javax.websocket.Session;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -39,4 +47,6 @@ public class UserServiceImpl implements UserService {
     public void addUser(User user) {
         userRepository.save(user);
     }
+
+
 }
