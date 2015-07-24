@@ -1,8 +1,9 @@
-<div class="header" ng-controller="HeaderCtrl as headerController">
-  <nav class="navbar navbar-default">
+<div class="header" ng-controller="HeaderCtrl as headerController" style="margin-bottom: -30px">
+  <nav class="navbar navbar-default" style="margin-bottom: 0px; border: 1px;">
     <div class="container-fluid">
       <div class="navbar-header header-training">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
@@ -27,18 +28,16 @@
           <li>
         </ul>
 
-        <ul class="nav navbar-nav navbar-right">
+        <ul class="nav navbar-nav navbar-right" ng-controller="EventMenuCtrl as EventMenuCtrl">
           <li>
-            <div id="content">
-              <p>
-                <span class="pull-right">
-                  <button type="button" ng-click="openAside('right', true)">
-                    Right <span class="glyphicon glyphicon-align-justify"></span>
-                  </button>
-                </span>
-              </p>
-              <div class="clearfix"></div>
-            </div>
+            <a>
+              <div class="col-md-8">
+                <i class="fa fa-bell-o fa-lg event-bell" ng-click="openAside('right')"></i>
+              </div>
+              <div  class="col-offcet-2 event-number">
+                {{eventList.length}}
+              </div>
+            </a>
           </li>
           <li>
             <a>

@@ -3,10 +3,11 @@
 @import "../bower_components/ngDialog/css/ngDialog.css";
 @import "../bower_components/ngDialog/css/ngDialog-theme-default.css";
 @import "../bower_components/angular-aside/dist/css/angular-aside.css";
-@import "../app/styles/feedback";
-@import "../app/styles/stars";
 @import "createExternalUser";
 @import "training";
+@import "feedback";
+@import "stars";
+@import "eventMenu";
 
 @header-color: #032539;
 @header-active-color: #0a4c75;
@@ -45,14 +46,14 @@ body {
 
 /* Custom page header */
 .header {
-  border-bottom: 1px solid #e5e5e5;
-  margin-bottom: 10px;
+//  border-bottom: 1px solid #e5e5e5;
+//  margin-bottom: 10px;
 
   h3 {
     margin-top: 0;
     margin-bottom: 0;
     line-height: 40px;
-    padding-bottom: 19px;
+//    padding-bottom: 19px;
   }
 
   .navbar-default,.navbar,.navbar-brand {
@@ -119,6 +120,7 @@ footer {
     font-size: 100%;
   }
 }
+//end footer
 
 .container-narrow > hr {
   margin: 30px 0;
@@ -140,27 +142,6 @@ footer {
 }
 .marketing p + h4 {
   margin-top: 28px;
-}
-
-.ngdialog-content {
-  width : 50%
-  !important;
-  background: #7ec8e3;
-}
-
-.ng-aside.horizontal .modal-dialog .modal-content {
-  height: 94%;
-  margin-top: 17%;
-}
-
-.modal-backdrop.in {
-  opacity: 0.5;
-  filter: alpha(opacity=50);
-}
-
-.fade.in {
-  width: 20%;
-  margin-left: 80%;
 }
 
 /* Responsive: Portrait tablets and up */

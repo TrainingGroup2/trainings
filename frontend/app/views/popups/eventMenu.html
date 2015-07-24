@@ -1,0 +1,28 @@
+<div ng-controller="EventMenuCtrl as EventMenuCtrl" class="event-menu">
+  <div class="modal-body">
+    <input class="form-control" ng-model="searchText" placeholder = {{translation.EVENT_SEARCH}} >
+    <div ng-repeat="event in eventList | filter:searchText">
+      <a class="event-link">
+        <div class="event-menu-entry">
+          <div class="panel panel-default event-menu-item">
+            <div class="panel-body">
+              <div>
+                {{translation.EVENT_AUTHOR}} : {{event.author}}
+              </div>
+              <div>
+                {{translation.EVENT_DATE}} : {{event.eventDate}}
+              </div>
+              <div>
+                {{translation.EVENT_TEXT}} : {{event.eventText}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+      <div class="button-lair">
+        <button class="btn btn-default button-apply" ng-click="ok($event)">{{translation.EVENT_APPLY}}</button>
+        <button class="btn btn-default button-decline" ng-click="cancel($event)">{{translation.EVENT_DECLINE}}</button>
+      </div>
+    </div>
+  </div>
+</div>
