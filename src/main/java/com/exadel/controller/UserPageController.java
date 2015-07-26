@@ -13,14 +13,10 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/user")
 public class UserPageController {
-    private final UserService userService;
-    private final UserFeedbackService userFeedbackService;
-
     @Autowired
-    public UserPageController(UserService userService, UserFeedbackService userFeedbackService) {
-        this.userService = userService;
-        this.userFeedbackService = userFeedbackService;
-    }
+    private UserService userService;
+    @Autowired
+    private UserFeedbackService userFeedbackService;
 
     @RequestMapping(method = RequestMethod.GET)
     public User showUser(@RequestParam String id) {

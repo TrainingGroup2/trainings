@@ -17,18 +17,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/trainings/training")
 public class TrainingPageController {
-
-    private final TrainingFeedbackService trainingFeedbackService;
-    private final EntryService entryService;
-    private final TrainingService trainingService;
-
     @Autowired
-    public TrainingPageController(TrainingFeedbackService trainingFeedbackService,
-                                  EntryService entryService, TrainingService trainingService) {
-        this.trainingFeedbackService = trainingFeedbackService;
-        this.entryService = entryService;
-        this.trainingService = trainingService;
-    }
+    private TrainingFeedbackService trainingFeedbackService;
+    @Autowired
+    private EntryService entryService;
+    @Autowired
+    private TrainingService trainingService;
 
     @RequestMapping(value = "participants", method = RequestMethod.GET)
     public List<User> getParticipants(@RequestParam String id) {

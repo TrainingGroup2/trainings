@@ -10,17 +10,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/trainings")
 public class TrainingsController {
-    private final TrainingService trainingService;
-
     @Autowired
-    public TrainingsController(TrainingService trainingService) {
-        this.trainingService = trainingService;
-    }
+    private TrainingService trainingService;
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Training> getTrainings() {
         List<Training> trainings = (List<Training>)trainingService.getAllTrainings();
-        System.out.println(trainings);
         return trainings;
     }
 
@@ -31,8 +26,14 @@ public class TrainingsController {
 
     @RequestMapping(value = "/newTraining", method = RequestMethod.POST)    //DOESN'T WORK
     public Training createTraining(@RequestBody Training training) {
+        System.out.println(training);
+        System.out.println(training.getId());
+        System.out.println(training.getDescription());
+        System.out.println(training.getName());
+        System.out.println(training.getTrainer());
+        System.out.println(training.getParticipants());
         trainingService.addTraining(training);
-        return training;
+        return new Training();
     }
 
     @RequestMapping(value = "/training", method = RequestMethod.PUT)   //DOESN'T WORK
