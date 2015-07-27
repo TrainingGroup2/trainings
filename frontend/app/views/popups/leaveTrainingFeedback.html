@@ -1,73 +1,73 @@
 <div class="ngdialog-message feedback-container">
   <div class="modal-header">
-    <h2 class="feedback-name">Leave feedback on this training</h2>
+    <h2 class="feedback-name">{{translation.LEAVE_TRAINING_FEEDBACK}}</h2>
   </div>
   <div class="modal-body">
     <form class="form-horizontal">
 
       <div class="form-group feedbackBlock">
         <div class="col-sm-7 feedback-field control-label">
-          <p>Was the training understandable?</p>
+          <p>{{translation.UNDERSTANDABLE}}</p>
         </div>
         <div class="feedback-radio-input">
           <div class="col-sm-1 control-label">
             <input type="radio" data-ng-model="entity.understandable" value="true"/>
           </div>
           <div class="col-sm-1 control-label">
-            <p>Yes</p>
+            <p>{{translation.FEEDBACK_YES}}</p>
           </div>
           <div class="col-sm-1 control-label">
             <input type="radio" data-ng-model="entity.understandable" value="false"/>
           </div>
           <div class="col-sm-1 control-label">
-            <p>No</p>
+            <p>{{translation.FEEDBACK_NO}}</p>
           </div>
         </div>
       </div>
 
       <div class="form-group feedbackBlock">
         <div class="col-sm-7 feedback-field control-label">
-          <p>Was it interesting for you?</p>
+          <p>{{translation.INTERESTING}}</p>
         </div>
         <div class="feedback-radio-input">
           <div class="col-sm-1 control-label">
             <input type="radio" data-ng-model="entity.interesting" value="true"/>
           </div>
           <div class="col-sm-1 control-label">
-            <p>Yes</p>
+            <p>{{translation.FEEDBACK_YES}}</p>
           </div>
           <div class="col-sm-1 control-label">
             <input type="radio" data-ng-model="entity.interesting" value="false"/>
           </div>
           <div class="col-sm-1 control-label">
-            <p>No</p>
+            <p>{{translation.FEEDBACK_NO}}</p>
           </div>
         </div>
       </div>
 
       <div class="form-group feedbackBlock">
         <div class="col-sm-7 feedback-field control-label">
-          <p>Have you learnt something new?</p>
+          <p>{{translation.NEW_KNOWLEDGE}}</p>
         </div>
         <div class="feedback-radio-input">
           <div class="col-sm-1 control-label">
             <input type="radio" data-ng-model="entity.newKnowledge" value="true"/>
           </div>
           <div class="col-sm-1 control-label">
-            <p>Yes</p>
+            <p>{{translation.FEEDBACK_YES}}</p>
           </div>
           <div class="col-sm-1 control-label">
             <input type="radio" data-ng-model="entity.newKnowledge" value="false"/>
           </div>
           <div class="col-sm-1 control-label">
-            <p>No</p>
+            <p>{{translation.FEEDBACK_NO}}</p>
           </div>
         </div>
       </div>
 
       <div class="form-group feedbackBlock">
         <div class="col-sm-7 feedback-field control-label">
-          <p>Set effectiveness of the class (rate it from 1 to 5)?</p>
+          <p>{{translation.RATINGS}}</p>
         </div>
         <div ng-controller="LeaveFeedbackCtrl" class="feedback-training-effect col-sm-4">
         <span ng-model="ratings">
@@ -78,47 +78,47 @@
 
       <div class="form-group feedbackBlock">
         <div class="col-sm-7 feedback-field control-label">
-          <p>Would you like to learn from this trainer?</p>
+          <p>{{translation.STUDY_WITH_TRAINER}}</p>
         </div>
         <div class="feedback-radio-input">
           <div class="col-sm-1 control-label">
             <input type="radio" data-ng-model="entity.studyWithTrainer" value="true"/>
           </div>
           <div class="col-sm-1 control-label">
-            <p>Yes</p>
+            <p>{{translation.FEEDBACK_YES}}</p>
           </div>
           <div class="col-sm-1 control-label">
             <input type="radio" data-ng-model="entity.studyWithTrainer" value="false"/>
           </div>
           <div class="col-sm-1 control-label">
-            <p>No</p>
+            <p>{{translation.FEEDBACK_NO}}</p>
           </div>
         </div>
       </div>
 
       <div class="form-group feedbackBlock">
         <div class="col-sm-7 feedback-field control-label">
-          <p>Will you recommend your colleagues this training to attend?</p>
+          <p>{{translation.RECOMMEND}}</p>
         </div>
         <div class="feedback-radio-input">
           <div class="col-sm-1 control-label">
             <input type="radio" data-ng-model="entity.recommend" value="true"/>
           </div>
           <div class="col-sm-1 control-label">
-            <p>Yes</p>
+            <p>{{translation.FEEDBACK_YES}}</p>
           </div>
           <div class="col-sm-1 control-label">
             <input type="radio" data-ng-model="entity.recommend" value="false"/>
           </div>
           <div class="col-sm-1 control-label">
-            <p>No</p>
+            <p>{{translation.FEEDBACK_NO}}</p>
           </div>
         </div>
       </div>
 
       <div class="form-group">
         <div class="col-sm-3 feedback-field feedback-info control-label">
-          <p>Other info</p>
+          <p>{{translation.OTHER_INFO_T}}</p>
         </div>
         <div class="col-sm-6">
           <label for="feedbackInputId"></label>
@@ -130,6 +130,6 @@
   </div>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="closeThisDialog()">Cancel</button>
-  <button type="button" class="btn btn-primary" ng-click="leaveTrainingFeedback()">Ok</button>
+  <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="closeThisDialog()">{{translation.FEEDBACK_CANCEL}}</button>
+  <button type="button" class="btn btn-primary" ng-click="leaveTrainingFeedback()">{{translation.FEEDBACK_OK}}</button>
 </div>

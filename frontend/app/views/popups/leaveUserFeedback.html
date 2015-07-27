@@ -7,7 +7,7 @@
 
       <div class="form-group feedbackBlock">
         <div class="col-sm-3 feedback-field control-label">
-          <p>Attendance</p>
+          <p>{{translation.ATTENDANCE}}</p>
         </div>
         <div class="col-sm-8 feedback-field control-label">
           <input type="text" class="form-control" data-ng-model="entity.attendance" value=""/>
@@ -16,7 +16,7 @@
 
       <div class="form-group feedbackBlock">
         <div class="col-sm-3 feedback-field control-label">
-          <p>Attitude</p>
+          <p>{{translation.ATTITUDE}}</p>
         </div>
         <div class="col-sm-8 feedback-field control-label">
           <input type="text" class="form-control" data-ng-model="entity.attitude" value=""/>
@@ -25,67 +25,67 @@
 
       <div class="form-group feedbackBlock">
         <div class="col-sm-3 feedback-field control-label">
-          <p>Asked questions?</p>
+          <p>{{translation.QUESTIONS}}</p>
         </div>
         <div class="feedback-radio-input">
           <div class="col-sm-1 control-label">
             <input type="radio" data-ng-model="entity.questions" value="true"/>
           </div>
           <div class="col-sm-1 control-label">
-            <p>Yes</p>
+            <p>{{translation.FEEDBACK_YES}}</p>
           </div>
           <div class="col-sm-1 control-label">
             <input type="radio" data-ng-model="entity.questions" value="false"/>
           </div>
           <div class="col-sm-1 control-label">
-            <p>No</p>
+            <p>{{translation.FEEDBACK_NO}}</p>
           </div>
         </div>
       </div>
 
       <div class="form-group feedbackBlock">
         <div class="col-sm-3 feedback-field control-label">
-          <p>Was interested in the process?</p>
+          <p>{{translation.INTERESTED}}</p>
         </div>
         <div class="feedback-radio-input">
           <div class="col-sm-1 control-label">
             <input type="radio" data-ng-model="entity.interested" value="true"/>
           </div>
           <div class="col-sm-1 control-label">
-            <p>Yes</p>
+            <p>{{translation.FEEDBACK_YES}}</p>
           </div>
           <div class="col-sm-1 control-label">
             <input type="radio" data-ng-model="entity.interested" value="false"/>
           </div>
           <div class="col-sm-1 control-label">
-            <p>No</p>
+            <p>{{translation.FEEDBACK_NO}}</p>
           </div>
         </div>
       </div>
 
       <div class="form-group feedbackBlock">
         <div class="col-sm-3 feedback-field control-label">
-          <p>Was this employ focused on result?</p>
+          <p>{{translation.FOCUESONRESULT}}</p>
         </div>
         <div class="feedback-radio-input">
           <div class="col-sm-1 control-label">
             <input type="radio" data-ng-model="entity.focusOnResult" value="true"/>
           </div>
           <div class="col-sm-1 control-label">
-            <p>Yes</p>
+            <p>{{translation.FEEDBACK_YES}}</p>
           </div>
           <div class="col-sm-1 control-label">
             <input type="radio" data-ng-model="entity.focusOnResult" value="false"/>
           </div>
           <div class="col-sm-1 control-label">
-            <p>No</p>
+            <p>{{translation.FEEDBACK_NO}}</p>
           </div>
         </div>
       </div>
 
       <div class="form-group feedbackBlock">
         <div class="col-sm-3 feedback-field control-label">
-          <p>English level</p>
+          <p>{{translation.ENGLISH_LEVEL}}</p>
         </div>
         <div ng-controller="LeaveFeedbackCtrl" class="feedback-field col-sm-8">
           <select class="form-control feedback-dropdown" ng-model="entity.ddlLevel" ng-options="level.Name as level.Name for level in levels"></select>
@@ -94,7 +94,7 @@
 
       <div class="form-group feedbackBlock">
         <div class="col-sm-3 feedback-field control-label">
-          <p>Mark</p>
+          <p>{{translation.MARK}}</p>
         </div>
         <div ng-controller="LeaveFeedbackCtrl" class="feedback-field col-sm-8">
           <select  class="form-control feedback-dropdown" ng-model="entity.ddlMark" ng-options="mark.grade as mark.grade for mark in marks"></select>
@@ -103,7 +103,7 @@
 
       <div class="form-group">
         <div class="col-sm-3 feedback-field feedback-info control-label">
-          <p>Other info</p>
+          <p>{{translation.OTHER_INFO_T}}</p>
         </div>
         <div class="col-sm-6">
           <label for="feedbackInputId"></label>
@@ -115,7 +115,7 @@
   </div>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="closeThisDialog()">Cancel</button>
-  <button type="button" class="btn btn-primary" ng-click="leaveUserFeedback()">Ok</button>
+  <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="closeThisDialog()">{{translation.FEEDBACK_CANCEL}}</button>
+  <button type="button" class="btn btn-primary" ng-click="leaveUserFeedback()">{{translation.FEEDBACK_OK}}</button>
 </div>
 
