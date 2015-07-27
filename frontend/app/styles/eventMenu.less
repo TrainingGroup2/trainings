@@ -1,0 +1,65 @@
+@event-panel-color:  #fff;
+@event-item-color:  #929ea1;
+@border-color: #0a4c75;
+
+.event-bell {
+  margin-right: 25px;
+}
+
+.event-number {
+  color: @event-panel-color;
+}
+
+.modal-backdrop.in {
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+}
+
+.fade.in {
+  margin-top: 50px;
+  margin-left: 70%;
+}
+
+.ng-aside.horizontal.right.in .modal-dialog {
+  width: 100%;
+  padding-bottom: 20%;
+}
+
+.ng-aside.horizontal .modal-dialog .modal-content {
+  height: 100%;
+  background-color: @event-panel-color;
+}
+
+.event-menu {
+  background-color: #eeeeee;
+  border: 2px solid @border-color;
+}
+
+.event-menu-entry {
+  margin-top: 6%;
+}
+
+.button-apply {
+  background-color: #276fa0;
+  color: @event-panel-color;
+}
+
+.button-apply:focus, .button-apply:hover{
+  background-color:  @border-color;
+  color: @event-panel-color;
+}
+
+.event-link:hover, .event-link:focus {
+  text-decoration: none;
+}
+
+.event-menu-item:hover, .event-menu-item:focus {
+  opacity: 0.7;
+  color: @event-panel-color;
+}
+
+.event-menu-item {
+  margin-bottom: 5px;
+  color: @event-panel-color;
+  background-color: @event-item-color;
+}

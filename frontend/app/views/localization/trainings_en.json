@@ -10,5 +10,11 @@
   "EXTERNAL" : "isExternal",
   "REGISTERED" : "registered",
   "WAITLIST" : "Wait List",
-  "CLOSE" : "Close"
+  "CLOSE" : "Close",
+  "EVENT_AUTHOR" : "Event Author",
+  "EVENT_DATE" : "Event date",
+  "EVENT_TEXT" : "Event text",
+  "EVENT_APPLY" : "Apply",
+  "EVENT_DECLINE" : "Decline",
+  "EVENT_SEARCH" : "Search"
 }
