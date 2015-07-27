@@ -19,7 +19,7 @@ public class TrainingDTO {
     private TrainingStatus status;
     private int membersCountMax;
     private double rating;
-    private long trainerId;
+    private UserDTO trainer;
     private boolean repeated;
     private List<EntryDTO> entries;
 
@@ -41,7 +41,7 @@ public class TrainingDTO {
         this.status = training.getStatus();
         this.membersCountMax = training.getMembersCountMax();
         this.rating = training.getRating();
-        this.trainerId = training.getTrainer().getId();
+        this.trainer = new UserDTO(training.getTrainer());
         this.repeated = training.isRepeated();
 
         this.entries = null;
@@ -103,12 +103,12 @@ public class TrainingDTO {
         this.membersCountMax = membersCountMax;
     }
 
-    public long getTrainerId() {
-        return trainerId;
+    public UserDTO getTrainer() {
+        return trainer;
     }
 
-    public void setTrainerId(long trainerId) {
-        this.trainerId = trainerId;
+    public void setTrainer(UserDTO trainer) {
+        this.trainer = trainer;
     }
 
     public double getRating() {

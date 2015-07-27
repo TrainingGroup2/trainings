@@ -51,6 +51,10 @@ angular
           }
         }
       })
+      .when('/userTrainings', {
+        templateUrl: 'views/userTrainingsList.html',
+        controller: 'UserTrainingsCtrl'
+      })
       .when('/eventslist', {
         templateUrl: 'views/eventslist.html',
         controller: 'EventsListCtrl',
@@ -117,7 +121,7 @@ angular
         redirectTo: '/'
       });
     $httpProvider.defaults.withCredentials = true;
-  }).run(function ($http, $location, $cookies, $rootScope, translationService) {
+  }).run(function ($http, $location, $cookies, $rootScope, $localStorage, translationService, appConstants) {
     $rootScope.globals = $cookies.get('globals');
     if ($rootScope.globals) {
       $http.defaults.headers.post['X-CSRFToken'] = $cookies.csrftoken;
@@ -129,7 +133,7 @@ angular
       if(menu)
         menu.remove();
       if ($location.path() !== '/login' && !$rootScope.globals) {
-        if($location.path() !== ''){
+        if ($location.path() !== '') {
           $rootScope.locationPath = $location.path();
         }
         $location.path('/login');
@@ -139,14 +143,14 @@ angular
 
     //TODO provide role from userService here
     $rootScope.isAdmin = function () {
-      return true;
+      return $localStorage.userData.role === appConstants.ADMIN;
     };
     $rootScope.isExternalTrainer = function () {
-      return false;
+      return $localStorage.userData.role === appConstants.EXT_TRAINER;
     };
 
     $rootScope.isEmployee = function () {
-      return false;
+      return $localStorage.userData.role === appConstants.EMPLOYEE;
     };
 
     //perhaps there is need to add new module for localization

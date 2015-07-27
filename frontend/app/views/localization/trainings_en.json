@@ -109,5 +109,18 @@
   "VISIT_USER_PAGE" : "Visit user page",
   "WATCH_USER_FEEDBACKS" : "Watch user feedbacks",
   "COMMUNICATION_SKILLS" : "Communication skills",
-  "REMOVE" : "Remove"
+  "REMOVE" : "Remove",
+  "USER_TRAINING_ROLE" : "Role",
+  "USER_TRAINING_NAME" : "Name",
+  "USER_TRAINING_TRAINER" : "Trainer",
+  "USER_TRAINING_TARGET_AUDIENCE" : "Target audience",
+  "USER_TRAINING_STATUS" : "Training status",
+  "USER_TRAINING_RATING" : "Rating",
+  "MY_TRAINIGS" : "My trainings",
+  "ALL_TRAININGS_NAME" : "Name",
+  "ALL_TRAININGS_TRAINER" : "Trainer",
+  "ALL_TRAININGS_TARGET_AUDIENCE" : "Target audience",
+  "ALL_TRAININGS_TRAINING_STATUS" : "Training status",
+  "ALL_TRAININGS_RAITINGS" : "Rating",
+  "CREATE_TRAINING" : "Create training"
 }

@@ -31,7 +31,7 @@ public class TrainerControl {
     }
 
     public boolean isCoach(TrainingDTO trainingDTO) {
-        long id = trainingDTO.getTrainerId();
+        long id = trainingDTO.getTrainer().getId();
         if (userService.getCurrentId() == trainingService.getTrainerId(id))
             return true;
         else

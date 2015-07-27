@@ -63,8 +63,6 @@ angular.module('frontendApp')
         });
       };
 
-
-
       var uploader = $scope.uploader = new FileUploader({
         url: 'http://localhost:8080/files/upload?trainingId' + $scope.data.trainingId
       });

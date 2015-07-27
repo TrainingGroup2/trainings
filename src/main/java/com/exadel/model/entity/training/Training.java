@@ -90,7 +90,7 @@ public class Training {
         this.repeated = trainingDTO.isRepeated();
 
         this.trainer = new ExternalTrainer();
-        this.trainer.setId(trainingDTO.getTrainerId());
+        this.trainer.setId(trainingDTO.getTrainer().getId());
 
         this.participants = new ArrayList<>();
         this.feedbacks = new ArrayList<>();

@@ -6,14 +6,11 @@ angular.module('frontendApp').controller('EventMenuCtrl', [ '$scope', '$location
   $scope.eventList = [];
 
   (function poll (){
-    EventService.getEventList({index: $scope.eventList.length+1}, function (resp){
+    EventService.getEventList({eventIndex : $scope.eventList.length}, function(resp) {
       $scope.eventList = angular.copy(resp);
-    });
-    //poll();
-    setTimeout(poll,5000);
+      poll();
+    })
   })();
-
-  $interval($scope.getUnwachedEvent, 500);
 
   $scope.openEvent = function(event) {
     ngDialog.open({

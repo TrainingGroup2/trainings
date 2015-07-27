@@ -24,7 +24,7 @@ public class ExternalTrainer extends User {
     public ExternalTrainer() {
         super.setRole(UserRole.EXTERNAL_TRAINER);
     }
-
+    @JsonIgnore
     public List<Training> getMentoringTrainings() {
         return mentoringTrainings;
     }

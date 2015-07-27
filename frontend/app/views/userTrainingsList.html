@@ -1,48 +1,51 @@
 <div>
-  <h1 class="text-left">{{translation.TRAININGS_LIST}}</h1>
+  <h1 class="text-left">{{translation.MY_TRAINIGS}}</h1>
+  <button class="btn btn-default" ng-click="createTraining()"
+          ng-dialog-class="ngdialog-theme-plain">{{translation.CREATE_TRAINING}}
+  </button>
 </div>
 <table st-table="trainingsList" class="table table-striped text-center" >
   <thead>
   <tr>
+    <th class="text-center" st-sort="role">
+      {{translation.USER_TRAINING_ROLE}}
+      <i class="fa fa-sort-desc"></i>
+    </th>
     <th class="text-center" st-sort="name">
-      {{translation.ALL_TRAININGS_NAME}}
+      {{translation.USER_TRAINING_NAME}}
       <i class="fa fa-sort-desc"></i>
     </th>
     <th class="text-center" st-sort="trainer">
-      {{translation.ALL_TRAININGS_TRAINER}}
+      {{translation.USER_TRAINING_TRAINER}}
       <i class="fa fa-sort-desc"></i>
     </th>
     <th class="text-center" st-sort="targetAudience">
-      {{translation.ALL_TRAININGS_TARGET_AUDIENCE}}
+      {{translation.USER_TRAINING_TARGET_AUDIENCE}}
       <i class="fa fa-sort-desc"></i>
     </th>
     <th class="text-center" st-sort="trainingStatus">
-      {{translation.ALL_TRAININGS_TRAINING_STATUS}}
+      {{translation.USER_TRAINING_STATUS}}
       <i class="fa fa-sort-desc"></i>
     </th>
     <th class="text-center" st-sort="rating">
-      {{translation.ALL_TRAININGS_RAITINGS}}
+      {{translation.USER_TRAINING_RATING}}
       <i class="fa fa-sort-desc"></i>
     </th>
   </tr>
   <tr class="tableTextAlignment">
-    <th>
-      <input st-search="name" placeholder="" class="input-sm form-control" type="search"/>
-    </th>
+    <th> <input st-search="role" placeholder="" class="input-sm form-control" type="search"/></th>
+    <th> <input st-search="name" placeholder="" class="input-sm form-control" type="search"/> </th>
 
-    <th>
-      <input st-search="trainer" placeholder="" class="input-sm form-control" type="search"/>
-    </th>
-    <th>
-      <input st-search="targetAudience" placeholder="" class="input-sm form-control" type="search"/>
-    </th>
+    <th> <input st-search="trainer" placeholder="" class="input-sm form-control" type="search"/></th>
+    <th> <input st-search="targetAudience" placeholder="" class="input-sm form-control" type="search"/> </th>
     <th> <input st-search="trainingStatus" placeholder="" class="input-sm form-control" type="search"/> </th>
     <th> <input st-search="rating" placeholder="" class="input-sm form-control" type="search"/></th>
 
   </tr>
   </thead>
   <tbody>
-  <tr ng-repeat="row in trainingsList" ng-click="openTraining(row.id)">
+  <tr ng-repeat="row in userTrainings" ng-click="openTraining(row.id)">
+    <td>{{Trainer | trainerListener: userId : row.trainer.id}}</td>
     <td>{{row.name}}</td>
 
     <td>{{row.trainer.name}}</td>

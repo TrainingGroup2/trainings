@@ -7,11 +7,26 @@
 <table st-table="users" class="table table-striped text-center">
   <thead>
   <tr>
-    <th class="text-center" st-sort="name">{{translation.NAME}}</th>
-    <th class="text-center" st-sort="surname">{{translation.SURNAME}}</th>
-    <th class="text-center" st-sort="role">{{translation.ROLE}}</th>
-    <th class="text-center" st-sort="email">{{translation.EMAIL}}</th>
-    <th class="text-center" st-sort="phone">{{translation.PHONE}}</th>
+    <th class="text-center" st-sort="name">
+      {{translation.NAME}}
+      <i class="fa fa-sort-desc"></i>
+    </th>
+    <th class="text-center" st-sort="surname">
+      {{translation.SURNAME}}
+      <i class="fa fa-sort-desc"></i>
+    </th>
+    <th class="text-center" st-sort="role">
+      {{translation.ROLE}}
+      <i class="fa fa-sort-desc"></i>
+    </th>
+    <th class="text-center" st-sort="email">
+      {{translation.EMAIL}}
+      <i class="fa fa-sort-desc"></i>
+    </th>
+    <th class="text-center" st-sort="phone">
+      {{translation.PHONE}}
+      <i class="fa fa-sort-desc"></i>
+    </th>
   </tr>
   <tr>
     <th><input st-search="name" placeholder="search by first name" class="input-sm form-control" type="search"/>

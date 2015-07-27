@@ -5,10 +5,22 @@
   <thead>
   <!-- {"id":2,"description":"qwerty","date":1435307072000,"subjectId":2,"eventType":"USER_FEEDBACK","watched":false}] -->
   <tr>
-    <th class="text-center" st-sort="description">{{translation.DESCRIPTION}}</th>
-    <th class="text-center" st-sort="date">{{translation.DATE}}</th>
-    <th class="text-center" st-sort="eventType">{{translation.TYPE}}</th>
-    <th class="text-center" st-sort="watched">{{translation.WATCHED}}</th>
+    <th class="text-center" st-sort="description">
+      {{translation.DESCRIPTION}}
+      <i class="fa fa-sort-desc"></i>
+    </th>
+    <th class="text-center" st-sort="date">
+      {{translation.DATE}}
+      <i class="fa fa-sort-desc"></i>
+    </th>
+    <th class="text-center" st-sort="eventType">
+      {{translation.TYPE}}
+      <i class="fa fa-sort-desc"></i>
+    </th>
+    <th class="text-center" st-sort="watched">
+      {{translation.WATCHED}}
+      <i class="fa fa-sort-desc"></i>
+    </th>
   </tr>
   <tr>
     <th colspan="2"><input st-search="description" placeholder="{{translation.SEARCH}}" class="input-sm form-control" type="search"/></th>

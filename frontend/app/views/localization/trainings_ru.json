@@ -109,5 +109,18 @@
   "VISIT_USER_PAGE" : "Перейти на страницу пользователя",
   "WATCH_USER_FEEDBACKS" : "Отзывы на пользователя",
   "COMMUNICATION_SKILLS" : "Способность работы в колективе",
-  "REMOVE" : "Удалить"
+  "REMOVE" : "Удалить",
+  "USER_TRAINING_ROLE" : "Роль",
+  "USER_TRAINING_NAME" : "Название",
+  "USER_TRAINING_TRAINER" : "Тренер",
+  "USER_TRAINING_TARGET_AUDIENCE" : "Целевая аудитория",
+  "USER_TRAINING_STATUS" : "Статус тренинга",
+  "USER_TRAINING_RATING" : "Рейтинг",
+  "MY_TRAINIGS" : "Мои тренинги",
+  "ALL_TRAININGS_NAME" : "Название",
+  "ALL_TRAININGS_TRAINER" : "Тренер",
+  "ALL_TRAININGS_TARGET_AUDIENCE" : "Целевая аудитория",
+  "ALL_TRAININGS_TRAINING_STATUS" : "Статус тренинга",
+  "ALL_TRAININGS_RAITINGS" : "Рейтинг",
+  "CREATE_TRAINING" : "Создать тренинг"
 }
