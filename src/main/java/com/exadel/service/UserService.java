@@ -1,9 +1,10 @@
 package com.exadel.service;
 
+import com.exadel.model.entity.user.User;
+
 import com.exadel.model.entity.training.Training;
 import com.exadel.model.entity.user.Employee;
 import com.exadel.model.entity.user.ExternalTrainer;
-import com.exadel.model.entity.user.User;
 
 import java.util.Collection;
 import java.util.List;

@@ -4,6 +4,7 @@ import com.exadel.dto.TrainingDTO;
 import com.exadel.model.entity.feedback.TrainingFeedback;
 import com.exadel.model.entity.user.ExternalTrainer;
 import com.exadel.model.entity.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -12,6 +13,8 @@ import java.util.List;
 @Entity
 @Table(name = "trainings")
 public class Training {
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -19,6 +22,7 @@ public class Training {
     @Column(name = "name")
     private String name;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "trainer_id")
     private ExternalTrainer trainer;
@@ -87,6 +91,21 @@ public class Training {
     }
 
     public Training() {}
+
+    public Training(String name, ExternalTrainer trainer,
+                    String targetAudience, String language, boolean isExternal,
+                    String description, TrainingStatus status, int membersCountMax,
+                    int membersCount) {
+        this.name = name;
+        this.trainer = trainer;
+        this.targetAudience = targetAudience;
+        this.language = language;
+        this.isExternal = isExternal;
+        this.description = description;
+        this.status = status;
+        this.membersCountMax = membersCountMax;
+        this.membersCount = membersCount;
+    }
 
     public void addParticipant(User user){
         this.participants.add(user);

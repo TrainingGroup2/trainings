@@ -2,18 +2,13 @@ package com.exadel.service.impl;
 
 import com.exadel.controller.Participation;
 import com.exadel.exception.TrainingNotFoundException;
-import com.exadel.model.entity.training.Rating;
 import com.exadel.model.entity.training.Training;
 import com.exadel.model.entity.training.TrainingStatus;
 import com.exadel.model.entity.user.User;
-import com.exadel.repository.RatingRepository;
 import com.exadel.repository.TrainingRepository;
-import com.exadel.repository.UserRepository;
-import com.exadel.service.RatingService;
 import com.exadel.service.TrainingService;
 import com.exadel.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
