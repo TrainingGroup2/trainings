@@ -34,8 +34,8 @@ angular.module('frontendApp')
       var feedbackerId = 1; // id of feedbacker
       var feed = new UserFeedbackService();
       _.extend(feed,{
-        feedbackerId : feedbackerId,
-        userId : userId,
+        trainer : {id: feedbackerId},
+        user : {id: userId},
         date : new Date(),
         englishLevel : $scope.$$childHead.ddlLevle,
         grade : $scope.$$childTail.ddlMark
