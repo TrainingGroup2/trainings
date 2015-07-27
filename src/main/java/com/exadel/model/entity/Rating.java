@@ -1,5 +1,7 @@
 package com.exadel.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -13,6 +15,7 @@ public class Rating {
 
     @ManyToOne
     @JoinColumn(name = "training_id", nullable = false)
+    @JsonIgnore
     private Training training;
 
     @Transient

@@ -22,7 +22,7 @@ public class UserController {
         this.trainingService = trainingService;
     }
 
-    @RequestMapping(value="/newTrainer", method = RequestMethod.POST)
+    @RequestMapping(value = "/newTrainer", method = RequestMethod.POST)
     public ExternalTrainer addExternalTrainer(@RequestBody ExternalTrainer trainer,
                                               @RequestParam long trainingId) {
         trainingService.addTrainer(trainer, trainingId);
@@ -31,6 +31,10 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.GET)
     public List<User> showUsers() {
-        return (List<User>)userService.getAllUsers();
+        //return (List<User>) userService.getAllUsers();
+
+        List<User> users = (List<User>)userService.getAllUsers();
+
+        return users;
     }
 }

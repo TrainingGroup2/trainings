@@ -12,7 +12,7 @@ import java.util.List;
 public class Employee extends ExternalTrainer {
 
     @ManyToMany(mappedBy = "participants")
-    @Column(name = "visiting_Trainings")
+    @Column(name = "visiting_trainings")
     @JsonIgnore
     private List<Training> visitingTrainings;
 

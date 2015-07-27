@@ -39,8 +39,13 @@ public class UserPageController {
 
     @RequestMapping(value = "/visitingTrainings", method = RequestMethod.GET)
     public List<Training> showVisitingTrainings(@RequestParam String userId) {
-        Employee employee = (Employee) userService.getUserById(Long.parseLong(userId)).get();
-        return employee.getVisitingTrainings();
+        User user = userService.getUserById(Long.parseLong(userId)).get();
+        if (user.getRole() == UserRole.ADMIN || user.getRole() == UserRole.EMPLOYEE)
+            return ((Employee)user).getVisitingTrainings();
+        else if (user.getRole() == UserRole.EXTERNAL_VISITOR)
+            return ((ExternalVisitor)user).getVisitingTrainings();
+
+        return null; // TODO: EXCEPTION HANDLING!!!
     }
 
     @RequestMapping(value = "/feedbacks", method = RequestMethod.GET)
@@ -50,8 +55,6 @@ public class UserPageController {
 
     @RequestMapping(value = "/newFeedback", method = RequestMethod.POST)
     public UserFeedback createFeedback(@RequestBody UserFeedback feedback) {
-        System.out.println(feedback.getVisitor().getId());
-        System.out.println(feedback.getTrainer().getId());
         return userFeedbackService.addFeedback(feedback);
     }
 }

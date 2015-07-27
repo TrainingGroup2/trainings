@@ -4,7 +4,7 @@ import com.exadel.model.constants.TrainingStatus;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "trainings")
@@ -44,10 +44,10 @@ public class Training {
     @JoinTable(name = "training_users", joinColumns = @JoinColumn(name = "training_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     @JsonManagedReference
-    private Set<User> participants;
+    private List<User> participants;
 
     @OneToMany(mappedBy = "training", cascade = CascadeType.ALL)
-    private Set<TrainingFeedback> feedbacks;
+    private List<TrainingFeedback> feedbacks;
 
     public void addFeedback(TrainingFeedback feedback) {
         feedback.setTraining(this);
@@ -55,7 +55,7 @@ public class Training {
     }
 
     @OneToMany(mappedBy = "training", cascade = CascadeType.ALL)
-    private Set<Entry> entries;
+    private List<Entry> entries;
 
     public void addEntry(Entry entry) {
         entry.setTraining(this);
@@ -136,19 +136,19 @@ public class Training {
         this.status = status;
     }
 
-    public Set<User> getParticipants() {
+    public List<User> getParticipants() {
         return participants;
     }
 
-    public void setParticipants(Set<User> participants) {
+    public void setParticipants(List<User> participants) {
         this.participants = participants;
     }
 
-    public Set<TrainingFeedback> getFeedbacks() {
+    public List<TrainingFeedback> getFeedbacks() {
         return feedbacks;
     }
 
-    public void setFeedbacks(Set<TrainingFeedback> feedbacks) {
+    public void setFeedbacks(List<TrainingFeedback> feedbacks) {
         this.feedbacks = feedbacks;
     }
 
@@ -160,11 +160,11 @@ public class Training {
         this.language = language;
     }
 
-    public Set<Entry> getEntries() {
+    public List<Entry> getEntries() {
         return entries;
     }
 
-    public void setEntries(Set<Entry> entries) {
+    public void setEntries(List<Entry> entries) {
         this.entries = entries;
     }
 

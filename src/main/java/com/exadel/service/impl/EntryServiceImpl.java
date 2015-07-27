@@ -24,6 +24,11 @@ public class EntryServiceImpl implements EntryService{
     }
 
     @Override
+    public Collection<Entry> getAllEntriesByTrainingId(long trainingId) {
+        return entryRepository.findByTrainingId(trainingId);
+    }
+
+    @Override
     public Collection<Entry> getAllEntries() {
         return entryRepository.findAll();
     }

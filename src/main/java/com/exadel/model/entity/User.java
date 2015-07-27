@@ -6,9 +6,21 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="role", discriminatorType=DiscriminatorType.INTEGER)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "role", discriminatorType = DiscriminatorType.INTEGER)
 public class User {
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", role=" + role +
+                '}';
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -19,7 +31,8 @@ public class User {
     @Column(insertable = false, updatable = false)
     private UserRole role;
 
-    public User(){}
+    public User() {
+    }
 
     public long getId() {
         return id;

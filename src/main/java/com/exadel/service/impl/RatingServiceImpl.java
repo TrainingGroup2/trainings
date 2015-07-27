@@ -16,7 +16,6 @@ public class RatingServiceImpl implements RatingService {
         this.ratingRepository = ratingRepository;
     }
 
-
     @Override
     public void addRating(Rating rating) {
         ratingRepository.save(rating);

@@ -30,6 +30,8 @@ public class TrainingFeedbackServiceImpl implements TrainingFeedbackService{
 
     @Override
     public Optional<TrainingFeedback> addTrainingFeedback(TrainingFeedback trainingFeedback) {
-        return Optional.ofNullable(trainingFeedbackRepository.save(trainingFeedback));
+        System.out.println(trainingFeedback);
+
+        return Optional.ofNullable(trainingFeedbackRepository.saveAndFlush(trainingFeedback));
     }
 }

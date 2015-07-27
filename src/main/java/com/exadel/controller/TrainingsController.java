@@ -2,8 +2,10 @@ package com.exadel.controller;
 
 import com.exadel.model.constants.TrainingStatus;
 import com.exadel.model.entity.Employee;
+import com.exadel.model.entity.Entry;
 import com.exadel.model.entity.Training;
 import com.exadel.model.entity.User;
+import com.exadel.service.EntryService;
 import com.exadel.service.TrainingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +29,7 @@ public class TrainingsController {
     public List<Training> getTrainings() {
         List<Training> trainings = (List<Training>)trainingService.getAllTrainings();
         System.out.println(trainings);
-        return trainings; // (List<Training>)trainingService.getAllTrainings()
+        return trainings;
     }
 
     @RequestMapping(value = "/newTraining", method = RequestMethod.POST)

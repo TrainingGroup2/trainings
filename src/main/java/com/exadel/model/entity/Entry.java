@@ -23,14 +23,22 @@ public class Entry {
 
     @ManyToOne
     @JoinColumn(name = "training_id", nullable = false)
-    @JsonIgnore
+    //@JsonIgnore
     private Training training;
 
     @ManyToMany
     @JoinTable(name = "absentees", joinColumns = @JoinColumn(name = "entry_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     @JsonManagedReference
-    private List<User> absentee;
+    private List<User> absentees;
+
+    @OneToMany(mappedBy = "entry", cascade = CascadeType.ALL)
+    private List<Attachment> attachments;
+
+    public void addAttachment(Attachment attachment) {
+        attachment.setEntry(this);
+        attachments.add(attachment);
+    }
 
     public Entry() {
     }
@@ -75,11 +83,19 @@ public class Entry {
         this.training = training;
     }
 
-    public List<User> getAbsentee() {
-        return absentee;
+    public List<User> getAbsentees() {
+        return absentees;
     }
 
-    public void setAbsentee(List<User> absentee) {
-        this.absentee = absentee;
+    public void setAbsentees(List<User> absentees) {
+        this.absentees = absentees;
+    }
+
+    public List<Attachment> getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(List<Attachment> attachments) {
+        this.attachments = attachments;
     }
 }

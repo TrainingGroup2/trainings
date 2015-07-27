@@ -3,9 +3,9 @@ package com.exadel.model.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
@@ -13,7 +13,7 @@ import java.util.Date;
 public class TrainingFeedback {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "training_id", nullable = false)
@@ -26,7 +26,8 @@ public class TrainingFeedback {
     @Column(name = "new_knowledge")
     private boolean newKnowledge;
 
-    @Size(max = 5, min = 1)
+    @Size(max = 5, min = 0)
+    @NotNull
     private int effectiveness;
 
     @Column(name = "study_with_trainer")
@@ -125,11 +126,28 @@ public class TrainingFeedback {
         this.training = training;
     }
 
-    public long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Integer id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "TrainingFeedback{" +
+                "id=" + id +
+                ", understandable=" + understandable +
+                ", training=" + training +
+                ", interesting=" + interesting +
+                ", newKnowledge=" + newKnowledge +
+                ", effectiveness=" + effectiveness +
+                ", studyWithTrainer=" + studyWithTrainer +
+                ", recommend=" + recommend +
+                ", otherInfo='" + otherInfo + '\'' +
+                ", feedbacker=" + feedbacker +
+                ", date=" + date +
+                '}';
     }
 }

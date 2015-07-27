@@ -1,11 +1,11 @@
 package com.exadel.controller;
 
-import com.exadel.model.entity.Employee;
-import com.exadel.model.entity.ExternalVisitor;
-import com.exadel.model.entity.Training;
-import com.exadel.model.entity.TrainingFeedback;
-import com.exadel.model.entity.User;
+import com.exadel.model.entity.*;
+import com.exadel.service.EntryService;
+import com.exadel.service.TrainingFeedbackService;
 import javafx.util.Pair;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -16,53 +16,47 @@ import java.util.List;
 @RequestMapping("/trainings/training")
 public class TrainingPageController {
 
+    private final TrainingFeedbackService trainingFeedbackService;
+    private final EntryService entryService;
+
+    @Autowired
+    public TrainingPageController(TrainingFeedbackService trainingFeedbackService,
+                                  EntryService entryService) {
+        this.trainingFeedbackService = trainingFeedbackService;
+        this.entryService = entryService;
+    }
+
     @RequestMapping(value = "participants", method = RequestMethod.GET)
     public List<User> getParticipants(@RequestParam String id) {
         List<User> participants = new ArrayList<>();
-        //participants.addAll(UserController.users);  //later it will be request from db for participants of this training
         return participants;
     }
 
     @RequestMapping(value = "attachments", method = RequestMethod.GET)
     public List<Pair<String, String>> getAttachments(@RequestParam String id) {
         List<Pair<String, String>> attachments = new ArrayList<>();
-        attachments.add(new Pair("lection 1", "http://..lections/lec1.ppt"));
-        attachments.add(new Pair("lection 2", "http://..lections/lec2.ppt"));
-        //later it will be request from db for attchmentss of this training
         return attachments;
     }
 
     @RequestMapping(value = "/newUser", method = RequestMethod.POST)
     public ExternalVisitor addExternalVisitor(@RequestBody ExternalVisitor visitor, @RequestParam String trainingId) {
         List<Training> trainings = new ArrayList<>();
-        //trainings.add(TrainingsController.getTrainingById(trainingId));
-        visitor.setVisitingTrainings(trainings);
         return visitor;
     }
 
     @RequestMapping(value = "/rating", method = RequestMethod.POST)
     public int addTrainingRating(@RequestBody int rating, @RequestParam String trainingId) {
-        // Training trainingToEstimate = TrainingsController.getTrainingById(trainingId);
         return rating;
     }
 
     @RequestMapping(method = RequestMethod.POST)
     public Employee registerOnTraining(@RequestBody long id, @RequestParam String trainingId) {
-        /*Employee employee = new Employee(UserController.getUserById(id));
-        List<Training> trainings = new ArrayList<>();
-        trainings.add(TrainingsController.getTrainingById(trainingId));
-        employee.setVisitingTrainings(trainings);*/
         return new Employee();
-
     }
-
 
     @RequestMapping(method = RequestMethod.PUT)   //only for admin(trainer can modify, but admin must approve)
     public Training modifyTraining(@RequestBody Training training, @RequestParam String id) {
-        /*Training trainingToUpdate = TrainingsController.getTrainingById(id);
-        if (trainingToUpdate != null) {
-            trainingToUpdate.updateTraining(training);
-        }*/
+
         return new Training();
     }
 
@@ -72,7 +66,16 @@ public class TrainingPageController {
     }
 
     @RequestMapping(value = "/newFeedback", method = RequestMethod.POST)
-    public TrainingFeedback createFeedback(@RequestParam String id, @RequestBody TrainingFeedback feedback) {
-        return feedback;
+    //@ResponseStatus(value = HttpStatus.OK)
+    public void createFeedback(/*@RequestParam String id,*/ @RequestBody TrainingFeedback feedback) {
+        trainingFeedbackService.addTrainingFeedback(feedback);
+    }
+
+    @RequestMapping(value = "/entry", method = RequestMethod.GET)
+    public Entry getEntry(@RequestParam String entryId) {
+        long id = Long.parseLong(entryId);
+        Entry entry = entryService.getEntryById(id).get();
+        System.out.println(entry);
+        return entry;
     }
 }
