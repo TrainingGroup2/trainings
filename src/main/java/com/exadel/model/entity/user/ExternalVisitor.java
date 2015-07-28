@@ -14,7 +14,6 @@ import java.util.List;
 @Entity
 @DiscriminatorValue(value = "3")
 public class ExternalVisitor extends User {
-    private static final long serialVersionUID = 1L;
 
     @ManyToMany(mappedBy = "participants")
     //@Column(name = "visiting_Trainings")

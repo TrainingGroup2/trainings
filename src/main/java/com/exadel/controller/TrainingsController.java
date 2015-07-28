@@ -3,15 +3,10 @@ package com.exadel.controller;
 import com.exadel.dto.TrainingDTO;
 import com.exadel.model.entity.training.Training;
 import com.exadel.model.entity.user.ExternalTrainer;
-import com.exadel.exception.UserNotFoundException;
 import com.exadel.service.TrainingService;
 import com.exadel.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.ArrayList;
 import java.util.List;

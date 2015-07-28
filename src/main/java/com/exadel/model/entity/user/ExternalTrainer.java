@@ -14,7 +14,6 @@ import java.util.Set;
 @Entity
 @DiscriminatorValue(value = "2")
 public class ExternalTrainer extends User {
-    private static final long serialVersionUID = 1L;
 
     @OneToMany(mappedBy = "trainer", cascade = CascadeType.ALL)
     private List<Training> mentoringTrainings;

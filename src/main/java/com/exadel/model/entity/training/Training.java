@@ -22,9 +22,9 @@ public class Training {
     @Column(name = "name")
     private String name;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "trainer_id")
+    @JsonIgnore
     private ExternalTrainer trainer;
 
     @Column(name = "target_audience")
@@ -59,6 +59,7 @@ public class Training {
     private List<User> participants;
 
     @OneToMany(mappedBy = "training", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<TrainingFeedback> feedbacks;
 
     @OneToMany(mappedBy = "training", cascade = CascadeType.ALL)
@@ -91,21 +92,6 @@ public class Training {
     }
 
     public Training() {}
-
-    public Training(String name, ExternalTrainer trainer,
-                    String targetAudience, String language, boolean isExternal,
-                    String description, TrainingStatus status, int membersCountMax,
-                    int membersCount) {
-        this.name = name;
-        this.trainer = trainer;
-        this.targetAudience = targetAudience;
-        this.language = language;
-        this.isExternal = isExternal;
-        this.description = description;
-        this.status = status;
-        this.membersCountMax = membersCountMax;
-        this.membersCount = membersCount;
-    }
 
     public void addParticipant(User user){
         this.participants.add(user);

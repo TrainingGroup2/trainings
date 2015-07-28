@@ -10,7 +10,6 @@ import java.util.List;
 @Entity
 @DiscriminatorValue(value = "1")
 public class Employee extends ExternalTrainer {
-    private static final long serialVersionUID = 1L;
 
     @ManyToMany(mappedBy = "participants")
     @JsonIgnore

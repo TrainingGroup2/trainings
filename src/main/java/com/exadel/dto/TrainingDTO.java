@@ -2,7 +2,6 @@ package com.exadel.dto;
 
 import com.exadel.model.entity.training.Training;
 import com.exadel.model.entity.training.TrainingStatus;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class TrainingDTO {
     private long id;

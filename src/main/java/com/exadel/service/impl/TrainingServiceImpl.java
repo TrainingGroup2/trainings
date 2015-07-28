@@ -1,5 +1,7 @@
 package com.exadel.service.impl;
 
+import org.springframework.stereotype.Service;
+
 import com.exadel.controller.Participation;
 import com.exadel.exception.TrainingNotFoundException;
 import com.exadel.model.entity.training.Training;
@@ -10,7 +12,6 @@ import com.exadel.service.TrainingService;
 import com.exadel.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
