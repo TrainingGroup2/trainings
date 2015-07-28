@@ -68,6 +68,20 @@ public class UserFeedback {
         this.date = feedbackDTO.getDate();
     }
 
+    public UserFeedback(UserFeedbackDTO feedbackDTO) {
+        this.id = feedbackDTO.getId();
+        this.attendance = feedbackDTO.getAttendance();
+        this.attitude = feedbackDTO.getAttitude();
+        this.communicationSkills = feedbackDTO.getCommunicationSkills();
+        this.questions = feedbackDTO.isQuestions();
+        this.interest = feedbackDTO.isInterest();
+        this.focusOnResult = feedbackDTO.isFocusOnResult();
+        this.level = feedbackDTO.getLevel();
+        this.grade = feedbackDTO.getGrade();
+        this.otherInfo = feedbackDTO.getOtherInfo();
+        this.date = feedbackDTO.getDate();
+    }
+
     public UserFeedback(long id) {
         this.id = id;
     }

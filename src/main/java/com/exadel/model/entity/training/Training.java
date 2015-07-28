@@ -24,7 +24,6 @@ public class Training {
 
     @ManyToOne
     @JoinColumn(name = "trainer_id")
-    @JsonIgnore
     private ExternalTrainer trainer;
 
     @Column(name = "target_audience")
