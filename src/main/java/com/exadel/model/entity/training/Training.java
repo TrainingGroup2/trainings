@@ -65,6 +65,15 @@ public class Training {
     @OneToMany(mappedBy = "training", cascade = CascadeType.ALL)
     private List<Entry> entries;
 
+    @Transient
+    private String eventDescription;
+
+    public Training() {}
+
+    public Training(long id) {
+        this.id = id;
+    }
+
     public Training(TrainingDTO trainingDTO) {
         this.id = trainingDTO.getId();
         this.name = trainingDTO.getName();
@@ -90,8 +99,6 @@ public class Training {
         entry.setTraining(this);
         entries.add(entry);
     }
-
-    public Training() {}
 
     public void addParticipant(User user){
         this.participants.add(user);
@@ -228,5 +235,13 @@ public class Training {
 
     public void setRating(double rating) {
         this.rating = rating;
+    }
+
+    public String getEventDescription() {
+        return eventDescription;
+    }
+
+    public void setEventDescription(String eventDescription) {
+        this.eventDescription = eventDescription;
     }
 }
