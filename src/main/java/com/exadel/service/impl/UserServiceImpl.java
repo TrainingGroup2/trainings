@@ -20,13 +20,8 @@ import java.util.Optional;
 @Service
 @Transactional(rollbackFor = {UserNotFoundException.class, UserHasNotVisitingTrainingsException.class})
 public class UserServiceImpl implements UserService {
-
-    private final UserRepository userRepository;
-
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private UserRepository userRepository;
 
     @Override
     public User getUserById(String id) {

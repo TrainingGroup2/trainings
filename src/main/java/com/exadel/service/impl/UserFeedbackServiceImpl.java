@@ -12,12 +12,8 @@ import java.util.Optional;
 
 @Service
 public class UserFeedbackServiceImpl implements UserFeedbackService{
-    private final UserFeedbackRepository userFeedbackRepository;
-
     @Autowired
-    public UserFeedbackServiceImpl(UserFeedbackRepository userFeedbackRepository) {
-        this.userFeedbackRepository = userFeedbackRepository;
-    }
+    private UserFeedbackRepository userFeedbackRepository;
 
     @Override
     public Optional<UserFeedback> getFeedbackById(long id) {
