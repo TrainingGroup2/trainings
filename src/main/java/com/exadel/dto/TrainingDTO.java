@@ -14,8 +14,9 @@ public class TrainingDTO {
     private int membersCountMax;
     private int membersCount;
     private double rating;
-
     private long trainerId;
+
+    private String eventDescription;
 
     public TrainingDTO() {
     }
@@ -120,5 +121,13 @@ public class TrainingDTO {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getEventDescription() {
+        return eventDescription;
+    }
+
+    public void setEventDescription(String eventDescription) {
+        this.eventDescription = eventDescription;
     }
 }

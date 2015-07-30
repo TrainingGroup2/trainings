@@ -64,9 +64,6 @@ public class Training {
     @OneToMany(mappedBy = "training", cascade = CascadeType.ALL)
     private List<Entry> entries;
 
-    @Transient
-    private String eventDescription;
-
     public Training() {}
 
     public Training(long id) {
@@ -236,11 +233,4 @@ public class Training {
         this.rating = rating;
     }
 
-    public String getEventDescription() {
-        return eventDescription;
-    }
-
-    public void setEventDescription(String eventDescription) {
-        this.eventDescription = eventDescription;
-    }
 }

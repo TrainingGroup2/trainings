@@ -1,11 +1,6 @@
 package com.exadel.controller;
 
 import com.exadel.dto.UserDTO;
-<<<<<<< HEAD
-=======
-import com.exadel.model.entity.user.ExternalTrainer;
-import com.exadel.model.entity.user.ExternalVisitor;
->>>>>>> Add DTO to Controllers
 import com.exadel.model.entity.user.User;
 import com.exadel.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

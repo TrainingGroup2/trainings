@@ -42,9 +42,6 @@ public class TrainingFeedback {
 
     private Date date;
 
-    @Transient
-    String eventDescription;
-
     public TrainingFeedback() {}
 
     public TrainingFeedback(long id) {
@@ -150,11 +147,4 @@ public class TrainingFeedback {
         this.id = id;
     }
 
-    public String getEventDescription() {
-        return eventDescription;
-    }
-
-    public void setEventDescription(String eventDescription) {
-        this.eventDescription = eventDescription;
-    }
 }

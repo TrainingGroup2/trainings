@@ -48,24 +48,7 @@ public class UserFeedback {
 
     private Date date;
 
-    @Transient
-    String eventDescription;
-
     public UserFeedback() {
-    }
-
-    public UserFeedback(UserFeedbackDTO feedbackDTO) {
-        this.id = feedbackDTO.getId();
-        this.attendance = feedbackDTO.getAttendance();
-        this.attitude = feedbackDTO.getAttitude();
-        this.communicationSkills = feedbackDTO.getCommunicationSkills();
-        this.questions = feedbackDTO.isQuestions();
-        this.interest = feedbackDTO.isInterest();
-        this.focusOnResult = feedbackDTO.isFocusOnResult();
-        this.level = feedbackDTO.getLevel();
-        this.grade = feedbackDTO.getGrade();
-        this.otherInfo = feedbackDTO.getOtherInfo();
-        this.date = feedbackDTO.getDate();
     }
 
     public UserFeedback(UserFeedbackDTO feedbackDTO) {
@@ -190,11 +173,4 @@ public class UserFeedback {
         this.grade = grade;
     }
 
-    public String getEventDescription() {
-        return eventDescription;
-    }
-
-    public void setEventDescription(String eventDescription) {
-        this.eventDescription = eventDescription;
-    }
 }
