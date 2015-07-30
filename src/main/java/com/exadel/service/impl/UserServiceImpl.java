@@ -5,11 +5,7 @@ import com.exadel.exception.UserHasNotMentoringTrainingsException;
 import com.exadel.exception.UserHasNotVisitingTrainingsException;
 import com.exadel.exception.UserNotFoundException;
 import com.exadel.model.entity.training.Training;
-import com.exadel.model.entity.user.UserRole;
-import com.exadel.model.entity.user.Employee;
-import com.exadel.model.entity.user.ExternalTrainer;
-import com.exadel.model.entity.user.ExternalVisitor;
-import com.exadel.model.entity.user.User;
+import com.exadel.model.entity.user.*;
 import com.exadel.repository.UserRepository;
 import com.exadel.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +20,8 @@ import java.util.Optional;
 @Service
 @Transactional(rollbackFor = {UserNotFoundException.class, UserHasNotVisitingTrainingsException.class})
 public class UserServiceImpl implements UserService {
-
-    private final UserRepository userRepository;
-
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private UserRepository userRepository;
 
     @Override
     public User getUserById(String id) {

@@ -11,12 +11,8 @@ import java.util.Optional;
 
 @Service
 public class TrainingFeedbackServiceImpl implements TrainingFeedbackService{
-    private final TrainingFeedbackRepository trainingFeedbackRepository;
-
     @Autowired
-    public TrainingFeedbackServiceImpl(TrainingFeedbackRepository trainingFeedbackRepository) {
-        this.trainingFeedbackRepository = trainingFeedbackRepository;
-    }
+    private TrainingFeedbackRepository trainingFeedbackRepository;
 
     @Override
     public Optional<TrainingFeedback> getTrainingFeedbackById(long id) {

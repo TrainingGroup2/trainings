@@ -4,6 +4,7 @@ import com.exadel.dto.TrainingDTO;
 import com.exadel.model.entity.feedback.TrainingFeedback;
 import com.exadel.model.entity.user.ExternalTrainer;
 import com.exadel.model.entity.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -12,6 +13,8 @@ import java.util.List;
 @Entity
 @Table(name = "trainings")
 public class Training {
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -55,10 +58,17 @@ public class Training {
     private List<User> participants;
 
     @OneToMany(mappedBy = "training", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<TrainingFeedback> feedbacks;
 
     @OneToMany(mappedBy = "training", cascade = CascadeType.ALL)
     private List<Entry> entries;
+
+    public Training() {}
+
+    public Training(long id) {
+        this.id = id;
+    }
 
     public Training(TrainingDTO trainingDTO) {
         this.id = trainingDTO.getId();
@@ -85,8 +95,6 @@ public class Training {
         entry.setTraining(this);
         entries.add(entry);
     }
-
-    public Training() {}
 
     public void addParticipant(User user){
         this.participants.add(user);
@@ -224,4 +232,5 @@ public class Training {
     public void setRating(double rating) {
         this.rating = rating;
     }
+
 }

@@ -20,6 +20,8 @@ public class UserFeedbackDTO {
     private String otherInfo;
     private Date date;
 
+    private String eventDescription;
+
     public UserFeedbackDTO() {}
 
     public UserFeedbackDTO(UserFeedback feedback) {
@@ -140,5 +142,13 @@ public class UserFeedbackDTO {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public String getEventDescription() {
+        return eventDescription;
+    }
+
+    public void setEventDescription(String eventDescription) {
+        this.eventDescription = eventDescription;
     }
 }

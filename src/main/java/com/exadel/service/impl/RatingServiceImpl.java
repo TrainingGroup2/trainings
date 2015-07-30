@@ -11,12 +11,8 @@ import java.util.Optional;
 
 @Service
 public class RatingServiceImpl implements RatingService {
-    private final RatingRepository ratingRepository;
-
     @Autowired
-    public RatingServiceImpl(RatingRepository ratingRepository) {
-        this.ratingRepository = ratingRepository;
-    }
+    private RatingRepository ratingRepository;
 
     @Override
     public boolean addRating(Rating rating) {

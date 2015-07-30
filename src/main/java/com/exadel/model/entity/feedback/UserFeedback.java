@@ -65,6 +65,10 @@ public class UserFeedback {
         this.date = feedbackDTO.getDate();
     }
 
+    public UserFeedback(long id) {
+        this.id = id;
+    }
+
     public String getAttendance() {
         return attendance;
     }
@@ -168,4 +172,5 @@ public class UserFeedback {
     public void setGrade(int grade) {
         this.grade = grade;
     }
+
 }

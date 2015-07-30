@@ -11,12 +11,8 @@ import java.util.Optional;
 
 @Service
 public class EntryServiceImpl implements EntryService{
-    private final EntryRepository entryRepository;
-
     @Autowired
-    public EntryServiceImpl(EntryRepository entryRepository) {
-        this.entryRepository = entryRepository;
-    }
+    private EntryRepository entryRepository;
 
     @Override
     public Optional<Entry> getEntryById(long id) {
