@@ -1,17 +1,19 @@
 package com.exadel.controller;
 
 import com.exadel.dto.TrainingDTO;
+import com.exadel.model.entity.events.TrainingEvent;
 import com.exadel.model.entity.training.Training;
-import com.exadel.model.entity.user.ExternalTrainer;
+import com.exadel.model.entity.training.TrainingStatus;
 import com.exadel.service.TrainingService;
 import com.exadel.service.UserService;
-import org.slf4j.LoggerFactory;
+import com.exadel.service.events.TrainingEventService;
+import com.exadel.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.jdbc.core.JdbcTemplate;
-
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,9 +25,10 @@ import java.util.List;
 public class TrainingsController {
     @Autowired
     private TrainingService trainingService;
-
     @Autowired
     private UserService userService;
+    @Autowired
+    TrainingEventService trainingEventService;
 
     @PreAuthorize("hasAnyRole('0','1','2')")
     @RequestMapping(method = RequestMethod.GET)
@@ -39,11 +42,19 @@ public class TrainingsController {
     }
 
     @PreAuthorize("hasAnyRole('0','1','2')")
-    @RequestMapping(value = "/newTraining", method = RequestMethod.POST)
+    @RequestMapping(value = "/newTraining", method = RequestMethod.POST)   //called only by ADMIN
     public void createTraining(@RequestBody TrainingDTO trainingDTO) {
         Training training = new Training(trainingDTO);
-        ExternalTrainer trainer = userService.getTrainerById(String.valueOf(trainingDTO.getTrainerId()));
-        training.setTrainer(trainer);
-        trainingService.addTraining(training);
+        if (UserServiceImpl.hasRole(0)) {
+            training.setStatus(TrainingStatus.APPROVED);
+            trainingService.addTraining(training);
+        }
+        else {
+            training.setStatus(TrainingStatus.DRAFTED);
+            trainingService.addTraining(training);
+
+            trainingDTO.setId(training.getId());
+            trainingEventService.addEvent(new TrainingEvent(trainingDTO));
+        }
     }
 }

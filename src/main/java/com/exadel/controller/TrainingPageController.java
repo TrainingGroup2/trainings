@@ -1,37 +1,22 @@
 package com.exadel.controller;
 
 
-import com.exadel.config.SecurityConfig;
 import com.exadel.dto.*;
-import com.exadel.model.entity.*;
-//import com.exadel.model.entity.User;
+import com.exadel.model.entity.events.TrainingEvent;
+import com.exadel.model.entity.events.TrainingFeedbackEvent;
 import com.exadel.model.entity.feedback.TrainingFeedback;
-import com.exadel.model.entity.training.Attachment;
-import com.exadel.model.entity.training.Entry;
-import com.exadel.model.entity.training.Rating;
-import com.exadel.model.entity.training.Training;
+import com.exadel.model.entity.training.*;
 import com.exadel.model.entity.user.User;
 import com.exadel.service.*;
-import javafx.util.Pair;
-import org.slf4j.LoggerFactory;
+import com.exadel.service.events.TrainingEventService;
+import com.exadel.service.events.TrainingFeedbackEventService;
+import com.exadel.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
 import java.util.*;
-
 
 @RestController
 @RequestMapping("/training")
@@ -39,19 +24,18 @@ public class TrainingPageController {
 
     @Autowired
     private TrainingFeedbackService trainingFeedbackService;
-
     @Autowired
     private EntryService entryService;
-
     @Autowired
     private TrainingService trainingService;
-
     @Autowired
     private RatingService ratingService;
-
     @Autowired
     private UserService userService;
-
+    @Autowired
+    private TrainingEventService trainingEventService;
+    @Autowired
+    private TrainingFeedbackEventService trainingFeedbackEventService;
     @Autowired
     private AttachmentService attachmentService;
 
@@ -126,9 +110,25 @@ public class TrainingPageController {
     @RequestMapping(value = "/newFeedback", method = RequestMethod.POST)
     public void createFeedback(@RequestBody TrainingFeedbackDTO feedbackDTO) {
         TrainingFeedback feedback = new TrainingFeedback(feedbackDTO);
-        feedback.setTraining(trainingService.getTrainingById(feedbackDTO.getTrainingId()));
-        feedback.setFeedbacker(userService.getUserById(feedbackDTO.getFeedbackerId()));
         trainingFeedbackService.addTrainingFeedback(feedback);
+
+        feedbackDTO.setId(feedback.getId());
+        trainingFeedbackEventService.addEvent(new TrainingFeedbackEvent(feedbackDTO));
+    }
+
+    @PreAuthorize("hasRole('0')")
+    @RequestMapping(value = "/feedbacks", method = RequestMethod.DELETE)   //called only by ADMIN
+    public void deleteFeedback(@RequestParam String feedbackId) {
+        trainingFeedbackEventService.deleteByTrainingFeedbackId(Long.parseLong(feedbackId));
+        trainingFeedbackService.deleteById(Long.parseLong(feedbackId));
+    }
+
+    @RequestMapping(value = "/entry", method = RequestMethod.GET)
+    public Entry getEntry(@RequestParam String entryId) {
+        long id = Long.parseLong(entryId);
+        Entry entry = entryService.getEntryById(id);
+        System.out.println(entry);
+        return entry;
     }
 
     @PreAuthorize("hasAnyRole('0','1','2')")
@@ -235,12 +235,30 @@ public class TrainingPageController {
     @RequestMapping(method = RequestMethod.PUT)
     public void modifyTraining(@RequestBody TrainingDTO trainingDTO) {
         Training training = new Training(trainingDTO);
-        trainingService.updateTraining(training);
+        if (UserServiceImpl.hasRole(0)) {
+            trainingService.updateTraining(training);
+        }
+        else {
+            training.setStatus(TrainingStatus.DRAFTED);
+            trainingService.updateTraining(training);
+
+            trainingEventService.addEvent(new TrainingEvent(trainingDTO));
+        }
     }
 
-    @PreAuthorize("hasRole('0')")
+    @PreAuthorize("@trainerControlBean.isOkay(#trainingDTO) or hasRole('0')")
     @RequestMapping(method = RequestMethod.DELETE)
     public void cancelTraining(@RequestParam String id) {
-        trainingService.cancelById(id);
+        if (UserServiceImpl.hasRole(0)) {
+            trainingService.cancelById(id);
+        }
+        else {
+            Training training = trainingService.getTrainingById(Long.parseLong(id));
+            training.setStatus(TrainingStatus.CANCELLED);
+
+            TrainingDTO trainingDTO = new TrainingDTO(training);
+            trainingDTO.setEventDescription("Trainer wants to delete this training");
+            trainingEventService.addEvent(new TrainingEvent(trainingDTO));
+        }
     }
 }

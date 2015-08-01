@@ -63,6 +63,11 @@ public class UserFeedback {
         this.grade = feedbackDTO.getGrade();
         this.otherInfo = feedbackDTO.getOtherInfo();
         this.date = feedbackDTO.getDate();
+
+        this.visitor = new Employee();
+        this.visitor.setId(feedbackDTO.getVisitorId());
+        this.trainer = new User();
+        this.trainer.setId(feedbackDTO.getTrainerId());
     }
 
     public UserFeedback(long id) {

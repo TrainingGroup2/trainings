@@ -14,5 +14,7 @@ public interface TrainingFeedbackEventService {
 
     Optional<TrainingFeedbackEvent> addEvent(TrainingFeedbackEvent event);
 
-    void deleteById(String id);
+    void deleteById(long id);
+
+    void deleteByTrainingFeedbackId(long id);
 }
