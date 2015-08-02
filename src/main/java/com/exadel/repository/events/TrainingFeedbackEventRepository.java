@@ -9,4 +9,6 @@ import java.util.Collection;
 @Transactional
 public interface TrainingFeedbackEventRepository extends JpaRepository<TrainingFeedbackEvent, Long> {
     Collection<TrainingFeedbackEvent> findByIsWatchedFalse();
+
+    void deleteByTrainingFeedbackId(long id);
 }

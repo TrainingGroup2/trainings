@@ -3,11 +3,13 @@ package com.exadel.controller;
 import com.exadel.dto.TrainingDTO;
 import com.exadel.dto.UserDTO;
 import com.exadel.dto.UserFeedbackDTO;
+import com.exadel.model.entity.events.UserFeedbackEvent;
 import com.exadel.model.entity.feedback.UserFeedback;
 import com.exadel.model.entity.training.Training;
 import com.exadel.model.entity.user.User;
 import com.exadel.service.UserFeedbackService;
 import com.exadel.service.UserService;
+import com.exadel.service.events.UserFeedbackEventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -20,9 +22,10 @@ import java.util.List;
 public class UserPageController {
     @Autowired
     private UserService userService;
-
     @Autowired
     private UserFeedbackService userFeedbackService;
+    @Autowired
+    private UserFeedbackEventService userFeedbackEventService;
 
     @PreAuthorize("hasRole('0') or  @userControlBean.isMyAccount(#id) and hasAnyRole('1','2')")
     @RequestMapping(method = RequestMethod.GET)
@@ -65,9 +68,10 @@ public class UserPageController {
     @RequestMapping(value = "/newFeedback", method = RequestMethod.POST)
     public void createFeedback(@RequestBody UserFeedbackDTO feedbackDTO) {
         UserFeedback feedback = new UserFeedback(feedbackDTO);
-        feedback.setTrainer(userService.getTrainerById(String.valueOf(feedbackDTO.getTrainerId())));
-        feedback.setVisitor(userService.getEmployeeById(String.valueOf(feedbackDTO.getVisitorId())));
         userFeedbackService.addFeedback(feedback);
+
+        feedbackDTO.setId(feedback.getId());
+        userFeedbackEventService.addEvent(new UserFeedbackEvent(feedbackDTO));
     }
 
     @RequestMapping(value="/info",method = RequestMethod.GET)

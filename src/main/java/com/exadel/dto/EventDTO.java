@@ -40,7 +40,7 @@ public class EventDTO{
         return event;
     }
 
-    public UserFeedbackEvent toTrainingUserEvent(){
+    public UserFeedbackEvent toUserFeedbackEvent(){
         UserFeedbackEvent event = new UserFeedbackEvent();
         event.setId(this.id);
         event.setIsWatched(this.isWatched);
