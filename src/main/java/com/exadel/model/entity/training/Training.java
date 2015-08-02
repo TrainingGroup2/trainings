@@ -89,6 +89,9 @@ public class Training {
         this.membersCountMax = trainingDTO.getMembersCountMax();
         this.membersCount = trainingDTO.getMembersCount();
 
+        this.trainer = new ExternalTrainer();
+        this.trainer.setId(trainingDTO.getTrainerId());
+
         this.participants = new ArrayList<>();
         this.feedbacks = new ArrayList<>();
         this.entries = new ArrayList<>();

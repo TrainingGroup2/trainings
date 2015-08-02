@@ -8,16 +8,11 @@ import com.exadel.model.entity.training.Training;
 import com.exadel.model.entity.user.*;
 import com.exadel.repository.UserRepository;
 import com.exadel.service.UserService;
-import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.PreparedStatement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -146,7 +141,19 @@ public class UserServiceImpl implements UserService {
             "select name from users where id = ?",
             String.class,id);*/
     return id;
+    }
 
-}
+    public static boolean hasRole(Integer role) {
+        Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>)
+                SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        boolean hasRole = false;
+        for (GrantedAuthority authority : authorities) {
+            if( role==Integer.parseInt(authority.getAuthority())) {
+                hasRole=true;
+                break;
+            }
+        }
+        return hasRole;
+    }
 
 }

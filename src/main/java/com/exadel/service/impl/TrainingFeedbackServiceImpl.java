@@ -33,4 +33,9 @@ public class TrainingFeedbackServiceImpl implements TrainingFeedbackService{
     public Optional<TrainingFeedback> addTrainingFeedback(TrainingFeedback trainingFeedback) {
         return Optional.ofNullable(trainingFeedbackRepository.saveAndFlush(trainingFeedback));
     }
+
+    @Override
+    public void deleteById(long id) {
+        trainingFeedbackRepository.delete(id);
+    }
 }

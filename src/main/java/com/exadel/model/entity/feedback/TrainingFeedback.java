@@ -57,6 +57,11 @@ public class TrainingFeedback {
         this.recommend = feedbackDTO.isRecommend();
         this.otherInfo = feedbackDTO.getOtherInfo();
         this.date = feedbackDTO.getDate();
+
+        this.training = new Training();
+        this.training.setId(feedbackDTO.getTrainingId());
+        this.feedbacker = new User();
+        this.feedbacker.setId(feedbackDTO.getFeedbackerId());
     }
 
     public boolean isUnderstandable() {

@@ -1,6 +1,7 @@
 package com.exadel.model.entity.events;
 
 import com.exadel.dto.EventDTO;
+import com.exadel.dto.TrainingFeedbackDTO;
 import com.exadel.model.entity.feedback.TrainingFeedback;
 
 import javax.persistence.Entity;
@@ -17,6 +18,13 @@ public class TrainingFeedbackEvent extends Event {
 
     public TrainingFeedbackEvent() {
         super();
+    }
+
+    public TrainingFeedbackEvent(TrainingFeedbackDTO feedbackDTO) {
+        this.setIsWatched(false);
+        this.setDate(feedbackDTO.getDate());
+        this.setDescription(feedbackDTO.getEventDescription());
+        this.trainingFeedback = new TrainingFeedback(feedbackDTO.getId());
     }
 
     @Override

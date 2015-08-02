@@ -41,7 +41,12 @@ public class TrainingFeedbackEventImpl implements TrainingFeedbackEventService {
     }
 
     @Override
-    public void deleteById(String id) {
-        eventRepository.delete(Long.parseLong(id));
+    public void deleteById(long id) {
+        eventRepository.delete(id);
+    }
+
+    @Override
+    public void deleteByTrainingFeedbackId(long id) {
+        eventRepository.deleteByTrainingFeedbackId(id);
     }
 }
