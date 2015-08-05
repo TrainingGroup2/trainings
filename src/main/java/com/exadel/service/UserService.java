@@ -1,11 +1,11 @@
 package com.exadel.service;
 
 
-import com.exadel.model.entity.user.User;
-
 import com.exadel.model.entity.training.Training;
 import com.exadel.model.entity.user.Employee;
 import com.exadel.model.entity.user.ExternalTrainer;
+import com.exadel.model.entity.user.User;
+import com.exadel.model.entity.user.UserRole;
 
 import java.util.Collection;
 import java.util.List;
@@ -33,4 +33,5 @@ public interface UserService {
 
     long getCurrentId();
 
+    List<User> getUsersByRole(UserRole role);
 }

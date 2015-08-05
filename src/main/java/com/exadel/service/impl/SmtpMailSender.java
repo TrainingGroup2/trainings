@@ -1,7 +1,5 @@
 package com.exadel.service.impl;
 
-import com.exadel.model.entity.training.Entry;
-import com.exadel.model.entity.training.Training;
 import com.exadel.model.entity.user.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -10,6 +8,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Properties;
 
 @Service
@@ -60,14 +59,8 @@ public class SmtpMailSender {
         mailSender.send(message);
     }
 
-    public void sendToParticipants(Training training, String subject, String body){
-        for (User user: training.getParticipants()){
-            this.send(user.getEmail(), subject, "Hi, " + user.getName() + "!\n" + body);
-        }
-    }
-
-    public void sendToParticipants(Entry entry, String subject, String body){
-        for (User user: entry.getTraining().getParticipants()){
+    public void sendToUsers(List<User> users, String subject, String body){
+        for (User user: users){
             this.send(user.getEmail(), subject, "Hi, " + user.getName() + "!\n" + body);
         }
     }

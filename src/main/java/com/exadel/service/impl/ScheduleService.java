@@ -1,8 +1,12 @@
 package com.exadel.service.impl;
 
 import com.exadel.model.entity.training.Entry;
+import com.exadel.model.entity.training.Training;
 import com.exadel.model.entity.training.TrainingStatus;
+import com.exadel.model.entity.user.UserRole;
 import com.exadel.service.EntryService;
+import com.exadel.service.TrainingService;
+import com.exadel.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -21,6 +25,10 @@ public class ScheduleService {
     private EntryService entryService;
     @Autowired
     private EmailMessages emailMessages;
+    @Autowired
+    private TrainingService trainingService;
+    @Autowired
+    private UserService userService;
 
     @Scheduled(fixedRate = 3600*1000)
     public void beforeDay(){
@@ -33,31 +41,56 @@ public class ScheduleService {
         List<Entry> entries = entryService.getBetweenDates(before, after);
 
         for(Entry entry: entries) {
+            Training training = trainingService.getTrainingById(entry.getTraining().getId());
             if (entry.getTraining().isRepeated()==false && entry.getTraining().getStatus()== TrainingStatus.APPROVED) {
-                smtpMailSender.sendToParticipants(entry, "Training", emailMessages.beforeDay(entry));
+                smtpMailSender.sendToUsers(training.getParticipants(), "Training", emailMessages.beforeDay(entry));
+            }
+            if (entry.getTraining().getStatus()== TrainingStatus.APPROVED &&
+                    training.getParticipants().size() < entry.getTraining().getMembersCountMax()/2) {
+                    smtpMailSender.sendToUsers(userService.getUsersByRole(UserRole.ADMIN), "Training", emailMessages.lessThanHalf(entry.getTraining()));
             }
         }
     }
 
-    @Scheduled(fixedRate = 60*1000)
+    @Scheduled(fixedRate = 15*60*1000)
     public void beforeHour(){
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
-        calendar.add(calendar.MINUTE, 59);
+        calendar.add(calendar.MINUTE, 45);
         Date before = calendar.getTime();
-        calendar.add(calendar.MINUTE, 1);
+        calendar.add(calendar.MINUTE, 15);
         Date after = calendar.getTime();
         List<Entry> entries = entryService.getBetweenDates(before, after);
 
         for(Entry entry: entries) {
             if (entry.getTraining().getStatus()== TrainingStatus.APPROVED) {
-                smtpMailSender.sendToParticipants(entry.getTraining(), "Training", emailMessages.beforeHour(entry));
+                Training training = trainingService.getTrainingById(entry.getTraining().getId());
+                smtpMailSender.sendToUsers(training.getParticipants(), "Training", emailMessages.beforeHour(entry));
             }
         }
     }
 
-    @Scheduled(fixedRate = 60*3000)
+    @Scheduled(fixedRate = 15*60*1000)
     public void before3Hours(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(calendar.MINUTE, 165);
+        Date before = calendar.getTime();
+        calendar.add(calendar.MINUTE, 15);
+        Date after = calendar.getTime();
+        List<Entry> entries = entryService.getBetweenDates(before, after);
 
+        for(Entry entry: entries) {
+            if (entry.getTraining().getStatus()== TrainingStatus.APPROVED) {
+                Training training = trainingService.getTrainingById(entry.getTraining().getId());
+                if (training.getParticipants().size() < (double)entry.getTraining().getMembersCountMax()*2/3) {
+                    trainingService.cancelById(String.valueOf(entry.getTraining().getId()));
+                    smtpMailSender.sendToUsers(training.getParticipants(), "Training", emailMessages.deleteTraining(entry.getTraining()));
+                }
+                else {
+                    smtpMailSender.sendToUsers(training.getParticipants(),"Training", emailMessages.beforeHour(entry));
+                }
+            }
+        }
     }
 }

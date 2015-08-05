@@ -8,6 +8,7 @@ import com.exadel.model.entity.events.TrainingFeedbackEvent;
 import com.exadel.model.entity.feedback.TrainingFeedback;
 import com.exadel.model.entity.training.*;
 import com.exadel.model.entity.user.User;
+import com.exadel.model.entity.user.UserRole;
 import com.exadel.service.*;
 import com.exadel.service.events.TrainingEventService;
 import com.exadel.service.events.TrainingFeedbackEventService;
@@ -74,7 +75,6 @@ public class TrainingPageController {
         for (User user : training.getParticipants()) {
             userDTOs.add(new UserDTO(user));
         }
-        smtpMailSender.sendToParticipants(training, "Trainings", emailMessages.deleteTraining(training));
         return userDTOs;
     }
 
@@ -121,10 +121,16 @@ public class TrainingPageController {
             Reserve reservist = new Reserve(training, visitor);
             reserveService.addReserve(reservist);
             training.getReserves().add(reservist);
+
+            smtpMailSender.send(userService.getUserById(userId).getEmail(), "Registration",
+                    emailMessages.register(visitor, entryService.findNextEntryByTrainingId(new Date(), Long.parseLong(trainingId)), ParticipationStatus.RESERVE));
             return ParticipationStatus.RESERVE;
         } else {
             training.addParticipant(visitor);
             participationService.addParticipation(new Participation(visitor, training, new Date(), null));
+
+            smtpMailSender.send(userService.getUserById(userId).getEmail(), "Registration",
+                    emailMessages.register(visitor, entryService.findNextEntryByTrainingId(new Date(), Long.parseLong(trainingId)), ParticipationStatus.MEMBER));
             return ParticipationStatus.MEMBER;
         }
     }
@@ -144,11 +150,13 @@ public class TrainingPageController {
         }
 
         Reserve reserve = reserveService.getNextReserveByTrainingId(training.getId());
-        if (reserve != null) {
+        /*if (reserve != null) {
             reserveService.deleteReserve(reserve.getId());
             register(String.valueOf(reserve.getReservist().getId()),
                     String.valueOf(reserve.getTraining().getId()));
-        }
+        }*/
+        smtpMailSender.send(reserve.getReservist().getEmail(), "Training",
+                emailMessages.becomeMember(reserve.getReservist(), entryService.findNextEntryByTrainingId(new Date(), training.getId())));
     }
 
     @PreAuthorize("hasRole('0')")
@@ -251,12 +259,13 @@ public class TrainingPageController {
         Training training = trainingService.getTrainingById(trainingDTO.getId());
         training.updateTraining(trainingDTO);
         if (UserUtil.hasRole(0)) {
-            smtpMailSender.sendToParticipants(training, "Trainings", emailMessages.modifyTraining(training));
+            smtpMailSender.sendToUsers(training.getParticipants(), "Trainings", emailMessages.modifyTraining(training));
         }
         else {
             training.setStatus(TrainingStatus.DRAFTED);
 
             trainingEventService.addEvent(new TrainingEvent(trainingDTO));
+            smtpMailSender.sendToUsers(userService.getUsersByRole(UserRole.ADMIN), "Changes in trainings", trainingDTO.getEventDescription());
         }
         trainingService.updateTraining(training);
     }
@@ -269,12 +278,13 @@ public class TrainingPageController {
 
         if (UserUtil.hasRole(0)) {
             trainingService.cancelById(id);
-            smtpMailSender.sendToParticipants(training, "Trainings", emailMessages.deleteTraining(training));
+            smtpMailSender.sendToUsers(training.getParticipants(), "Trainings", emailMessages.deleteTraining(training));
         }
         else {
             TrainingDTO trainingDTO = new TrainingDTO(training);
-            trainingDTO.setEventDescription("Trainer wants to delete this training");
+            trainingDTO.setEventDescription(emailMessages.deleteTrainingToAdmin(training));
             trainingEventService.addEvent(new TrainingEvent(trainingDTO));
+            smtpMailSender.sendToUsers(userService.getUsersByRole(UserRole.ADMIN), "Changes in trainings", emailMessages.deleteTrainingToAdmin(training));
         }
     }
 

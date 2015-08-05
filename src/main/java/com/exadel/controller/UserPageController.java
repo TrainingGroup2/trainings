@@ -7,9 +7,12 @@ import com.exadel.model.entity.events.UserFeedbackEvent;
 import com.exadel.model.entity.feedback.UserFeedback;
 import com.exadel.model.entity.training.Training;
 import com.exadel.model.entity.user.User;
+import com.exadel.model.entity.user.UserRole;
 import com.exadel.service.UserFeedbackService;
 import com.exadel.service.UserService;
 import com.exadel.service.events.UserFeedbackEventService;
+import com.exadel.service.impl.EmailMessages;
+import com.exadel.service.impl.SmtpMailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +29,10 @@ public class UserPageController {
     private UserFeedbackService userFeedbackService;
     @Autowired
     private UserFeedbackEventService userFeedbackEventService;
+    @Autowired
+    SmtpMailSender smtpMailSender;
+    @Autowired
+    EmailMessages emailMessages;
 
     @PreAuthorize("hasRole('0') or  @userControlBean.isMyAccount(#id) and hasAnyRole('1','2')")
     @RequestMapping(method = RequestMethod.GET)
@@ -72,6 +79,7 @@ public class UserPageController {
 
         feedbackDTO.setId(feedback.getId());
         userFeedbackEventService.addEvent(new UserFeedbackEvent(feedbackDTO));
+        smtpMailSender.sendToUsers(userService.getUsersByRole(UserRole.ADMIN), "Feedback on visitor", feedbackDTO.getEventDescription());
     }
 
     @RequestMapping(value="/info",method = RequestMethod.GET)

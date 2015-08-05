@@ -7,6 +7,7 @@ import com.exadel.model.entity.training.Entry;
 import com.exadel.model.entity.training.Training;
 import com.exadel.model.entity.training.TrainingStatus;
 import com.exadel.model.entity.user.Absentee;
+import com.exadel.model.entity.user.UserRole;
 import com.exadel.service.AbsenteeService;
 import com.exadel.service.EntryService;
 import com.exadel.service.TrainingService;
@@ -39,9 +40,8 @@ public class EntryController {
     EmailMessages emailMessages;
     @Autowired
     TrainingEventService trainingEventService;
-
     @Autowired
-    private UserService userService;
+    UserService userService;
 
     @PreAuthorize("hasAnyRole('0','1','2')")
     @RequestMapping(value = "/entries", method = RequestMethod.GET)
@@ -109,12 +109,13 @@ public class EntryController {
         Entry entry = entryService.getEntryById(entryDTO.getId());
         entry.updateEntry(entryDTO);
         if (UserUtil.hasRole(0)) {
-            smtpMailSender.sendToParticipants(entry, "Trainings", emailMessages.modifyEntry(entry));
+            smtpMailSender.sendToUsers(trainingService.getTrainingById(entry.getTraining().getId()).getParticipants(), "Trainings", emailMessages.modifyEntry(entry));
         }
         else {
             entry.getTraining().setStatus(TrainingStatus.DRAFTED);
             trainingService.updateTraining(entry.getTraining());
             trainingEventService.addEvent(new TrainingEvent(entryDTO));
+            smtpMailSender.sendToUsers(userService.getUsersByRole(UserRole.ADMIN), "Changes in training", entryDTO.getEventDescription());
         }
     }
 
@@ -123,7 +124,7 @@ public class EntryController {
         Entry entry = entryService.getEntryById(entryId);
         if (UserUtil.hasRole(0)) {
             entryService.deleteEntry(entry.getId());
-            smtpMailSender.sendToParticipants(entry, "Trainings", emailMessages.deleteEntry(entry));
+            smtpMailSender.sendToUsers(trainingService.getTrainingById(entry.getTraining().getId()).getParticipants(), "Trainings", emailMessages.deleteEntry(entry));
         }
         else {
             entry.getTraining().setStatus(TrainingStatus.DRAFTED);
@@ -132,6 +133,7 @@ public class EntryController {
             EntryDTO entryDTO = new EntryDTO(entry);
             entryDTO.setEventDescription(emailMessages.deleteEntryToAdmin(entry));
             trainingEventService.addEvent(new TrainingEvent(entryDTO));
+            smtpMailSender.sendToUsers(userService.getUsersByRole(UserRole.ADMIN), "Changes in training", emailMessages.deleteEntryToAdmin(entry));
         }
     }
 
