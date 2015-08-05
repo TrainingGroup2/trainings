@@ -4,9 +4,11 @@ import com.exadel.exception.TrainerNotFoundException;
 import com.exadel.exception.UserHasNotMentoringTrainingsException;
 import com.exadel.exception.UserHasNotVisitingTrainingsException;
 import com.exadel.exception.UserNotFoundException;
+import com.exadel.model.entity.feedback.UserFeedback;
 import com.exadel.model.entity.training.Training;
 import com.exadel.model.entity.user.*;
 import com.exadel.repository.UserRepository;
+import com.exadel.service.UserFeedbackService;
 import com.exadel.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -59,6 +61,18 @@ public class UserServiceImpl implements UserService {
             throw new UserNotFoundException(String.valueOf(id));
         }
     }
+
+    @Autowired
+    UserFeedbackService userFeedbackService;
+
+    @Override
+    public Long getUserIdByFeedbackId(String id){
+        long userId = this.jdbcTemplate.queryForObject(
+                "select user_id from user_feedbacks where id = ?",
+                Long.class, Long.parseLong(id));
+       return userId;
+    }
+
     @Override
     public ExternalTrainer getTrainerById(String id) {
         User trainer = getUserById(id);

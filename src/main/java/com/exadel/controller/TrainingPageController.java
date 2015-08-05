@@ -1,7 +1,26 @@
 package com.exadel.controller;
 
 
+
 import com.exadel.dto.*;
+
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+
+import com.exadel.model.entity.events.Event;
+import com.exadel.service.events.UserFeedbackEventService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import com.exadel.model.entity.ParticipationStatus;
 import com.exadel.model.entity.events.TrainingEvent;
 import com.exadel.model.entity.events.TrainingFeedbackEvent;
@@ -15,14 +34,7 @@ import com.exadel.service.events.TrainingFeedbackEventService;
 import com.exadel.service.impl.EmailMessages;
 import com.exadel.service.impl.SmtpMailSender;
 import com.exadel.util.UserUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import org.springframework.web.context.request.async.DeferredResult;
 
 @RestController
 @RequestMapping("/training")
@@ -42,6 +54,8 @@ public class TrainingPageController {
     private TrainingEventService trainingEventService;
     @Autowired
     private TrainingFeedbackEventService trainingFeedbackEventService;
+    @Autowired
+    private UserFeedbackEventService userFeedbackEventService;
     @Autowired
     private AttachmentService attachmentService;
     @Autowired
@@ -77,6 +91,7 @@ public class TrainingPageController {
         }
         return userDTOs;
     }
+
 
     @PreAuthorize("hasAnyRole('0','1','2')")
     @RequestMapping(value = "/check_participation", method = RequestMethod.GET)
@@ -159,6 +174,18 @@ public class TrainingPageController {
                 emailMessages.becomeMember(reserve.getReservist(), entryService.findNextEntryByTrainingId(new Date(), training.getId())));
     }
 
+    public List<EventDTO> getEvents() {
+        List<EventDTO> list = new ArrayList<>();
+        List<Event> events = new ArrayList<>();
+        events.addAll(trainingEventService.getUnwatchedEvents());
+        events.addAll(trainingFeedbackEventService.getUnwatchedEvents());
+        events.addAll(userFeedbackEventService.getUnwatchedEvents());
+        for (Event event: events){
+            list.add(event.toEventDTO());
+        }
+        return list;
+    }
+
     @PreAuthorize("hasRole('0')")
     @RequestMapping(value = "/register_visitor", method = RequestMethod.POST)
     public void registerByAdmin(@RequestParam String userId, @RequestParam String trainingId) {
@@ -200,10 +227,15 @@ public class TrainingPageController {
     public void createFeedback(@RequestBody TrainingFeedbackDTO feedbackDTO) {
         TrainingFeedback feedback = new TrainingFeedback(feedbackDTO);
         trainingFeedbackService.addTrainingFeedback(feedback);
-
         feedbackDTO.setId(feedback.getId());
         trainingFeedbackEventService.addEvent(new TrainingFeedbackEvent(feedbackDTO));
+        for (Map.Entry<DeferredResult<List<EventDTO>>, Integer> entry : EventController.eventRequests.entrySet()) {
+            entry.getKey().setResult(getEvents());
+
+        }
     }
+
+
 
     @PreAuthorize("hasRole('0')")
     @RequestMapping(value = "/feedbacks", method = RequestMethod.DELETE)   //called only by ADMIN
@@ -266,6 +298,9 @@ public class TrainingPageController {
 
             trainingEventService.addEvent(new TrainingEvent(trainingDTO));
             smtpMailSender.sendToUsers(userService.getUsersByRole(UserRole.ADMIN), "Changes in trainings", trainingDTO.getEventDescription());
+            for (Map.Entry<DeferredResult<List<EventDTO>>, Integer> entry : EventController.eventRequests.entrySet()) {
+                entry.getKey().setResult(getEvents());
+            }
         }
         trainingService.updateTraining(training);
     }
@@ -285,6 +320,10 @@ public class TrainingPageController {
             trainingDTO.setEventDescription(emailMessages.deleteTrainingToAdmin(training));
             trainingEventService.addEvent(new TrainingEvent(trainingDTO));
             smtpMailSender.sendToUsers(userService.getUsersByRole(UserRole.ADMIN), "Changes in trainings", emailMessages.deleteTrainingToAdmin(training));
+            for (Map.Entry<DeferredResult<List<EventDTO>>, Integer> entry : EventController.eventRequests.entrySet()) {
+                entry.getKey().setResult(getEvents());
+
+            }
         }
     }
 

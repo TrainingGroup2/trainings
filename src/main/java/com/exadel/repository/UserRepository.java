@@ -5,6 +5,7 @@ import com.exadel.model.entity.user.UserRole;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -19,7 +20,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findByRole(UserRole role);
 
-  //  public Page<User> findBySyncJobIdOrderByLastUpdateDesc(long syncJobId, Pageable p);
-   /* @Query("select a.user_id from authentification a where a.login = ?1")
-    Optional<Long> findIdByLogin(String login);*/
 }

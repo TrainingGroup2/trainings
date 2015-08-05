@@ -68,7 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.httpBasic()
                 .authenticationEntryPoint(restAuthenticationEntryPoint);
-        http.authorizeRequests().antMatchers("/loguser", "/logout", "/login", "/").permitAll()
+        http.authorizeRequests().antMatchers("/loguser", "/logout", "/login", "/","/events").permitAll()
                 .anyRequest().authenticated()
                 .antMatchers("/users/**").hasAuthority("0")
                 .and()

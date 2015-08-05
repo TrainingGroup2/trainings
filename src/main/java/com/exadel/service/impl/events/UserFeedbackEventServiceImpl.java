@@ -1,13 +1,17 @@
 package com.exadel.service.impl.events;
 
+import com.exadel.model.entity.events.TrainingFeedbackEvent;
 import com.exadel.model.entity.events.UserFeedbackEvent;
+import com.exadel.model.entity.user.User;
 import com.exadel.repository.events.UserFeedbackEventRepository;
 import com.exadel.service.events.UserFeedbackEventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+import org.springframework.web.context.request.async.DeferredResult;
 
-import java.util.Collection;
-import java.util.Optional;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class UserFeedbackEventServiceImpl implements UserFeedbackEventService {
@@ -39,4 +43,5 @@ public class UserFeedbackEventServiceImpl implements UserFeedbackEventService {
     public Optional<UserFeedbackEvent> addEvent(UserFeedbackEvent event) {
         return Optional.ofNullable(eventRepository.saveAndFlush(event));
     }
+
 }

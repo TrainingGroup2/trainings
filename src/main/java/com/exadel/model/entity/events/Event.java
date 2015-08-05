@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @MappedSuperclass
-public abstract class Event {
+public abstract class Event implements Comparable<Event> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -52,5 +52,13 @@ public abstract class Event {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    @Override
+    public int compareTo(Event compareTime) {
+
+        int retVal = date.compareTo(compareTime.getDate()) ;
+
+        return retVal;
     }
 }

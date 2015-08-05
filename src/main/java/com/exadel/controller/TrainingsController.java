@@ -1,7 +1,9 @@
 package com.exadel.controller;
 
 import com.exadel.dto.EntryDTO;
+import com.exadel.dto.EventDTO;
 import com.exadel.dto.TrainingDTO;
+import com.exadel.model.entity.events.Event;
 import com.exadel.model.entity.events.TrainingEvent;
 import com.exadel.model.entity.training.Entry;
 import com.exadel.model.entity.training.Training;
@@ -21,6 +23,12 @@ import java.util.*;
 
 import static com.exadel.Utils.addWeekToDate;
 import static com.exadel.Utils.getDayNumberToAdd;
+import com.exadel.service.events.TrainingFeedbackEventService;
+import com.exadel.service.events.UserFeedbackEventService;
+import org.springframework.web.context.request.async.DeferredResult;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @PreAuthorize("hasAnyRole('0','1','2')")
@@ -33,6 +41,10 @@ public class TrainingsController {
     @Autowired
     private EntryService entryService;
 
+    private TrainingFeedbackEventService trainingFeedbackEventService;
+    @Autowired
+    private UserFeedbackEventService userFeedbackEventService;
+
     @PreAuthorize("hasAnyRole('0','1','2')")
     @RequestMapping(method = RequestMethod.GET)
     public List<TrainingDTO> getTrainings() {
@@ -43,6 +55,7 @@ public class TrainingsController {
         }
         return trainingDTOs;
     }
+
 
     @PreAuthorize("hasAnyRole('0','1','2')")
     @RequestMapping(value = "/newTraining", method = RequestMethod.POST)   //called only by ADMIN
@@ -56,6 +69,18 @@ public class TrainingsController {
 
             trainingDTO.setId(training.getId());
             trainingEventService.addEvent(new TrainingEvent(trainingDTO));
+            List<EventDTO> list = new ArrayList<>();
+            List<Event> events = new ArrayList<>();
+            events.addAll(trainingEventService.getUnwatchedEvents());
+            events.addAll(trainingFeedbackEventService.getUnwatchedEvents());
+            events.addAll(userFeedbackEventService.getUnwatchedEvents());
+            for (Event event: events){
+                list.add(event.toEventDTO());
+            }
+            for (Map.Entry<DeferredResult<List<EventDTO>>, Integer> entry : EventController.eventRequests.entrySet()) {
+                entry.getKey().setResult(list);
+
+            }
         }
 
         long trainingId = trainingService.addTraining(training);

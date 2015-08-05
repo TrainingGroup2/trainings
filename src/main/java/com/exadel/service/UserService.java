@@ -34,4 +34,7 @@ public interface UserService {
     long getCurrentId();
 
     List<User> getUsersByRole(UserRole role);
+
+    Long getUserIdByFeedbackId(String id);
+
 }

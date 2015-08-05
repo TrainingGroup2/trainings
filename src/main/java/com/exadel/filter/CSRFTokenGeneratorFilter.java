@@ -1,4 +1,4 @@
-package com.exadel.config;
+package com.exadel.filter;
 
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.filter.OncePerRequestFilter;
