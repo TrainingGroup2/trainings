@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('frontendApp').controller('EventMenuCtrl', [ '$scope', '$location', '$interval', '$aside', 'ngDialog', 'EventService',
-  function($scope, $location, $interval, $aside, ngDialog,  EventService) {
+angular.module('frontendApp').controller('EventMenuCtrl', [ '$scope', '$location', '$http', '$interval', '$aside', 'ngDialog','EventService',
+  function($scope, $location, $http, $interval, $aside, ngDialog, EventService) {
 
   $scope.eventList = [];
 

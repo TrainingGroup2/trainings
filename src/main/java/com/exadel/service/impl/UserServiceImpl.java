@@ -11,6 +11,8 @@ import com.exadel.repository.UserRepository;
 import com.exadel.service.UserFeedbackService;
 import com.exadel.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -137,14 +139,18 @@ public class UserServiceImpl implements UserService {
     long id = this.jdbcTemplate.queryForObject(
             "select user_id from authentification where login = ?",
             Long.class,currentName);
-    /*String name = this.jdbcTemplate.queryForObject(
-            "select name from users where id = ?",
-            String.class,id);*/
     return id;
     }
 
     @Override
     public List<User> getUsersByRole(UserRole role) {
         return userRepository.findByRole(role);
+    }
+
+    public Page<User> getUsers(Integer first, Integer size) {
+        Integer pageNumber = first / size;
+        PageRequest request =
+                new PageRequest(pageNumber, size);
+        return userRepository.findAll(request);
     }
 }

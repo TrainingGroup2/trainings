@@ -67,4 +67,22 @@ public class UserController {
         }
         return userDTOs;
     }
+
+    @RequestMapping(value = "/pages/count/{pageNumber}", method = RequestMethod.GET)
+    public Integer getCount(@PathVariable Integer pageNumber, @RequestParam Integer size) {
+        Page<User> page = userService.getUsers(pageNumber, size);
+       Integer count = page.getTotalPages();
+        return count;
+    }
+
+    @RequestMapping(value = "/pages/{pageNumber}", method = RequestMethod.GET)
+    public List<UserDTO> getUsersPaging(@PathVariable Integer pageNumber, @RequestParam Integer size) {
+        Page<User> page = userService.getUsers(pageNumber, size);
+        List<User> users =  page.getContent();
+        List<UserDTO> userDTOs = new ArrayList<>();
+        for (User user : users) {
+            userDTOs.add(new UserDTO(user));
+        }
+        return userDTOs;
+    }
 }

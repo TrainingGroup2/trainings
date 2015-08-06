@@ -231,7 +231,6 @@ public class TrainingPageController {
         trainingFeedbackEventService.addEvent(new TrainingFeedbackEvent(feedbackDTO));
         for (Map.Entry<DeferredResult<List<EventDTO>>, Integer> entry : EventController.eventRequests.entrySet()) {
             entry.getKey().setResult(getEvents());
-
         }
     }
 

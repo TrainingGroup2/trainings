@@ -64,16 +64,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        http
 //                .addFilterAfter(new CSRFTokenGeneratorFilter(), CsrfFilter.class)
 //                .addFilterAfter(new CSRFCookieGeneratorFilter(), CsrfFilter.class);
-
         http.csrf().disable();
         http.httpBasic()
                 .authenticationEntryPoint(restAuthenticationEntryPoint);
-        http.authorizeRequests().antMatchers("/loguser", "/logout", "/login", "/","/events").permitAll()
+        http.authorizeRequests().antMatchers("/loguser", "/logout", "/login", "/events/unwatched").permitAll()
                 .anyRequest().authenticated()
                 .antMatchers("/users/**").hasAuthority("0")
                 .and()
                 .formLogin()
                 .loginPage("/login")
+
                 .failureHandler(authenticationFailureHandler)
                 .successHandler(authenticationSuccessHandler)
                 .loginProcessingUrl("http://localhost:9000/#/")
