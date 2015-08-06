@@ -55,16 +55,15 @@ public class EmailMessages {
             Object[] arr = {user.getName(), nextEntry.getTraining().getName(), nextEntry.getBeginTime(), nextEntry.getPlace()};
             return messageSource.getMessage("emailNotification.register.member", arr, null);
         }
-
         else{
             Object[] arr = {user.getName(), nextEntry.getTraining().getName()};
             return messageSource.getMessage("emailNotification.register.reserve", arr, null);
         }
     }
 
-    public String becomeMember(User user, Entry nextEntry){   //TODO: link to confirm participation
+    public String becomeMember(User user, Entry nextEntry){
         Object[] arr = {user.getName(), nextEntry.getTraining().getName(), nextEntry.getBeginTime(), nextEntry.getPlace(),
-                "domain + link to confirm participation", domain + "training/entries/?trainingId=" + nextEntry.getTraining().getId()};
+                domain + "training/member/?userId=" + user.getId() + "&trainingId=" + nextEntry.getTraining().getId(), domain + "training/entries/?trainingId=" + nextEntry.getTraining().getId()};
         return messageSource.getMessage("emailNotification.register.becomeMember", arr, null);
     }
 
@@ -94,5 +93,10 @@ public class EmailMessages {
     public String lessThanHalf(Training training){
         Object[] arr = {training.getName()};
         return messageSource.getMessage("eventNotification.training.lessThanHalf", arr, null);
+    }
+
+    public String newTrainingToAdmin(Training training){
+        Object[] arr = {training.getTrainer().getName(), training.getName(), domain + "training/info/?trainingId=" + training.getId()};
+        return messageSource.getMessage("eventNotification.training.new", arr, null);
     }
 }
