@@ -44,4 +44,9 @@ public class ReserveServiceImpl implements ReserveService {
     public void deleteReserve(long id) {
         reserveRepository.delete(id);
     }
+
+    @Override
+    public Reserve getReserveByTrainingIdAndUserId(long trainingId, long userId) {
+        return reserveRepository.findByTrainingIdAndReservistId(trainingId, userId);
+    }
 }

@@ -1,13 +1,11 @@
 package com.exadel.repository;
 
 import com.exadel.model.entity.training.Training;
+import com.exadel.model.entity.training.TrainingStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Transactional
 public interface TrainingRepository extends JpaRepository<Training, Long> {
@@ -16,4 +14,6 @@ public interface TrainingRepository extends JpaRepository<Training, Long> {
 
     @Query("select training_users.user_id FROM training_users where training_users.training_id=?1")
     List<Long> findParticipantsByTrainingId(long id);*/
+
+    List<Training> findByStatus(TrainingStatus status);
 }

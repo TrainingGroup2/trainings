@@ -125,14 +125,21 @@ public class TrainingPageController {
 
     @PreAuthorize("hasAnyRole('0','1')")
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public synchronized ParticipationStatus register(@RequestParam String userId,
-                                                     @RequestParam String trainingId) {
+    public synchronized ParticipationStatus register(@RequestParam String userId, @RequestParam String trainingId) {
 
         Training training = trainingService.getTrainingById(trainingId);
         User visitor = userService.getUserById(userId);
         List<User> participants = training.getParticipants();
 
-        if (participants.size() > training.getMembersCountMax()) {
+        if (participants.size() < training.getMembersCountMax() && reserveService.getNextReserveByTrainingId(training.getId())==null) {
+            training.addParticipant(visitor);
+            participationService.addParticipation(new Participation(visitor, training, new Date(), null));
+
+            smtpMailSender.send(userService.getUserById(userId).getEmail(), "Registration",
+                    emailMessages.register(visitor, entryService.findNextEntryByTrainingId(new Date(), Long.parseLong(trainingId)), ParticipationStatus.MEMBER));
+            return ParticipationStatus.MEMBER;
+
+        } else {
             Reserve reservist = new Reserve(training, visitor);
             reserveService.addReserve(reservist);
             training.getReserves().add(reservist);
@@ -140,13 +147,6 @@ public class TrainingPageController {
             smtpMailSender.send(userService.getUserById(userId).getEmail(), "Registration",
                     emailMessages.register(visitor, entryService.findNextEntryByTrainingId(new Date(), Long.parseLong(trainingId)), ParticipationStatus.RESERVE));
             return ParticipationStatus.RESERVE;
-        } else {
-            training.addParticipant(visitor);
-            participationService.addParticipation(new Participation(visitor, training, new Date(), null));
-
-            smtpMailSender.send(userService.getUserById(userId).getEmail(), "Registration",
-                    emailMessages.register(visitor, entryService.findNextEntryByTrainingId(new Date(), Long.parseLong(trainingId)), ParticipationStatus.MEMBER));
-            return ParticipationStatus.MEMBER;
         }
     }
 
@@ -155,8 +155,7 @@ public class TrainingPageController {
     public synchronized void unregister(@RequestParam String userId, @RequestParam String trainingId) {
         Training training = trainingService.getTrainingById(trainingId);
         User visitor = userService.getUserById(userId);
-        Participation participation = participationService.getParticipationByTrainingAndUserId(
-                training.getId(), visitor.getId());
+        Participation participation = participationService.getParticipationByTrainingAndUserId(training.getId(), visitor.getId());
 
         if (training.isRepeated()) {
             participation.setEndDay(new Date());
@@ -165,13 +164,32 @@ public class TrainingPageController {
         }
 
         Reserve reserve = reserveService.getNextReserveByTrainingId(training.getId());
-        /*if (reserve != null) {
+        if (reserve != null) {
+            smtpMailSender.send(reserve.getReservist().getEmail(), "Training",
+                    emailMessages.becomeMember(reserve.getReservist(), entryService.findNextEntryByTrainingId(new Date(), training.getId())));
+        }
+    }
+
+    @RequestMapping(value = "/member", method = RequestMethod.POST)
+    public synchronized void becomeMember(@RequestParam String userId, @RequestParam String trainingId) {
+        Training training = trainingService.getTrainingById(trainingId);
+        Reserve reserve = reserveService.getReserveByTrainingIdAndUserId(Long.parseLong(trainingId), Long.parseLong(userId));
+
+        if (training.getParticipants().size() < training.getMembersCountMax()) {
             reserveService.deleteReserve(reserve.getId());
-            register(String.valueOf(reserve.getReservist().getId()),
-                    String.valueOf(reserve.getTraining().getId()));
-        }*/
-        smtpMailSender.send(reserve.getReservist().getEmail(), "Training",
-                emailMessages.becomeMember(reserve.getReservist(), entryService.findNextEntryByTrainingId(new Date(), training.getId())));
+            User visitor = reserve.getReservist();
+
+            training.addParticipant(visitor);
+            participationService.addParticipation(new Participation(visitor, training, new Date(), null));
+            trainingService.updateTraining(training);
+
+            smtpMailSender.send(userService.getUserById(userId).getEmail(), "Registration",
+                    emailMessages.register(visitor, entryService.findNextEntryByTrainingId(new Date(), Long.parseLong(trainingId)), ParticipationStatus.MEMBER));
+        }
+        else{
+            smtpMailSender.send(userService.getUserById(userId).getEmail(), "Registration",
+                    emailMessages.register(reserve.getReservist(), entryService.findNextEntryByTrainingId(new Date(), Long.parseLong(trainingId)), ParticipationStatus.RESERVE));
+        }
     }
 
     public List<EventDTO> getEvents() {
@@ -328,7 +346,7 @@ public class TrainingPageController {
     }
 
     @PreAuthorize("hasRole('0')")
-    @RequestMapping(value="/userFeedback",method = RequestMethod.GET)
+    @RequestMapping(value="/userFeedback",method = RequestMethod.POST)
     public void AskUserFeedback(@RequestParam String userId, @RequestParam String trainingId) {
         User user = userService.getUserById(userId);
         Training training = trainingService.getTrainingById(trainingId);
