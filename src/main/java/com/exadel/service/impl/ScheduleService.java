@@ -4,6 +4,7 @@ import com.exadel.model.entity.training.Entry;
 import com.exadel.model.entity.training.Reserve;
 import com.exadel.model.entity.training.Training;
 import com.exadel.model.entity.training.TrainingStatus;
+import com.exadel.model.entity.user.User;
 import com.exadel.model.entity.user.UserRole;
 import com.exadel.service.EntryService;
 import com.exadel.service.ReserveService;
@@ -45,13 +46,15 @@ public class ScheduleService {
         List<Entry> entries = entryService.getBetweenDates(before, after);
 
         for(Entry entry: entries) {
-            Training training = trainingService.getTrainingById(entry.getTraining().getId());
-            if (entry.getTraining().isRepeated()==false && entry.getTraining().getStatus()== TrainingStatus.APPROVED) {
-                smtpMailSender.sendToUsers(training.getParticipants(), "Training", emailMessages.beforeDay(entry));
+            Training training = entry.getTraining();
+            if (training.isRepeated()==false && training.getStatus()== TrainingStatus.APPROVED) {
+                for (User user: training.getParticipants()){
+                    smtpMailSender.send(user.getEmail(), "Training", emailMessages.beforeDay(user, entry));
+                }
             }
-            if (entry.getTraining().getStatus()== TrainingStatus.APPROVED &&
-                    training.getParticipants().size() < entry.getTraining().getMembersCountMax()/2) {
-                    smtpMailSender.sendToUsers(userService.getUsersByRole(UserRole.ADMIN), "Training", emailMessages.lessThanHalf(entry.getTraining()));
+            if (training.getStatus()== TrainingStatus.APPROVED &&
+                    training.getParticipants().size() < training.getMembersCountMax()/2) {
+                    smtpMailSender.sendToUsers(userService.getUsersByRole(UserRole.ADMIN), "Training", emailMessages.lessThanHalf(training));
             }
         }
     }
@@ -68,8 +71,7 @@ public class ScheduleService {
 
         for(Entry entry: entries) {
             if (entry.getTraining().getStatus()== TrainingStatus.APPROVED) {
-                Training training = trainingService.getTrainingById(entry.getTraining().getId());
-                smtpMailSender.sendToUsers(training.getParticipants(), "Training", emailMessages.beforeHour(entry));
+                smtpMailSender.sendToUsers(entry.getTraining().getParticipants(), "Training", emailMessages.beforeHour(entry));
             }
         }
     }
@@ -86,14 +88,14 @@ public class ScheduleService {
 
         for(Entry entry: entries) {
             if (entry.getTraining().getStatus()== TrainingStatus.APPROVED) {
-                Training training = trainingService.getTrainingById(entry.getTraining().getId());
-                if (training.getParticipants().size() < (double)entry.getTraining().getMembersCountMax()*2/3) {
-                    trainingService.cancelById(String.valueOf(entry.getTraining().getId()));
-                    smtpMailSender.sendToUsers(training.getParticipants(), "Training", emailMessages.deleteTraining(entry.getTraining()));
+                Training training = entry.getTraining();
+                if (training.getParticipants().size() < (double)training.getMembersCountMax()*2/3) {
+                    trainingService.cancelById(String.valueOf(training.getId()));
+                    smtpMailSender.sendToUsers(training.getParticipants(), "Training", emailMessages.deleteTraining(training));
                 }
                 else { //challenge
                     List<Reserve> reserves = reserveService.getAllReservesByTrainingId(training.getId());
-                    if(training.getParticipants().size() < (double)entry.getTraining().getMembersCountMax() && reserves != null) {
+                    if(training.getParticipants().size() < (double)training.getMembersCountMax() && reserves != null) {
                         for (Reserve reserve: reserves){
                             smtpMailSender.send(reserve.getReservist().getEmail(), "Training", emailMessages.becomeMember(reserve.getReservist(), entry));
                         }

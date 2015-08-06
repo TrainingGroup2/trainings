@@ -7,96 +7,171 @@ import com.exadel.model.entity.training.Training;
 import com.exadel.model.entity.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.Locale;
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
+import java.security.Key;
+import java.text.SimpleDateFormat;
 
 @Service
-public class EmailMessages {
+public class EmailMessages  {
     @Autowired
     private MessageSource messageSource;
+    private static final String domain = "http://localhost:8080/";
 
-    public static final String domain = "http://localhost:8080/";
+    private static final SimpleDateFormat time = new SimpleDateFormat("HH:mm");
+    private static final SimpleDateFormat fullDate = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
-    public String modifyTraining(Training training){
-        Object[] arr = {training.getName(), domain + "training/info/?trainingId=" + training.getId()};
+    private static final String key = "Bar12345Bar12345";
+    private static final Key aesKey = new SecretKeySpec(key.getBytes(), "AES");
+    private static Cipher cipher;
+
+    static{
+        try{
+            cipher = Cipher.getInstance("AES");
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
+    public static String doCrypto(int cipherMode, String str){
+        String encrypted = null;
+        try {
+            cipher.init(cipherMode, aesKey);
+            encrypted = new String(cipher.doFinal(str.getBytes()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return encrypted;
+    }
+
+    public String modifyTraining(Training training) {
+        Object[] arr = {
+                training.getName(),
+                domain + "training/info/?trainingId=" + training.getId()
+        };
         return messageSource.getMessage("emailNotification.training.modify", arr, null);
     }
 
-    public String deleteTraining(Training training){
+    public String deleteTraining(Training training) {
         Object[] arr = {training.getName()};
-        Locale locale = LocaleContextHolder.getLocale();
         return messageSource.getMessage("email.Notification.training.delete", arr, null);
     }
 
-    public String modifyEntry(Entry entry){
-        Object[] arr = {entry.getTraining().getName(), domain + "training/entries/?trainingId=" + entry.getTraining().getId()};
+    public String modifyEntry(Entry entry) {
+        Object[] arr = {
+                entry.getTraining().getName(),
+                domain + "training/entries/?trainingId=" + entry.getTraining().getId()
+        };
         return messageSource.getMessage("emailNotification.training.modify", arr, null);
     }
 
-    public String deleteEntry(Entry entry){
-        Object[] arr = {entry.getBeginTime().toString(), entry.getTraining().getName(), domain + "training/entries/?trainingId=" + entry.getTraining().getId()};
+    public String deleteEntry(Entry entry) {
+        Object[] arr = {
+                fullDate.format(entry.getBeginTime()),
+                entry.getTraining().getName(),
+                domain + "training/entries/?trainingId=" + entry.getTraining().getId()
+        };
         return messageSource.getMessage("emailNotification.training.deleteEntry", arr, null);
     }
 
-    public String deleteFeedback(TrainingFeedback feedback){
-        Object[] arr = {feedback.getFeedbacker().getName(), feedback.getTraining().getName()};
+    public String deleteFeedback(TrainingFeedback feedback) {
+        Object[] arr = {
+                feedback.getFeedbacker().getName(),
+                feedback.getTraining().getName()
+        };
         return messageSource.getMessage("emailNotification.training.feedback.delete", arr, null);
     }
 
-    public String askFeedback(Training training, User user){
-        Object[] arr = {training.getTrainer().getName(), user.getName() + " " + user.getSurname(), training.getName()};
+    public String askFeedback(Training training, User user) {
+        Object[] arr = {
+                training.getTrainer().getName(),
+                user.getName() + " " + user.getSurname(),
+                training.getName()
+        };
         return messageSource.getMessage("emailNotification.askFeedback", arr, null);
     }
 
-    public String register(User user, Entry nextEntry, ParticipationStatus status){
-        if(status == ParticipationStatus.MEMBER){
-            Object[] arr = {user.getName(), nextEntry.getTraining().getName(), nextEntry.getBeginTime(), nextEntry.getPlace()};
+    public String register(User user, Entry nextEntry, ParticipationStatus status) {
+        String trainingId = doCrypto(Cipher.ENCRYPT_MODE, Long.toString(nextEntry.getTraining().getId()));
+        String userId = doCrypto(Cipher.ENCRYPT_MODE, Long.toString(user.getId()));
+
+        if (status == ParticipationStatus.MEMBER) {
+            Object[] arr = {
+                    user.getName(),
+                    nextEntry.getTraining().getName(),
+                    fullDate.format(nextEntry.getBeginTime()),
+                    nextEntry.getPlace(),
+                    domain + "training/cancel_participation/" + userId + "/" + trainingId
+            };
             return messageSource.getMessage("emailNotification.register.member", arr, null);
-        }
-        else{
-            Object[] arr = {user.getName(), nextEntry.getTraining().getName()};
+        } else {
+            Object[] arr = {
+                    user.getName(),
+                    nextEntry.getTraining().getName(),
+                    domain + "training/cancel_participation/" + userId + "/" + trainingId
+            };
             return messageSource.getMessage("emailNotification.register.reserve", arr, null);
         }
     }
 
-    public String becomeMember(User user, Entry nextEntry){
-        Object[] arr = {user.getName(), nextEntry.getTraining().getName(), nextEntry.getBeginTime(), nextEntry.getPlace(),
-                domain + "training/member/?userId=" + user.getId() + "&trainingId=" + nextEntry.getTraining().getId(), domain + "training/entries/?trainingId=" + nextEntry.getTraining().getId()};
+    public String becomeMember(User user, Entry nextEntry) {
+        String trainingId = doCrypto(Cipher.ENCRYPT_MODE, Long.toString(nextEntry.getTraining().getId()));
+        String userId = doCrypto(Cipher.ENCRYPT_MODE, Long.toString(user.getId()));
+        Object[] arr = {
+                user.getName(),
+                nextEntry.getTraining().getName(),
+                fullDate.format(nextEntry.getBeginTime()),
+                nextEntry.getPlace(),
+                domain + "training/become_member/" + userId + "/" + trainingId,
+                domain + "training/entries/?trainingId=" + nextEntry.getTraining().getId()
+        };
         return messageSource.getMessage("emailNotification.register.becomeMember", arr, null);
     }
 
     //Scheduled notifications
-    public String beforeDay(Entry entry){
-        Object[] arr = {entry.getTraining().getName(), entry.getBeginTime().toString(),
-                domain + "training/entries/?trainingId=" + entry.getTraining().getId()};
+    public String beforeDay(User user, Entry entry) {
+        String trainingId = doCrypto(Cipher.ENCRYPT_MODE, Long.toString(entry.getTraining().getId()));
+        String userId = doCrypto(Cipher.ENCRYPT_MODE, Long.toString(user.getId()));
+        Object[] arr = {
+                user.getName(),
+                entry.getTraining().getName(),
+                time.format(entry.getBeginTime()),
+                domain + "training/entries/?trainingId=" + entry.getTraining().getId(),
+                domain + "training/cancel_participation/" + userId + "/" + trainingId
+        };
         return messageSource.getMessage("emailNotification.training.beforeDay", arr, null);
     }
 
-    public String beforeHour(Entry entry){
-        Object[] arr = {entry.getTraining().getName(), entry.getBeginTime().toString()};
+    public String beforeHour(Entry entry) {
+        Object[] arr = {entry.getTraining().getName(), time.format(entry.getBeginTime())};
         return messageSource.getMessage("emailNotification.training.beforeHour", arr, null);
     }
 
     //Event notifications for admin
-    public String deleteEntryToAdmin(Entry entry){
-        Object[] arr = {entry.getBeginTime(), entry.getTraining().getName()};
+    public String deleteEntryToAdmin(Entry entry) {
+        Object[] arr = {fullDate.format(entry.getBeginTime()), entry.getTraining().getName()};
         return messageSource.getMessage("eventNotification.training.entry.delete", arr, null);
     }
 
-    public String deleteTrainingToAdmin(Training training){
+    public String deleteTrainingToAdmin(Training training) {
         Object[] arr = {training.getName()};
         return messageSource.getMessage("eventNotification.training.delete", arr, null);
     }
 
-    public String lessThanHalf(Training training){
+    public String lessThanHalf(Training training) {
         Object[] arr = {training.getName()};
         return messageSource.getMessage("eventNotification.training.lessThanHalf", arr, null);
     }
 
-    public String newTrainingToAdmin(Training training){
-        Object[] arr = {training.getTrainer().getName(), training.getName(), domain + "training/info/?trainingId=" + training.getId()};
+    public String newTrainingToAdmin(Training training) {
+        Object[] arr = {
+                training.getTrainer().getName(),
+                training.getName(),
+                domain + "training/info/?trainingId=" + training.getId()
+        };
         return messageSource.getMessage("eventNotification.training.new", arr, null);
     }
 }

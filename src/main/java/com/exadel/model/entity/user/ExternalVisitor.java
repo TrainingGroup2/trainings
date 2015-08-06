@@ -1,7 +1,6 @@
 package com.exadel.model.entity.user;
 
 import com.exadel.model.entity.training.Training;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -16,7 +15,6 @@ import java.util.List;
 public class ExternalVisitor extends User {
 
     @ManyToMany(mappedBy = "participants")
-    //@Column(name = "visiting_Trainings")
     private List<Training> visitingTrainings;
 
     public ExternalVisitor() {

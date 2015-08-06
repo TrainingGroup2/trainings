@@ -49,7 +49,7 @@ public class Training {
 
     private boolean repeated;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "training_users", joinColumns = @JoinColumn(name = "training_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> participants;

@@ -1,27 +1,9 @@
 package com.exadel.controller;
 
 
-
 import com.exadel.dto.*;
-
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-
-import com.exadel.model.entity.events.Event;
-import com.exadel.service.events.UserFeedbackEventService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import com.exadel.model.entity.ParticipationStatus;
+import com.exadel.model.entity.events.Event;
 import com.exadel.model.entity.events.TrainingEvent;
 import com.exadel.model.entity.events.TrainingFeedbackEvent;
 import com.exadel.model.entity.feedback.TrainingFeedback;
@@ -31,10 +13,21 @@ import com.exadel.model.entity.user.UserRole;
 import com.exadel.service.*;
 import com.exadel.service.events.TrainingEventService;
 import com.exadel.service.events.TrainingFeedbackEventService;
+import com.exadel.service.events.UserFeedbackEventService;
 import com.exadel.service.impl.EmailMessages;
 import com.exadel.service.impl.SmtpMailSender;
 import com.exadel.util.UserUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.async.DeferredResult;
+
+import javax.crypto.Cipher;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/training")
@@ -170,10 +163,20 @@ public class TrainingPageController {
         }
     }
 
-    @RequestMapping(value = "/member", method = RequestMethod.POST)
+    @RequestMapping(value = "/cancel_participation", method = RequestMethod.POST)
+    public synchronized void cancelParticipation(@RequestParam String userId, @RequestParam String trainingId) {
+        String trainingID = EmailMessages.doCrypto(Cipher.DECRYPT_MODE, trainingId);
+        String userID = EmailMessages.doCrypto(Cipher.DECRYPT_MODE, userId);
+        unregister(userID, trainingID);
+    }
+
+    @RequestMapping(value = "/confirm_participation", method = RequestMethod.POST)
     public synchronized void becomeMember(@RequestParam String userId, @RequestParam String trainingId) {
-        Training training = trainingService.getTrainingById(trainingId);
-        Reserve reserve = reserveService.getReserveByTrainingIdAndUserId(Long.parseLong(trainingId), Long.parseLong(userId));
+        String trainingID = EmailMessages.doCrypto(Cipher.DECRYPT_MODE, trainingId);
+        String userID = EmailMessages.doCrypto(Cipher.DECRYPT_MODE, userId);
+
+        Training training = trainingService.getTrainingById(trainingID);
+        Reserve reserve = reserveService.getReserveByTrainingIdAndUserId(Long.parseLong(trainingID), Long.parseLong(userID));
 
         if (training.getParticipants().size() < training.getMembersCountMax()) {
             reserveService.deleteReserve(reserve.getId());
@@ -183,12 +186,12 @@ public class TrainingPageController {
             participationService.addParticipation(new Participation(visitor, training, new Date(), null));
             trainingService.updateTraining(training);
 
-            smtpMailSender.send(userService.getUserById(userId).getEmail(), "Registration",
-                    emailMessages.register(visitor, entryService.findNextEntryByTrainingId(new Date(), Long.parseLong(trainingId)), ParticipationStatus.MEMBER));
+            smtpMailSender.send(userService.getUserById(userID).getEmail(), "Registration",
+                    emailMessages.register(visitor, entryService.findNextEntryByTrainingId(new Date(), Long.parseLong(trainingID)), ParticipationStatus.MEMBER));
         }
         else{
-            smtpMailSender.send(userService.getUserById(userId).getEmail(), "Registration",
-                    emailMessages.register(reserve.getReservist(), entryService.findNextEntryByTrainingId(new Date(), Long.parseLong(trainingId)), ParticipationStatus.RESERVE));
+            smtpMailSender.send(userService.getUserById(userID).getEmail(), "Registration",
+                    emailMessages.register(reserve.getReservist(), entryService.findNextEntryByTrainingId(new Date(), Long.parseLong(trainingID)), ParticipationStatus.RESERVE));
         }
     }
 
