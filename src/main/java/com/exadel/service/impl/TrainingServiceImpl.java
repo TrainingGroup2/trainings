@@ -14,6 +14,8 @@ import com.exadel.service.TrainingService;
 import com.exadel.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -132,5 +134,12 @@ public class TrainingServiceImpl implements TrainingService {
         training.setValuerCount(training.getValuerCount() + 1);
         training.setRatingSum(training.getRatingSum() + grade);
         return (double) (training.getRatingSum() / training.getValuerCount());
+    }
+
+    public Page<Training> getTrainings(Integer first, Integer size) {
+        Integer pageNumber = first / size;
+        PageRequest request =
+                new PageRequest(pageNumber, size);
+        return trainingRepository.findAll(request);
     }
 }

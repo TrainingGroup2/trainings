@@ -3,21 +3,21 @@ package com.exadel.controller;
 import com.exadel.dto.EntryDTO;
 import com.exadel.dto.EventDTO;
 import com.exadel.dto.TrainingDTO;
+import com.exadel.dto.UserDTO;
 import com.exadel.model.entity.events.Event;
 import com.exadel.model.entity.events.TrainingEvent;
 import com.exadel.model.entity.training.Entry;
 import com.exadel.model.entity.training.Training;
 import com.exadel.model.entity.training.TrainingStatus;
+import com.exadel.model.entity.user.User;
 import com.exadel.service.EntryService;
 import com.exadel.service.TrainingService;
 import com.exadel.service.events.TrainingEventService;
 import com.exadel.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
@@ -46,16 +46,22 @@ public class TrainingsController {
     private UserFeedbackEventService userFeedbackEventService;
 
     @PreAuthorize("hasAnyRole('0','1','2')")
-    @RequestMapping(method = RequestMethod.GET)
-    public List<TrainingDTO> getTrainings() {
-        List<Training> trainings = (List<Training>) trainingService.getAllTrainings();
+    @RequestMapping(value ="/{pageNumber}",method = RequestMethod.GET)
+    public List<TrainingDTO> getTrainings(@PathVariable Integer pageNumber, @RequestParam Integer size) {
+        Page<Training> page = trainingService.getTrainings(pageNumber, size);
+        List<Training> trainings = page.getContent();
         List<TrainingDTO> trainingDTOs = new ArrayList<>();
         for (Training training : trainings) {
             trainingDTOs.add(new TrainingDTO(training));
         }
         return trainingDTOs;
     }
-
+    @RequestMapping(value = "/pages/count/{pageNumber}", method = RequestMethod.GET)
+    public Integer getCount(@PathVariable Integer pageNumber, @RequestParam Integer size) {
+        Page<Training> page = trainingService.getTrainings(pageNumber, size);
+        Integer count = page.getTotalPages();
+        return count;
+    }
 
     @PreAuthorize("hasAnyRole('0','1','2')")
     @RequestMapping(value = "/newTraining", method = RequestMethod.POST)   //called only by ADMIN

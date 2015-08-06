@@ -3,6 +3,7 @@ package com.exadel.service;
 import com.exadel.model.entity.ParticipationStatus;
 import com.exadel.model.entity.training.Training;
 import com.exadel.model.entity.user.User;
+import org.springframework.data.domain.Page;
 
 import java.util.Collection;
 import java.util.Date;
@@ -30,4 +31,6 @@ public interface TrainingService {
     long getTrainerId(long id);
 
     List<Long> getParticipants(long id);
+
+    Page<Training> getTrainings(Integer pageNumber, Integer size);
 }
