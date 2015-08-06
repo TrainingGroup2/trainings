@@ -3,6 +3,7 @@ package com.exadel.controller;
 import com.exadel.dto.EntryDTO;
 import com.exadel.dto.EventDTO;
 import com.exadel.dto.TrainingDTO;
+import com.exadel.dto.UserDTO;
 import com.exadel.model.entity.events.Event;
 import com.exadel.model.entity.events.TrainingEvent;
 import com.exadel.model.entity.training.Entry;
@@ -51,9 +52,10 @@ public class TrainingsController {
     private UserFeedbackEventService userFeedbackEventService;
 
     @PreAuthorize("hasAnyRole('0','1','2')")
-    @RequestMapping(method = RequestMethod.GET)
-    public List<TrainingDTO> getTrainings() {
-        List<Training> trainings = (List<Training>) trainingService.getAllTrainings();
+    @RequestMapping(value ="/{pageNumber}",method = RequestMethod.GET)
+    public List<TrainingDTO> getTrainings(@PathVariable Integer pageNumber, @RequestParam Integer size) {
+        Page<Training> page = trainingService.getTrainings(pageNumber, size);
+        List<Training> trainings = page.getContent();
         List<TrainingDTO> trainingDTOs = new ArrayList<>();
         for (Training training : trainings) {
             trainingDTOs.add(new TrainingDTO(training));

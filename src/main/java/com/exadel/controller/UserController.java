@@ -8,13 +8,18 @@ import com.exadel.service.impl.EmailMessages;
 import com.exadel.service.impl.SmtpMailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
 
 @PreAuthorize("hasRole('0')")
 @RestController
@@ -85,8 +90,9 @@ public class UserController {
         return count;
     }
 
-    @RequestMapping(value = "/pages/{pageNumber}", method = RequestMethod.GET)
-    public List<UserDTO> getUsersPaging(@PathVariable Integer pageNumber, @RequestParam Integer size) {
+
+    @RequestMapping(value ="/{pageNumber}",method = RequestMethod.GET)
+    public List<UserDTO> showUsers(@PathVariable Integer pageNumber, @RequestParam Integer size) {
         Page<User> page = userService.getUsers(pageNumber, size);
         List<User> users =  page.getContent();
         List<UserDTO> userDTOs = new ArrayList<>();
@@ -95,4 +101,5 @@ public class UserController {
         }
         return userDTOs;
     }
+
 }

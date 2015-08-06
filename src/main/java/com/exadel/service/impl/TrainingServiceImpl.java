@@ -128,4 +128,11 @@ public class TrainingServiceImpl implements TrainingService {
                 new PageRequest(pageNumber, size);
         return trainingRepository.findAll(request);
     }
+
+    public Page<Training> getTrainings(Integer first, Integer size) {
+        Integer pageNumber = first / size;
+        PageRequest request =
+                new PageRequest(pageNumber, size);
+        return trainingRepository.findAll(request);
+    }
 }
