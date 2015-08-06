@@ -2,12 +2,10 @@ package com.exadel.service;
 
 import com.exadel.model.entity.ParticipationStatus;
 import com.exadel.model.entity.training.Training;
-import com.exadel.model.entity.user.User;
+import com.exadel.model.entity.training.TrainingStatus;
 
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 public interface TrainingService {
 
@@ -30,4 +28,6 @@ public interface TrainingService {
     long getTrainerId(long id);
 
     List<Long> getParticipants(long id);
+
+    List<Training> getTrainingsByTrainingStatus(TrainingStatus status);
 }

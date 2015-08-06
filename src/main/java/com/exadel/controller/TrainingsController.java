@@ -6,9 +6,13 @@ import com.exadel.model.entity.events.TrainingEvent;
 import com.exadel.model.entity.training.Entry;
 import com.exadel.model.entity.training.Training;
 import com.exadel.model.entity.training.TrainingStatus;
+import com.exadel.model.entity.user.UserRole;
 import com.exadel.service.EntryService;
 import com.exadel.service.TrainingService;
+import com.exadel.service.UserService;
 import com.exadel.service.events.TrainingEventService;
+import com.exadel.service.impl.EmailMessages;
+import com.exadel.service.impl.SmtpMailSender;
 import com.exadel.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -32,6 +36,12 @@ public class TrainingsController {
     TrainingEventService trainingEventService;
     @Autowired
     private EntryService entryService;
+    @Autowired
+    UserService userService;
+    @Autowired
+    private SmtpMailSender smtpMailSender;
+    @Autowired
+    EmailMessages emailMessages;
 
     @PreAuthorize("hasAnyRole('0','1','2')")
     @RequestMapping(method = RequestMethod.GET)
@@ -55,6 +65,8 @@ public class TrainingsController {
             training.setStatus(TrainingStatus.DRAFTED);
 
             trainingDTO.setId(training.getId());
+            trainingDTO.setEventDescription(emailMessages.newTrainingToAdmin(training));
+            smtpMailSender.sendToUsers(userService.getUsersByRole(UserRole.ADMIN), "Changes in Trainings", emailMessages.newTrainingToAdmin(training));
             trainingEventService.addEvent(new TrainingEvent(trainingDTO));
         }
 

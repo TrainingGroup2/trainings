@@ -1,10 +1,12 @@
 package com.exadel.service.impl;
 
 import com.exadel.model.entity.training.Entry;
+import com.exadel.model.entity.training.Reserve;
 import com.exadel.model.entity.training.Training;
 import com.exadel.model.entity.training.TrainingStatus;
 import com.exadel.model.entity.user.UserRole;
 import com.exadel.service.EntryService;
+import com.exadel.service.ReserveService;
 import com.exadel.service.TrainingService;
 import com.exadel.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,8 @@ public class ScheduleService {
     private TrainingService trainingService;
     @Autowired
     private UserService userService;
+    @Autowired
+    ReserveService reserveService;
 
     @Scheduled(fixedRate = 3600*1000)
     public void beforeDay(){
@@ -87,9 +91,27 @@ public class ScheduleService {
                     trainingService.cancelById(String.valueOf(entry.getTraining().getId()));
                     smtpMailSender.sendToUsers(training.getParticipants(), "Training", emailMessages.deleteTraining(entry.getTraining()));
                 }
-                else {
-                    smtpMailSender.sendToUsers(training.getParticipants(),"Training", emailMessages.beforeHour(entry));
+                else { //challenge
+                    List<Reserve> reserves = reserveService.getAllReservesByTrainingId(training.getId());
+                    if(training.getParticipants().size() < (double)entry.getTraining().getMembersCountMax() && reserves != null) {
+                        for (Reserve reserve: reserves){
+                            smtpMailSender.send(reserve.getReservist().getEmail(), "Training", emailMessages.becomeMember(reserve.getReservist(), entry));
+                        }
+                    }
                 }
+            }
+        }
+    }
+
+    @Scheduled(fixedRate = 24*3600*1000)
+    public void completeTrainings(){
+        List<Training> trainings = trainingService.getTrainingsByTrainingStatus(TrainingStatus.APPROVED);
+        Date today = new Date();
+
+        for(Training training: trainings){
+            if (entryService.findNextEntryByTrainingId(today, training.getId())==null){
+                training.setStatus(TrainingStatus.COMPLETED);
+                trainingService.updateTraining(training);
             }
         }
     }
