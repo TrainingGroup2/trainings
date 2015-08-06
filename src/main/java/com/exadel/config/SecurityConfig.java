@@ -64,7 +64,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        http
 //                .addFilterAfter(new CSRFTokenGeneratorFilter(), CsrfFilter.class)
 //                .addFilterAfter(new CSRFCookieGeneratorFilter(), CsrfFilter.class);
-//http.anonymous().authenticationFilter()
         http.csrf().disable();
         http.httpBasic()
                 .authenticationEntryPoint(restAuthenticationEntryPoint);

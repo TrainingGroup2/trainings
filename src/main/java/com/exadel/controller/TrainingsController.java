@@ -46,8 +46,19 @@ public class TrainingsController {
     private UserFeedbackEventService userFeedbackEventService;
 
     @PreAuthorize("hasAnyRole('0','1','2')")
-    @RequestMapping(value ="/{pageNumber}",method = RequestMethod.GET)
-    public List<TrainingDTO> getTrainings(@PathVariable Integer pageNumber, @RequestParam Integer size) {
+    @RequestMapping(method = RequestMethod.GET)
+    public List<TrainingDTO> getTrainings() {
+        List<Training> trainings = (List<Training>) trainingService.getAllTrainings();
+        List<TrainingDTO> trainingDTOs = new ArrayList<>();
+        for (Training training : trainings) {
+            trainingDTOs.add(new TrainingDTO(training));
+        }
+        return trainingDTOs;
+    }
+
+    @PreAuthorize("hasAnyRole('0','1','2')")
+    @RequestMapping(value ="/pages/{pageNumber}",method = RequestMethod.GET)
+    public List<TrainingDTO> getTrainingsPaging(@PathVariable Integer pageNumber, @RequestParam Integer size) {
         Page<Training> page = trainingService.getTrainings(pageNumber, size);
         List<Training> trainings = page.getContent();
         List<TrainingDTO> trainingDTOs = new ArrayList<>();
