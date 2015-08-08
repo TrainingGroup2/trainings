@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.security.Key;
 import java.text.SimpleDateFormat;
 
@@ -39,8 +41,16 @@ public class EmailMessages  {
     public static String doCrypto(int cipherMode, String str){
         String encrypted = null;
         try {
-            cipher.init(cipherMode, aesKey);
-            encrypted = new String(cipher.doFinal(str.getBytes()));
+            if (cipherMode==Cipher.ENCRYPT_MODE) {
+                cipher.init(cipherMode, aesKey);
+                encrypted = new String(cipher.doFinal(str.getBytes()));
+                encrypted = URLEncoder.encode(encrypted, "UTF-8");
+            }
+            else {
+                str = URLDecoder.decode(str, "UTF-8");
+                cipher.init(cipherMode, aesKey);
+                encrypted = new String(cipher.doFinal(str.getBytes()));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -111,7 +121,7 @@ public class EmailMessages  {
             Object[] arr = {
                     user.getName(),
                     nextEntry.getTraining().getName(),
-                    domain + "training/cancel_participation/" + userId + "/" + trainingId
+                    domain + "training/cancel_participation/?userId=" + userId + "/&trainingId=" + trainingId
             };
             return messageSource.getMessage("emailNotification.register.reserve", arr, null);
         }
@@ -125,7 +135,7 @@ public class EmailMessages  {
                 nextEntry.getTraining().getName(),
                 fullDate.format(nextEntry.getBeginTime()),
                 nextEntry.getPlace(),
-                domain + "training/become_member/" + userId + "/" + trainingId,
+                domain + "training/confirm_participation/" + userId + "/" + trainingId,
                 domain + "training/" + nextEntry.getTraining().getId()
         };
         return messageSource.getMessage("emailNotification.register.becomeMember", arr, null);

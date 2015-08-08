@@ -20,7 +20,6 @@ import com.exadel.service.impl.EmailMessages;
 import com.exadel.service.impl.SmtpMailSender;
 import com.exadel.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.async.DeferredResult;
@@ -171,14 +170,15 @@ public class TrainingPageController {
     }
 
     @RequestMapping(value = "/cancel_participation", method = RequestMethod.POST)
-    public synchronized void cancelParticipation(@RequestParam String userId, @RequestParam String trainingId) {
+    public synchronized String cancelParticipation(@RequestParam String userId, @RequestParam String trainingId) {
         String trainingID = EmailMessages.doCrypto(Cipher.DECRYPT_MODE, trainingId);
         String userID = EmailMessages.doCrypto(Cipher.DECRYPT_MODE, userId);
         unregister(userID, trainingID);
+        return "You have canceled participation";
     }
 
     @RequestMapping(value = "/confirm_participation", method = RequestMethod.POST)
-    public synchronized void becomeMember(@RequestParam String userId, @RequestParam String trainingId) {
+    public synchronized String becomeMember(@RequestParam String userId, @RequestParam String trainingId) {
         String trainingID = EmailMessages.doCrypto(Cipher.DECRYPT_MODE, trainingId);
         String userID = EmailMessages.doCrypto(Cipher.DECRYPT_MODE, userId);
 
@@ -187,14 +187,18 @@ public class TrainingPageController {
 
         if (training.getParticipants().size() < training.getMembersCountMax()) {
             User visitor = reserve.getReservist();
+            training.getReserves().remove(reserve);
             reserveService.deleteReserve(reserve.getId());
             participationService.addParticipation(new Participation(visitor, training, new Date(), null));
 
             smtpMailSender.send(userService.getUserById(userID).getEmail(), "Registration",
                     emailMessages.register(visitor, entryService.findNextEntryByTrainingId(new Date(), Long.parseLong(trainingID)), ParticipationStatus.MEMBER));
-        } else {
+            return "Congratulations! You have become a participant of training.";
+        }
+        else{
             smtpMailSender.send(userService.getUserById(userID).getEmail(), "Registration",
                     emailMessages.register(reserve.getReservist(), entryService.findNextEntryByTrainingId(new Date(), Long.parseLong(trainingID)), ParticipationStatus.RESERVE));
+            return "Unfortunately, all the seats on training are occupied, so you added to reserve.";
         }
     }
 
@@ -262,11 +266,11 @@ public class TrainingPageController {
     @PreAuthorize("hasRole('0')")
     @RequestMapping(value = "/feedbacks", method = RequestMethod.DELETE)   //called only by ADMIN
     public void deleteFeedback(@RequestParam String feedbackId) {
+        TrainingFeedback feedback = trainingFeedbackService.getTrainingFeedbackById(Long.parseLong(feedbackId)).get();
         trainingFeedbackEventService.deleteByTrainingFeedbackId(Long.parseLong(feedbackId));
         trainingFeedbackService.deleteById(Long.parseLong(feedbackId));
 
-       /* TrainingFeedback feedback = trainingFeedbackService.getTrainingFeedbackById(Long.parseLong(feedbackId)).get();
-        smtpMailSender.send(feedback.getFeedbacker().getEmail(), "Feedbacks", emailMessages.deleteFeedback(feedback));*/
+        smtpMailSender.send(feedback.getFeedbacker().getEmail(), "Feedbacks", emailMessages.deleteFeedback(feedback));
     }
 
     @PreAuthorize("hasAnyRole('0','1','2')")
