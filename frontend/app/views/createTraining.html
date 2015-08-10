@@ -64,7 +64,7 @@
     <label for="maxUsers" class="col-sm-4 control-label text-right create-training-entry-label">{{translation.MAX_USERS}}:</label>
 
     <div class="col-sm-7">
-      <input type="number" id="maxUsers" class="form-control create-training-trainer-select" placeholder="maximum users"
+      <input type="number" min="0" id="maxUsers" class="form-control create-training-trainer-select" placeholder="maximum users"
              ng-model="data.membersCountMax" required>
     </div>
   </div>
