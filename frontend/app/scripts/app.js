@@ -38,12 +38,12 @@ angular
       })
       .when('/traininglist', {
         templateUrl: 'views/traininglist.html',
-        controller: 'TrainingListCtrl',
+        controller: 'TrainingListCtrl'/*,
         resolve: {
           data: function (TrainingList) {
             return TrainingList.getTrainingList().$promise;
           }
-        }
+        }*/
       })
       .when('/userTrainings', {
         templateUrl: 'views/userTrainingsList.html',
