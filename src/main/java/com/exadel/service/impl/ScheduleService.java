@@ -90,7 +90,7 @@ public class ScheduleService {
             if (entry.getTraining().getStatus()== TrainingStatus.APPROVED) {
                 Training training = entry.getTraining();
                 if (training.getParticipants().size() < (double)training.getMembersCountMax()*2/3) {
-                    trainingService.cancelById(String.valueOf(training.getId()));
+                    trainingService.cancelById(training.getId());
                     smtpMailSender.sendToUsers(training.getParticipants(), "Training", emailMessages.deleteTraining(training));
                 }
                 else { //challenge

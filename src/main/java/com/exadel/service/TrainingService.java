@@ -23,7 +23,7 @@ public interface TrainingService {
 
     ParticipationStatus checkParticipation(String userId, String trainingId);
 
-    void cancelById(String id);
+    void cancelById(long id);
 
     long getTrainerId(long id);
 

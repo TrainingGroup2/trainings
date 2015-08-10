@@ -8,6 +8,7 @@ import com.exadel.model.entity.events.TrainingEvent;
 import com.exadel.model.entity.events.TrainingFeedbackEvent;
 import com.exadel.model.entity.feedback.TrainingFeedback;
 import com.exadel.model.entity.training.*;
+import com.exadel.model.entity.user.ExternalVisitor;
 import com.exadel.model.entity.user.User;
 import com.exadel.model.entity.user.UserRole;
 import com.exadel.repository.TrainingFeedbackRepository;
@@ -215,8 +216,9 @@ public class TrainingPageController {
     @PreAuthorize("hasRole('0')")
     @RequestMapping(value = "/register_new_visitor", method = RequestMethod.POST)
     public void registerNewExternalByAdmin(@RequestBody UserDTO visitorDTO, @RequestParam String trainingId) {
-        userService.addUser(new User(visitorDTO));
-        register(String.valueOf(visitorDTO.getId()), trainingId);
+        User user = new ExternalVisitor(visitorDTO);
+        user = userService.addUser(user);
+        register(String.valueOf(user.getId()), trainingId);
     }
 
     @PreAuthorize("hasAnyRole('0','1','2')")
@@ -293,14 +295,14 @@ public class TrainingPageController {
         trainingService.updateTraining(training);
     }
 
-    @PreAuthorize("@trainerControlBean.isTrainer(#id) or hasRole('0')")
+    @PreAuthorize("@trainerControlBean.isTrainer(#trainingId) or hasRole('0')")
     @RequestMapping(method = RequestMethod.DELETE)
-    public void cancelTraining(@RequestParam String id) {
-        Training training = trainingService.getTrainingById(id);
+    public void cancelTraining(@RequestParam String trainingId) {
+        Training training = trainingService.getTrainingById(trainingId);
         training.setStatus(TrainingStatus.CANCELLED);
 
         if (UserUtil.hasRole(0)) {
-            trainingService.cancelById(id);
+            trainingService.cancelById(training.getId());
             smtpMailSender.sendToUsers(training.getParticipants(), "Trainings", emailMessages.deleteTraining(training));
         }
         else {

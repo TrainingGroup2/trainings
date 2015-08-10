@@ -113,14 +113,13 @@ public class TrainingServiceImpl implements TrainingService {
     }
 
     @Override
-    public void cancelById(String id) {
-        long trainingId = Long.parseLong(id);
-        Training training = trainingRepository.getOne(trainingId);
+    @Modifying
+    public void cancelById(long id) {
+        Training training = trainingRepository.findOne(id);
         if (training != null) {
             training.setStatus(TrainingStatus.CANCELLED);
-            trainingRepository.save(training);
         } else
-            throw new TrainingNotFoundException(id);
+            throw new TrainingNotFoundException(String.valueOf(id));
     }
 
     public Page<Training> getTrainings(Integer first, Integer size) {

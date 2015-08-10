@@ -1,5 +1,6 @@
 package com.exadel.model.entity.user;
 
+import com.exadel.dto.UserDTO;
 import com.exadel.model.entity.training.Training;
 
 import javax.persistence.DiscriminatorValue;
@@ -18,6 +19,11 @@ public class ExternalVisitor extends User {
     private List<Training> visitingTrainings;
 
     public ExternalVisitor() {
+        super.setRole(UserRole.EXTERNAL_VISITOR);
+    }
+
+    public ExternalVisitor(UserDTO userDTO) {
+        super(userDTO);
         super.setRole(UserRole.EXTERNAL_VISITOR);
     }
 

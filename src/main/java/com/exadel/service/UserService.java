@@ -24,7 +24,7 @@ public interface UserService {
 
     List<User> getAllUsers();
 
-    void addUser(User user);
+    User addUser(User user);
 
     void updateUser(User user);
 
