@@ -23,10 +23,15 @@
     </th>
   </tr>
   <tr>
-    <th colspan="2"><input st-search="description" placeholder="{{translation.SEARCH}}" class="input-sm form-control" type="search"/></th>
+    <th><input st-search="description" placeholder="{{translation.SEARCH}}" class="input-sm form-control" type="search"/></th>
     <!--th SEARCH works by timestamps ><input st-search="date" class="input-sm form-control" type="search"/></th-->
+<!--
     <th colspan="2"><input st-search="eventType" placeholder="{{translation.SEARCH}}" class="input-sm form-control" type="search"/></th>
+-->
     <!-- SEARCH works by boolean true-false values th><input st-search="watched" class="input-sm form-control" type="search"/></th-->
+    <th></th>
+    <th></th>
+    <th></th>
   </tr>
   <tbody>
     <tr ng-repeat="_event in eventsList" ng-click="openEvent(_event)">
