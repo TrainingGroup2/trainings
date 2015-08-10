@@ -17,6 +17,15 @@ angular.module('frontendApp')
       $scope.participants = [];
       $scope.entries = [];
 
+      $scope.activeTab = $scope.translation.INFO;
+
+      $scope.openTab = function(tabName) {
+        $scope.activeTab = tabName;
+      };
+      $scope.ifActive = function(tabName) {
+        return $scope.activeTab == tabName;
+      };
+
       $scope.trainingId = $route.current.params.trainingId;
       $scope.ratings = {
         current: 1,
@@ -98,6 +107,7 @@ angular.module('frontendApp')
       };
 
       $scope.openInfo = function() {
+        $scope.openTab($scope.translation.INFO);
         if(_.isEmpty($scope.training)) {
           training.getInfo({id: $route.current.params.trainingId}, function(resp){
 
@@ -126,6 +136,7 @@ angular.module('frontendApp')
       };
 
       $scope.openParticipantsList = function() {
+        $scope.openTab($scope.translation.PARTICIPANTS);
         _.isEmpty($scope.participants)
         training.getParticipants({id: $route.current.params.trainingId}, function(resp){
           $scope.participants = angular.copy(resp);
@@ -134,6 +145,7 @@ angular.module('frontendApp')
       };
 
       $scope.openFeedbacks = function() {
+        $scope.openTab($scope.translation.FEEDBACKS);
         if (_.isEmpty($scope.feedbacks)) {
           //TODO: make placeholder which is shown while request is ongoing
           training.getFeedbacks({id: $route.current.params.trainingId}, function (resp) {
@@ -142,11 +154,9 @@ angular.module('frontendApp')
         }
       };
 
-      $scope.openJournal = function() {
-
-      };
 
       $scope.openEntries = function() {
+        $scope.openTab($scope.translation.ENTRIES);
         if(_.isEmpty($scope.entries)) {
           training.getEntries({id: $route.current.params.trainingId}, function (resp) {
             $scope.entries = angular.copy(resp);

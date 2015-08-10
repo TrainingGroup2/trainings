@@ -1,8 +1,8 @@
 'use strict';
-angular.module('frontendApp').controller('AttendanceJournalTestCtrl', ['$scope', '$rootScope', '$localStorage', '$q', 'training', 'attendanceJournalService', 'ngDialog', '$filter', '$interval', function ($scope, $rootScope, $localStorage, $q, training, attendanceJournalService, ngDialog, $filter, $interval) {
-
+angular.module('frontendApp').controller('AttendanceJournalFullCtrl', ['$scope', '$rootScope', '$localStorage', '$q', 'training', 'attendanceJournalService', 'ngDialog', '$filter', '$interval', function ($scope, $rootScope, $localStorage, $q, training, attendanceJournalService, ngDialog, $filter, $interval) {
+  $scope.loading = true;
   $scope.gridAttendanceOptions = {};
-
+  var gridApi;
   var now = new Date();
   var prevMonth = new Date();
   prevMonth.setMonth(now.getMonth() - 1);
@@ -20,43 +20,26 @@ angular.module('frontendApp').controller('AttendanceJournalTestCtrl', ['$scope',
     dateStart: false,
     dateEnd: false
   };
-  /*/////
-   app.controller('MainCtrl', ['$scope', '$http', function ($scope, $http) {
-   $scope.gridOptions = {
-   columnDefs: [
-   { field: 'name' },
-   { field: 'gender', visible: false},
-   { field: 'company' }
-   ],
-   enableGridMenu: true,
-   enableSelectAll: true,
-   exporterCsvFilename: 'myFile.csv',
-   exporterPdfDefaultStyle: {fontSize: 9},
-   exporterPdfTableStyle: {margin: [30, 30, 30, 30]},
-   exporterPdfTableHeaderStyle: {fontSize: 10, bold: true, italics: true, color: 'red'},
-   exporterPdfHeader: { text: "My Header", style: 'headerStyle' },
-   exporterPdfFooter: function ( currentPage, pageCount ) {
-   return { text: currentPage.toString() + ' of ' + pageCount.toString(), style: 'footerStyle' };
-   },
-   exporterPdfCustomFormatter: function ( docDefinition ) {
-   docDefinition.styles.headerStyle = { fontSize: 22, bold: true };
-   docDefinition.styles.footerStyle = { fontSize: 10, bold: true };
-   return docDefinition;
-   },
-   exporterPdfOrientation: 'portrait',
-   exporterPdfPageSize: 'LETTER',
-   exporterPdfMaxGridWidth: 500,
-   exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
-   onRegisterApi: function(gridApi){
-   $scope.gridApi = gridApi;
-   }
-   };
-   //*/
+  $scope.gridAttendanceOptions =  {
+    data: [],
+    columnDefs: [],
+    onRegisterApi: function (_gridApi) {
+      gridApi = _gridApi;
+    },
+    //exporting
+    enableSelectAll: true,
+    enableGridMenu: true,
+    exporterCsvFilename: 'AttendanceReport.csv',
+    exporterPdfDefaultStyle: {fontSize: 9},
+    exporterPdfTableStyle: {margin: [30, 30, 30, 30]},
+    exporterPdfTableHeaderStyle: {fontSize: 10, bold: true, italics: true, color: 'red'},
+    exporterPdfHeader: {text: "Attendance Report"},
+    exporterPdfOrientation: 'landscape',
+    exporterPdfPageSize: 'LETTER',
+    exporterPdfMaxGridWidth: 500
+    //exporting
 
-
-  // $scope.loadAtt = function () {
-
-  //  console.log($scope.dateStart.toLocaleDateString());
+  };
 
   $q.all({
     participants: training.getParticipants({id: $scope.trainingId}).$promise,
@@ -123,37 +106,8 @@ angular.module('frontendApp').controller('AttendanceJournalTestCtrl', ['$scope',
     // ******** ui-grid section ******* //
     var columnDef = [
       {name: 'user.userName', displayName: "Name", width: 200, pinnedLeft: true}
-    ], data = [], gridApi, options = {
-      onRegisterApi: function (_gridApi) {
-        gridApi = _gridApi;
-      },
-
-//exporting
-      enableSelectAll: true,
-      enableGridMenu: true,
-      exporterCsvFilename: 'myFile.csv',
-      exporterPdfDefaultStyle: {fontSize: 9},
-      exporterPdfTableStyle: {margin: [30, 30, 30, 30]},
-      exporterPdfTableHeaderStyle: {fontSize: 10, bold: true, italics: true, color: 'red'},
-      exporterPdfHeader: {text: "My Header", style: 'headerStyle'},
-      exporterPdfFooter: function (currentPage, pageCount) {
-        return {text: currentPage.toString() + ' of ' + pageCount.toString(), style: 'footerStyle'};
-      },
-      exporterPdfCustomFormatter: function (docDefinition) {
-        docDefinition.styles.headerStyle = {fontSize: 22, bold: true};
-        docDefinition.styles.footerStyle = {fontSize: 10, bold: true};
-        return docDefinition;
-      },
-      exporterPdfOrientation: 'landscape',
-      exporterPdfPageSize: 'LETTER',
-      exporterPdfMaxGridWidth: 500,
-      exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
-
-//exporting
-
-    };
+    ], data = [], gridApi;
     //dynamic columns
-
     entries.forEach(function (entity, index, array) {
       var key = entity.id.toString();
       columnDef.push({
@@ -168,7 +122,7 @@ angular.module('frontendApp').controller('AttendanceJournalTestCtrl', ['$scope',
 
       });
     });
-    options.columnDefs = columnDef;
+    $scope.gridAttendanceOptions.columnDefs = columnDef;
 
     //dynamic rows
     ajArray.forEach(function (user, index, array) {
@@ -179,18 +133,11 @@ angular.module('frontendApp').controller('AttendanceJournalTestCtrl', ['$scope',
       });
       data.push(entity);
     });
+    $scope.gridAttendanceOptions.data = data;
 
-    options.data = data;
-
-    $scope.gridAttendanceOptions = options;
-
-
-    // load rows asynchronously - HACK! need manual refresh by some reason - please investigate!
-    $interval(function () {
-      gridApi.grid.refresh();
-    }, 1500, 70);
+  }).finally(function () {
+    $scope.loading = false;
   });
-  // }
 
   $scope.cellClickHandler = function (row, col) {
     var attend = row.entity[col.colDef.id];
