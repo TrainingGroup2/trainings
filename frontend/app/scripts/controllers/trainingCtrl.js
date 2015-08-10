@@ -124,11 +124,11 @@ angular.module('frontendApp')
       };
 
       $scope.openParticipantsList = function() {
-        if(_.isEmpty($scope.participants)) {
-          training.getParticipants({id: $route.current.params.trainingId}, function(resp){
-            $scope.participants = angular.copy(resp);
-          });
-        }
+        _.isEmpty($scope.participants)
+        training.getParticipants({id: $route.current.params.trainingId}, function(resp){
+          $scope.participants = angular.copy(resp);
+        });
+
       };
 
       $scope.openFeedbacks = function() {

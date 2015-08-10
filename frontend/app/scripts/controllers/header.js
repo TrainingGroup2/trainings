@@ -6,20 +6,20 @@ angular.module('frontendApp')
     'userService', 'appConstants',
     function ($location, $scope, $localStorage, $http, $rootScope, AuthenticationService, userService, appConstants) {
 
-    $scope.languagesList = appConstants.LANGUAGES;
+      $scope.languagesList = appConstants.LANGUAGES;
 
-    this.goToUserProfile = function (){
-      userService.setUserId($localStorage.userData.id);
-      $location.path('/userprofile');
-    };
+      this.goToUserProfile = function (){
+        userService.setUserId($localStorage.userData.id);
+        $location.path('/userprofile');
+      };
 
-    $scope.logout = function() {
-      $http.get('http://localhost:8080/logout',{})
-        .finally(function(data){
-          AuthenticationService.ClearCredentials();
-          $location.path("/login");
-        });
-    };
+      $scope.logout = function() {
+        $http.get('http://localhost:8080/logout',{})
+          .finally(function(data){
+            AuthenticationService.ClearCredentials();
+            $location.path("/login");
+          });
+      };
 
       $scope.isLoginPage = function(){
         var url = $location.path();
@@ -32,5 +32,10 @@ angular.module('frontendApp')
           ($location.path().split('/')[2] !== 'cancel_participation');
         console.log(resp);
         return resp;
-      }
-  }]);
+      };
+
+      $scope.isActive = function (page) {
+        var currentRoute = $location.path().substring(1) || 'home';
+        return page === currentRoute ? 'active' : '';
+      };
+    }]);

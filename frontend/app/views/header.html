@@ -18,14 +18,14 @@
       </div>
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav" ng-show="isMailResp() && isLoginPage()">
-          <li ng-class="{ active: isActive('')}">
+          <li ng-class="{ active: isActive('userTrainings')}">
             <a ng-href="#/userTrainings">{{translation.MY_TRAININGS}}</a></li>
           <li ng-class="{ active: isActive('traininglist')}"
               ng-show="(isAdmin() || isEmployee())" >
             <a ng-href="#/traininglist">{{translation.ALL_TRAININGS}}</a></li>
-          <li ng-class="{ active: isActive('about')}"
+          <li ng-class="{ active: isActive('users')}"
               ng-show="isAdmin()" >
-          <a ng-href="#/users">{{translation.USERS_LIST}}</a></li>
+            <a ng-href="#/users">{{translation.USERS_LIST}}</a></li>
           <li>
           <li ng-class="{ active: isActive('eventslist')}"
               ng-show="isAdmin()" >
@@ -69,4 +69,3 @@
   </nav>
 
 </div>
-
