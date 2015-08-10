@@ -5,7 +5,7 @@
         <span ng-if="training.status === 'COMPLETED'" trn-star-rating readonly="true" rating-value="training.rating" ng-model="ratings" max="ratings.max"></span>
         <button ng-if="(isAdmin() || isTrainer()) && training.status !== 'COMPLETED'" type="button" class="btn btn-link training-menu-btn" ng-click="edit();">{{translation.EDIT}}</button>
         <button ng-if="(isAdmin() || isTrainer()) && training.status !== 'COMPLETED'" type="button" class="btn btn-link training-menu-btn" ng-click="cancel();">{{translation.CANCEL}}</button>
-        <button ng-if="isAdmin() && training.status !== 'COMPLETED';" type="button" class="btn btn-link training-menu-btn" ng-click="openCreatePopup('Listener',training.id)">{{translation.ADD_LISTENER}}</button>
+        <button ng-if="isAdmin() && training.status !== 'COMPLETED' && training.status !== 'DRAFTED';" type="button" class="btn btn-link training-menu-btn" ng-click="openCreatePopup('Listener',training.id)">{{translation.ADD_LISTENER}}</button>
         <button ng-if="registrated && !isTrainer()" type="button" class="btn btn-link training-menu-btn" ng-click="leaveTrainingFeedback(training.name)">{{translation.LEAVE_FEEDBACK}}</button>
         <button ng-if="(registrated && !isTrainer()) && (training.status === 'COMPLETED')" type="button" class="btn btn-link training-menu-btn" ng-click="leaveTrainingFeedback()">{{translation.LEAVE_FEEDBACK}}</button>
 
