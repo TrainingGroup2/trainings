@@ -42,12 +42,12 @@ angular.module('frontendApp').controller('AttendanceJournalFullCtrl', ['$scope',
     var participation = values.participation;
     var entries = values.entries;
 
-    //sort by date
-    entries.sort(function (a, b) {
+    //sort by date, use server sorting
+    /*entries.sort(function (a, b) {
       var c = new Date(a.beginTime);
       var d = new Date(b.beginTime);
       return c - d;
-    });
+    });*/
 
     var ajArray = [];
 
