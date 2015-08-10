@@ -99,7 +99,7 @@ angular.module('frontendApp')
 
 
       $scope.addLink = function() {
-        _.extend($scope.attachment, $route.current.params.trainingId);
+        _.extend($scope.attachment, {trainingId: $route.current.params.trainingId});
         $scope.attachments.push(angular.copy($scope.attachment));
         angular.element('.links').append($compile('<li><a href="'+$scope.attachment.link+'">'+$scope.attachment.name+' </a>&nbsp; <i class="fa fa-close" ng-click="removeLink($event)"></i> </li>')($scope));
         $scope.attachment = {};
