@@ -9,7 +9,7 @@ angular.module('frontendApp')
 
     $scope.confirm = function() {
       $scope.isLoading = true;
-      $http.post('http://localhost:8080/confirm_participation/?userId='+$route.current.params.userId+
+      $http.post('http://localhost:8080/training/confirm_participation?userId='+$route.current.params.userId+
         '&trainingId='+$route.current.params.trainingId).then(function(resp) {
 
         alert('SUCCESS \n TODO: do bootstrap one');
@@ -20,7 +20,7 @@ angular.module('frontendApp')
 
     $scope.decline = function() {
       $scope.isLoading = true;
-      $http.post('http://localhost:8080/cansel_participation/?userId='+$route.current.params.userId+
+      $http.post('http://localhost:8080/training/cancel_participation?userId='+$route.current.params.userId+
         '&trainingId='+$route.current.params.trainingId).then(function(resp) {
 
         alert('SUCCESS \n TODO: do bootstrap one');
