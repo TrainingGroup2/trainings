@@ -46,10 +46,12 @@
   </tr>
   </tbody>
   <tfoot>
-  <tr>
-    <td colspan="10" class="text-center">
-      <div st-items-by-page="10" st-pagination=""></div>
-    </td>
-  </tr>
+  <div class="pagination" ng-if="pages.length >= 2">
+    <tr >
+      <td colspan="10" class="text-center">
+        <div st-items-by-page="5" st-pagination=""></div>
+      </td>
+    </tr>
+  </div>
   </tfoot>
 </table>

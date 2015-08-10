@@ -6,10 +6,8 @@
     <p class="col-sm-7">{{training.status}}</p>
   </div>
   <div class="col-sm-4 training-description">
-    <div class="panel panel-primary">
-      <div class="panel-heading">
-        <label> {{translation.DESCRIPTION}}: </label>
-      </div>
+    <label> {{translation.DESCRIPTION}}: </label>
+    <div class="panel">
       <div class="panel-body training-desc-panel-body">{{training.description}}</div>
     </div>
 
@@ -54,7 +52,7 @@
   <div class="col-sm-8 training-info-entry">
     <label class="col-sm-4 text-right"> {{translation.ATTACHMENTS}}: </label>
 
-    <ul class="list-inline">
+    <ul class="list-unstyled col-sm-offset-4">
       <li ng-repeat="attachment in training.attachments">
         <a target="_blank" class="col-sm-7" href="{{attachment.link}}">{{attachment.name}}</a>
       </li>
@@ -63,12 +61,14 @@
 
 
 </div>
-<div align="center" ng-if="training.status === 'APPROVED' && !isTrainer()">
-  <div ng-show="!registrated" align="center">
-    <button class="btn btn-success btn-lg" ng-disabled="pendingR" ng-click="register();">{{translation.REGISTER}}</button>
-  </div>
-  <div ng-show="registrated" align="center">
-    <button class="btn btn-danger btn-lg" ng-disabled="pendingR" ng-click="unregister();">{{translation.UNREGISTER}}</button>
+<div class="col-sm-12">
+  <div align="center" ng-if="training.status === 'APPROVED' && !isTrainer()">
+    <div ng-show="!registrated" align="center">
+      <button class="btn btn-success btn-lg" ng-disabled="pendingR" ng-click="register();">{{translation.REGISTER}}</button>
+    </div>
+    <div ng-show="registrated" align="center">
+      <button class="btn btn-danger btn-lg" ng-disabled="pendingR" ng-click="unregister();">{{translation.UNREGISTER}}</button>
+    </div>
   </div>
 </div>
 
