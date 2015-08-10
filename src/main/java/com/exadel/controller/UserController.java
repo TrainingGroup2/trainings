@@ -1,8 +1,11 @@
 package com.exadel.controller;
 
 import com.exadel.dto.UserDTO;
+import com.exadel.model.entity.user.ExternalTrainer;
 import com.exadel.model.entity.user.User;
 import com.exadel.service.UserService;
+import com.exadel.service.impl.EmailMessages;
+import com.exadel.service.impl.SmtpMailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -10,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.UUID;
 
 
 @PreAuthorize("hasRole('0')")
@@ -19,11 +22,18 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private SmtpMailSender smtpMailSender;
+    @Autowired
+    private EmailMessages emailMessages;
 
     @PreAuthorize("hasRole('0')")
     @RequestMapping(value = "/newTrainer", method = RequestMethod.POST)
     public void addExternalTrainer(@RequestBody UserDTO trainerDTO) {
-        userService.addUser(new User(trainerDTO));
+        ExternalTrainer trainer = (ExternalTrainer)userService.addUser(new ExternalTrainer(trainerDTO));
+
+        String password = UUID.randomUUID().toString().substring(0, 16);
+        smtpMailSender.send(trainer.getEmail(), "Exadel-Trainings System", emailMessages.newExternalTrainer(trainer, password));
     }
 
     @PreAuthorize("hasRole('0')")

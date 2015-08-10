@@ -4,6 +4,7 @@ import com.exadel.model.entity.ParticipationStatus;
 import com.exadel.model.entity.feedback.TrainingFeedback;
 import com.exadel.model.entity.training.Entry;
 import com.exadel.model.entity.training.Training;
+import com.exadel.model.entity.user.ExternalTrainer;
 import com.exadel.model.entity.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -139,6 +140,15 @@ public class EmailMessages  {
                 domain + "training/" + nextEntry.getTraining().getId()
         };
         return messageSource.getMessage("emailNotification.register.becomeMember", arr, null);
+    }
+
+    public String newExternalTrainer(ExternalTrainer trainer, String password) {
+        Object[] arr = {
+                trainer.getName(),
+                domain + "userTrainings",
+                password
+        };
+        return messageSource.getMessage("emailNotification.newExternalTrainer", arr, null);
     }
 
     //Scheduled notifications

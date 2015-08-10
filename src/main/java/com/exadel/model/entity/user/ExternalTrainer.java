@@ -1,10 +1,13 @@
 package com.exadel.model.entity.user;
 
-import com.exadel.model.entity.training.Training;
+import com.exadel.dto.UserDTO;
 import com.exadel.model.entity.feedback.UserFeedback;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.exadel.model.entity.training.Training;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import java.util.List;
 import java.util.Set;
 
@@ -24,7 +27,12 @@ public class ExternalTrainer extends User {
     public ExternalTrainer() {
         super.setRole(UserRole.EXTERNAL_TRAINER);
     }
-    @JsonIgnore
+
+    public ExternalTrainer(UserDTO userDTO) {
+        super(userDTO);
+        super.setRole(UserRole.EXTERNAL_TRAINER);
+    }
+
     public List<Training> getMentoringTrainings() {
         return mentoringTrainings;
     }
