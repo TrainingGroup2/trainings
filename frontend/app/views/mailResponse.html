@@ -1,0 +1,14 @@
+<div class="col-sm-offset-4 col-sm-4" style="top: 150px">
+  <div class="panel">
+    <div class="panel-heading text-center">
+      <h1 ng-if="_confirm">Confirm your participation</h1>
+      <h1 ng-if="!_confirm">Do you want to drop training</h1>
+    </div>
+    <div class="panel-body">
+      <div align="center">
+        <button ng-if="_confirm" ng-click="confirm()" ng-disabled="isLoading" class="btn btn-success btn-lg">Confirm</button>
+        <button ng-click="decline()" ng-disabled="isLoading" class="btn btn-danger btn-lg">Drop</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -26,4 +26,11 @@ angular.module('frontendApp')
         return url !== "/login";
       };
 
+
+      $scope.isMailResp = function() {
+        var resp = ($location.path().split('/')[2] !== 'confirm_participation') &&
+          ($location.path().split('/')[2] !== 'cancel_participation');
+        console.log(resp);
+        return resp;
+      }
   }]);
