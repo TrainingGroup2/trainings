@@ -147,5 +147,6 @@
   "FEEDBACK_FROM" : "From",
   "FEEDBACK_RECOMMEND" : "Recommendation to visit",
   "FEEDBACK_RATINGS" : "Mark",
-  "AUTHENTICATION_FAILURE" : "Authentication failure. Please try again."
+  "AUTHENTICATION_FAILURE" : "Authentication failure. Please try again.",
+  "SHOW_MORE" : "Show more"
 }
