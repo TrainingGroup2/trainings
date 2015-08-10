@@ -17,7 +17,7 @@
         </a>
       </div>
       <div class="navbar-collapse collapse">
-        <ul class="nav navbar-nav" ng-show="isLoginPage()">
+        <ul class="nav navbar-nav" ng-show="isMailResp() && isLoginPage()">
           <li ng-class="{ active: isActive('')}">
             <a ng-href="#/userTrainings">{{translation.MY_TRAININGS}}</a></li>
           <li ng-class="{ active: isActive('traininglist')}"
@@ -32,7 +32,7 @@
             <a ng-href="#/eventslist">{{translation.EVENTS_LIST}}</a></li>
         </ul>
 
-        <ul class="nav navbar-nav navbar-right" ng-controller="EventMenuCtrl" ng-show="isLoginPage()">
+        <ul class="nav navbar-nav navbar-right" ng-controller="EventMenuCtrl" ng-show="isMailResp() && isLoginPage()">
           <li>
             <div class="btn-group header-lang-select">
               <button type="button" class="btn header-lang-select-button dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
