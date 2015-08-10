@@ -17,6 +17,7 @@ angular.module('frontendApp')
       $scope.participants = [];
       $scope.entries = [];
 
+
       $scope.trainingId = $route.current.params.trainingId;
       $scope.ratings = {
         current: 1,
@@ -97,6 +98,8 @@ angular.module('frontendApp')
         })
       };
 
+      $scope.noEntries = false;
+
       $scope.openInfo = function() {
         if(_.isEmpty($scope.training)) {
           training.getInfo({id: $route.current.params.trainingId}, function(resp){
@@ -108,9 +111,14 @@ angular.module('frontendApp')
 
             training.getEntry({id: $route.current.params.trainingId}, function(resp){
               _.extend($scope.training, {entry: angular.copy(resp)});
-              $scope.duration = new Date(0);
-              $scope.duration.setHours(new Date($scope.training.entry.endTime).getHours() - new Date($scope.training.entry.beginTime).getHours())
-              $scope.duration.setMinutes(new Date($scope.training.entry.endTime).getMinutes() - new Date($scope.training.entry.beginTime).getMinutes())
+              console.log($scope.training.entry);
+              if(!_.has($scope.training.entry, id)) {
+                $scope.duration = new Date(0);
+                $scope.duration.setHours(new Date($scope.training.entry.endTime).getHours() - new Date($scope.training.entry.beginTime).getHours());
+                $scope.duration.setMinutes(new Date($scope.training.entry.endTime).getMinutes() - new Date($scope.training.entry.beginTime).getMinutes());
+              } else {
+                $scope.duration = ' ';
+              }
             });
             training.getAttachments({id: $route.current.params.trainingId}, function(resp) {
               _.extend($scope.training, {attachments: angular.copy(resp)});
