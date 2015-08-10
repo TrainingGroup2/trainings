@@ -22,7 +22,7 @@
     <td ng-if="isAdmin() || isTrainer()">
       <button ng-if="isAdmin();" class="btn btn-default ask-leave-user-feedback-btn" ng-click="askFeedback({{participant.id}}, $event)">Ask Feedback</button>
       <!-- TODO Show 'User feedback' for trainer only -->
-      <button class="btn btn-default ask-leave-user-feedback-btn" ng-click="leaveUserFeedbackDialog({{participant.id}}, $event, participant.name)" ng-dialog-class="ngdialog-theme-plain">User feedback</button>
+      <button ng-if="isTrainer()" class="btn btn-default ask-leave-user-feedback-btn" ng-click="leaveUserFeedbackDialog({{participant.id}}, $event, participant.name)" ng-dialog-class="ngdialog-theme-plain">User feedback</button>
     </td>
   </tr>
   </tbody>
