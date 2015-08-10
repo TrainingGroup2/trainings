@@ -147,5 +147,7 @@
   "FEEDBACK_FROM" : "From",
   "FEEDBACK_RECOMMEND" : "Recommendation to visit",
   "FEEDBACK_RATINGS" : "Mark",
-  "AUTHENTICATION_FAILURE" : "Authentication failure. Please try again."
+  "AUTHENTICATION_FAILURE" : "Authentication failure. Please try again.",
+  "LOADING_ATTENDANCE_DATA" : "Loading Attendance Data...",
+  "USER_NOT_ATTEND_TRAINING" : "This user has not attended this training at all"
 }

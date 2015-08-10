@@ -1,40 +1,53 @@
 'use strict';
-angular.module('frontendApp').controller('AttendanceJournalCtrl', ['$scope', '$rootScope', '$localStorage', '$q', 'training', 'attendanceJournalService', 'ngDialog', '$filter', '$interval', function ($scope, $rootScope, $localStorage, $q, training, attendanceJournalService, ngDialog, $filter, $interval) {
+angular.module('frontendApp').controller('AttendanceJournalFullCtrl', ['$scope', '$rootScope', '$localStorage', '$q', 'training', 'attendanceJournalService', 'ngDialog', '$filter', '$interval', function ($scope, $rootScope, $localStorage, $q, training, attendanceJournalService, ngDialog, $filter, $interval) {
+  $scope.loading = true;
+
+  var gridApi;
   var now = new Date();
-  var prevMonth = new Date();
-  prevMonth.setMonth(now.getMonth() - 1);
-  $scope.dateStart = prevMonth;
-  $scope.dateEnd = now;
 
   var ABSENT = 'н';
-  var PRESENT = ' ';
+  var PRESENT = '&nbsp;';
   var NOT_ATTEND = 'x';
 
-  $scope.open = function (type) {
-    $scope.status[type] = true;
-  };
-  $scope.status = {
-    dateStart: false,
-    dateEnd: false
+  $scope.gridAttendanceOptions =  {
+    data: [],
+    columnDefs: [],
+    onRegisterApi: function (_gridApi) {
+      gridApi = _gridApi;
+    },
+    //exporting settings
+    enableSelectAll: true,
+    enableGridMenu: true,
+    exporterCsvFilename: 'AttendanceReport.csv',
+    exporterPdfDefaultStyle: {fontSize: 9},
+    exporterPdfTableStyle: {margin: [30, 30, 30, 30]},
+    exporterPdfTableHeaderStyle: {fontSize: 10, bold: true, italics: true, color: 'red'},
+    exporterPdfHeader: {text: "Attendance Report"},
+    exporterPdfOrientation: 'landscape',
+    exporterPdfPageSize: 'LETTER',
+    exporterPdfMaxGridWidth: 500
+    //exporting settings
   };
 
-  $scope.loadAtt = function () {
-   console.log($scope.dateStart.toLocaleDateString());
   $q.all({
     participants: training.getParticipants({id: $scope.trainingId}).$promise,
     participation: training.getParticipation({id: $scope.trainingId}).$promise,
-    entries: training.getAbsentees({id: $scope.trainingId, beginDate: $scope.dateStart.getTime(), endDate: $scope.dateEnd.getTime()}).$promise
+    entries: training.getAllAbsentees({
+      id: $scope.trainingId,
+      //load all entries till now
+      endDate: now.getTime()
+    }).$promise
   }).then(function (values) {
     var participants = values.participants;
     var participation = values.participation;
     var entries = values.entries;
 
-    //sort by date
-    entries.sort(function (a, b) {
+    //sort by date, use server sorting
+    /*entries.sort(function (a, b) {
       var c = new Date(a.beginTime);
       var d = new Date(b.beginTime);
       return c - d;
-    });
+    });*/
 
     var ajArray = [];
 
@@ -53,7 +66,7 @@ angular.module('frontendApp').controller('AttendanceJournalCtrl', ['$scope', '$r
           if (participation[i].userId === participant.id) {
             if (participation[i].beginDay > entry.beginTime || (participation[i].endDay != null && participation[i].endDay < entry.beginTime)) {
               entryAttendance.state = NOT_ATTEND;
-              entryAttendance.reason = 'This user has not attended this training at all';
+              entryAttendance.reason =  $rootScope.translation.USER_NOT_ATTEND_TRAINING;
             }
             break;
           }
@@ -78,10 +91,47 @@ angular.module('frontendApp').controller('AttendanceJournalCtrl', ['$scope', '$r
 
     $scope.entries = entries;
     $scope.ajArray = ajArray;
-  });
-  }
 
-  $scope.cellClickHandler = function (attend, user) {
+    // ******** ui-grid section ******* //
+    var columnDef = [
+      {name: 'user.userName', displayName: $rootScope.translation.NAME, width: 200, pinnedLeft: true}
+    ], data = [], gridApi;
+    //dynamic columns
+    entries.forEach(function (entity, index, array) {
+      var key = entity.id.toString();
+      columnDef.push({
+        id: key,
+        field: key + ".state",
+        displayName: $filter('date')(entity.beginTime, 'dd-MM-yy'),
+        width: 80,
+        cellClass: 'text-center',
+        enableSorting: false,
+        enableColumnMenu: false,
+        cellTemplate: '<div data-toggle="tooltip" title="{{row.entity[col.colDef.id].reason}}" ng-click="grid.appScope.cellClickHandler(row,col)"><span ng-bind-html="row.entity[col.colDef.id].state"></span></div>',
+
+      });
+    });
+    $scope.gridAttendanceOptions.columnDefs = columnDef;
+
+    //dynamic rows
+    ajArray.forEach(function (user, index, array) {
+      var entity = {};
+      entity.user = user;
+      user.attendance.forEach(function (attendance, index, array) {
+        entity[attendance.entryId] = attendance;
+      });
+      data.push(entity);
+    });
+    $scope.gridAttendanceOptions.data = data;
+
+  }).finally(function () {
+    $scope.loading = false;
+  });
+
+  $scope.cellClickHandler = function (row, col) {
+    var attend = row.entity[col.colDef.id];
+    var user = row.entity.user;
+
     if (!isActionAllowed(user)) {
       return;
     }

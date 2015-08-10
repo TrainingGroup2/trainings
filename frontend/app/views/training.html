@@ -28,11 +28,19 @@
 
         </tab>
 
-        <tab select="openJournal()" heading="{{translation.ATTENDANCE_JOURNAL}}">
+   <!--     <tab  heading="{{translation.ATTENDANCE_JOURNAL}}">
           <div ng-include="'views/tabs/trainingAttendanceJournalTab.html'"></div>
-        </tab>
+        </tab>-->
 
-        <tab select="openFeedbacks()" heading="{{translation.FEEDBACKS}}">
+      <tab select="openTab(translation.ATTENDANCE_JOURNAL)" heading="{{translation.ATTENDANCE_JOURNAL}}">
+        <div ng-if="ifActive(translation.ATTENDANCE_JOURNAL)">
+          <div ng-include="'views/tabs/trainingAttendanceJournalFullTab.html'"></div>
+        </div>
+
+      </tab>
+
+
+      <tab select="openFeedbacks()" heading="{{translation.FEEDBACKS}}">
           <div ng-include="'views/tabs/trainingFeedbacksTab.html'"></div>
         </tab>
 

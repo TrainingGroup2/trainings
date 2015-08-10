@@ -41,6 +41,9 @@ module.exports = function(config) {
       'bower_components/angular-base64/angular-base64.js',
       'bower_components/angular-file-upload/dist/angular-file-upload.min.js',
       'bower_components/angular-ui-select/dist/select.js',
+      'bower_components/angular-ui-grid/ui-grid.js',
+      'bower_components/pdfmake/build/pdfmake.js',
+      'bower_components/pdfmake/build/vfs_fonts.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       "app/scripts/**/*.js",

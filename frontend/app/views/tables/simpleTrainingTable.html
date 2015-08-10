@@ -14,7 +14,7 @@
     <tr ng-repeat="row in trainingsList">
       <td>{{row.name}}</td>
       <td>{{row.description}}</td>
-      <td>{{row.rating}}</td>
+      <td>{{row.rating | number:2}}</td>
     </tr>
     </tbody>
   </table>

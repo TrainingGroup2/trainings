@@ -84,6 +84,16 @@ angular.module('frontendApp').factory('training',['$resource',
         isArray: true
       },
 
+      getAllAbsentees: {
+        method: 'GET',
+        params: {
+          type: 'absentees',
+          id: '@id',
+          endDate: '@endDate'
+        },
+        isArray: true
+      },
+
       getWaitList: {
         method: 'GET',
         url: 'http://localhost:8080/training/waitList?trainingId=:id',
