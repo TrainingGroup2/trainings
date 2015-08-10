@@ -81,7 +81,8 @@
   <div class="col-sm-8 training-info-entry">
     <div class="col-sm-offset-4">
       <button type="button" class="btn btn-default add-entry-button" ng-click="addEntry();">
-        <i class="fa fa-plus"></i>{{translation.ADD_NEW_ENTRY}}
+        <i ng-if="newTraining" class="fa fa-plus">{{translation.ADD_NEW_ENTRY}}</i>
+        <i ng-if="!newTraining" class="fa fa-plus">{{translation.SHOW_MORE}}</i>
       </button>
     </div>
   </div>
@@ -122,7 +123,7 @@
       {{translation.TRAINER}}:</label>
 
     <div class="col-sm-7">
-      <ui-select id="trainer" ng-model="data.trainer" theme="bootstrap" append-to-body="true">
+      <ui-select ng-disabled="!isAdmin()" id="trainer" ng-model="data.trainer" theme="bootstrap" append-to-body="true">
         <ui-select-match placeholder="select trainer">{{$select.selected.name + ' ' + $select.selected.surname}}</ui-select-match>
         <ui-select-choices repeat="user as user in users | propsFilter: {name: $select.search}">
           <div ng-bind-html="user.name + ' ' + user.surname | highlight: $select.search"></div>

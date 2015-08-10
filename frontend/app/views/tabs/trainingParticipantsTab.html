@@ -20,7 +20,8 @@
     <td>{{participant.email}}</td>
     <td>{{participant.phone}}</td>
     <td ng-if="isAdmin() || isTrainer()">
-      <button ng-if="isAdmin();" class="btn btn-default ask-leave-user-feedback-btn" ng-click="askFeedback({{participant.id}}, $event)">Ask Feedback</button>
+      <button ng-if="isAdmin() && (training.status === 'COMPLETED' || (training.repeated && training.status === 'APPROVED'));"
+              class="btn btn-default ask-leave-user-feedback-btn" ng-click="askFeedback({{participant.id}}, $event)">Ask Feedback</button>
       <!-- TODO Show 'User feedback' for trainer only -->
       <button ng-if="isTrainer()" class="btn btn-default ask-leave-user-feedback-btn" ng-click="leaveUserFeedbackDialog({{participant.id}}, $event, participant.name)" ng-dialog-class="ngdialog-theme-plain">User feedback</button>
     </td>
