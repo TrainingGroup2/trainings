@@ -38,12 +38,7 @@ angular
       })
       .when('/traininglist', {
         templateUrl: 'views/traininglist.html',
-        controller: 'TrainingListCtrl',
-        resolve: {
-          data: function (TrainingList) {
-            return TrainingList.getTrainingList().$promise;
-          }
-        }
+        controller: 'TrainingListCtrl'
       })
       .when('/userTrainings', {
         templateUrl: 'views/userTrainingsList.html',
@@ -111,6 +106,20 @@ angular
           }]
         }
       })
+      .when('/training/confirm_participation/:userId/:trainingId', {
+        templateUrl: 'views/mailResponse.html',
+        controller: 'MailResponseCtrl',
+        access: {
+          allowAnonymous: true
+        }
+      })
+      .when('/training/cancel_participation/:userId/:trainingId', {
+        templateUrl: 'views/mailResponse.html',
+        controller: 'MailResponseCtrl',
+        access: {
+          allowAnonymous: true
+        }
+      })
       .otherwise({
         redirectTo: '/userTrainings'
       });
@@ -129,7 +138,9 @@ angular
         menu.remove();
       }
       console.log($location.path());
-      if ($location.path() !== '/login' && !$rootScope.globals) {
+      if ($location.path() !== '/login' && !$rootScope.globals &&
+        !($location.path().split('/')[2] === 'confirm_participation') &&
+        !($location.path().split('/')[2] === 'cancel_participation')) {
         if ($location.path() !== '') {
           $rootScope.locationPath = $location.path();
         }

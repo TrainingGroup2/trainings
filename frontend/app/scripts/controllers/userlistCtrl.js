@@ -2,8 +2,8 @@
 
 
 angular.module('frontendApp')
-  .controller('UserlistCtrl', ['$scope', 'ngDialog',  'userService', '$location', 'userServiceDelegate', '$http',
-    function ($scope, ngDialog, userService, $location, userServiceDelegate, $http) {
+  .controller('UserlistCtrl', ['$scope', 'ngDialog',  'userService', '$location', 'userServiceDelegate',
+    function ($scope, ngDialog, userService, $location, userServiceDelegate) {
 
       $scope.users = [];
       $scope.callServer = function (tableState) {
@@ -12,7 +12,7 @@ angular.module('frontendApp')
 
         var start = (pagination.start || 0) + 1;
         var number = pagination.number || 5;  // Number of entries showed per page.
-        userServiceDelegate.getPageCount(start, number).then(function(res) {
+        userServiceDelegate.getPageCount(start, number, tableState).then(function(res) {
           console.log(res);
           tableState.pagination.numberOfPages = res.data;
           console.log(tableState);
