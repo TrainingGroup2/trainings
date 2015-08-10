@@ -6,7 +6,7 @@
         <button ng-if="(isAdmin() || isTrainer()) && training.status !== 'COMPLETED'" type="button" class="btn btn-link training-menu-btn" ng-click="edit();">{{translation.EDIT}}</button>
         <button ng-if="(isAdmin() || isTrainer()) && training.status !== 'COMPLETED'" type="button" class="btn btn-link training-menu-btn" ng-click="cancel();">{{translation.CANCEL}}</button>
         <button ng-if="isAdmin() && training.status !== 'COMPLETED';" type="button" class="btn btn-link training-menu-btn" ng-click="openCreatePopup('Listener',training.id)">{{translation.ADD_LISTENER}}</button>
-        <button ng-if="registrated && !isTrainer()" type="button" class="btn btn-link training-menu-btn" ng-click="leaveTrainingFeedback()">{{translation.LEAVE_FEEDBACK}}</button>
+        <button ng-if="registrated && !isTrainer()" type="button" class="btn btn-link training-menu-btn" ng-click="leaveTrainingFeedback(training.name)">{{translation.LEAVE_FEEDBACK}}</button>
 
     </div>
 </div>

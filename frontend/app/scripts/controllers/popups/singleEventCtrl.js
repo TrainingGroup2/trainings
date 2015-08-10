@@ -52,13 +52,16 @@ angular.module('frontendApp')
       };
 
       $scope.isTrainingEvent = function(eventType) {
-        return eventType == "TRAINING"
+        return eventType == "TRAINING";
       };
 
-      $scope.isFeedbackEvent = function(eventType) {
-        return eventType == "USER_FEEDBACK" || eventType == "TRAINING_FEEDBACK"
+      $scope.isUserFeedbackEvent = function(eventType) {
+        return eventType == "USER_FEEDBACK";
       };
 
+      $scope.isTrainingFeedbackEvent = function(eventType) {
+        return  eventType == "TRAINING_FEEDBACK";
+      };
     }
   ]);
 

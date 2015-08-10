@@ -12,15 +12,18 @@
       </div>
       <div class="entity-link event-block">
         <div class="col-sm-1">
-          Link :
+          <p>Link :</p>
         </div>
         <div class="col-sm-3">
           <a ng-click="redirectToEntity(singleevent)">
             <div ng-show="isTrainingEvent(singleevent.eventType)">
               {{translation.VISIT_TRAINING_PAGE}}
             </div>
-            <div ng-show="isFeedbackEvent(singleevent.eventType)">
+            <div ng-show="isUserFeedbackEvent(singleevent.eventType)">
               {{translation.VISIT_USER_PAGE}}
+            </div>
+            <div ng-show="isTrainingFeedbackEvent(singleevent.eventType)">
+              {{translation.VISIT_TRAINING_PAGE}}
             </div>
           </a>
         </div>

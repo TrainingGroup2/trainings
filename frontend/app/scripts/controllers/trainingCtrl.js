@@ -2,8 +2,8 @@
 
 angular.module('frontendApp')
   .controller('TrainingCtrl', ['$route', '$scope', '$location', '$localStorage', 'ngDialog', 'training',
-    'UserFeedbackService',
-    function ($route, $scope, $location, $localStorage, ngDialog, training, UserFeedbackService) {
+    'UserFeedbackService', 'userService',
+    function ($route, $scope, $location, $localStorage, ngDialog, training, UserFeedbackService, userService) {
 
 
       $scope.isTrainer = function() {
@@ -35,7 +35,7 @@ angular.module('frontendApp')
         $event.stopPropagation();
       };
 
-      $scope.leaveUserFeedbackDialog = function (userId, $event,userName) {
+      $scope.leaveUserFeedbackDialog = function (userId, $event, userName) {
         ngDialog.open({
           template: "views/popups/leaveUserFeedback.html",
           controller: 'LeaveFeedbackCtrl',
@@ -54,6 +54,7 @@ angular.module('frontendApp')
       $scope.openUserpage = function (userId) {
         if ($scope.isAdmin()) {
           console.log(userId);
+          userService.setRedirectUserId(userId);
           $location.path('/userprofile/' + userId);
         }
       };
