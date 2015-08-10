@@ -1,4 +1,6 @@
 <div ng-controller="AttendanceJournalFullCtrl" class="attendance-journal">
-  <h1 ng-show="loading" class="text-center">Loading Attendance Data...</h1>
-  <div ng-if="!loading"  ui-grid-selection ui-grid-exporter ui-grid="gridAttendanceOptions" class="attendance-grid grid"  ui-grid-pinning></div>
+  <h1 ng-show="loading" class="text-center">{{translation.LOADING_ATTENDANCE_DATA}}</h1>
+
+  <div ng-if="!loading" ui-grid-selection ui-grid-exporter ui-grid="gridAttendanceOptions" class="attendance-grid grid"
+       ui-grid-pinning></div>
 </div>

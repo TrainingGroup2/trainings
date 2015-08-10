@@ -1,32 +1,21 @@
 'use strict';
 angular.module('frontendApp').controller('AttendanceJournalFullCtrl', ['$scope', '$rootScope', '$localStorage', '$q', 'training', 'attendanceJournalService', 'ngDialog', '$filter', '$interval', function ($scope, $rootScope, $localStorage, $q, training, attendanceJournalService, ngDialog, $filter, $interval) {
   $scope.loading = true;
-  $scope.gridAttendanceOptions = {};
+
   var gridApi;
   var now = new Date();
-  var prevMonth = new Date();
-  prevMonth.setMonth(now.getMonth() - 1);
-  $scope.dateStart = prevMonth;
-  $scope.dateEnd = now;
 
   var ABSENT = 'н';
   var PRESENT = '&nbsp;';
   var NOT_ATTEND = 'x';
 
-  $scope.open = function (type) {
-    $scope.status[type] = true;
-  };
-  $scope.status = {
-    dateStart: false,
-    dateEnd: false
-  };
   $scope.gridAttendanceOptions =  {
     data: [],
     columnDefs: [],
     onRegisterApi: function (_gridApi) {
       gridApi = _gridApi;
     },
-    //exporting
+    //exporting settings
     enableSelectAll: true,
     enableGridMenu: true,
     exporterCsvFilename: 'AttendanceReport.csv',
@@ -37,8 +26,7 @@ angular.module('frontendApp').controller('AttendanceJournalFullCtrl', ['$scope',
     exporterPdfOrientation: 'landscape',
     exporterPdfPageSize: 'LETTER',
     exporterPdfMaxGridWidth: 500
-    //exporting
-
+    //exporting settings
   };
 
   $q.all({
@@ -46,7 +34,8 @@ angular.module('frontendApp').controller('AttendanceJournalFullCtrl', ['$scope',
     participation: training.getParticipation({id: $scope.trainingId}).$promise,
     entries: training.getAllAbsentees({
       id: $scope.trainingId,
-      endDate: $scope.dateEnd.getTime()
+      //load all entries till now
+      endDate: now.getTime()
     }).$promise
   }).then(function (values) {
     var participants = values.participants;
@@ -77,7 +66,7 @@ angular.module('frontendApp').controller('AttendanceJournalFullCtrl', ['$scope',
           if (participation[i].userId === participant.id) {
             if (participation[i].beginDay > entry.beginTime || (participation[i].endDay != null && participation[i].endDay < entry.beginTime)) {
               entryAttendance.state = NOT_ATTEND;
-              entryAttendance.reason = 'This user has not attended this training at all';
+              entryAttendance.reason =  $rootScope.translation.USER_NOT_ATTEND_TRAINING;
             }
             break;
           }
@@ -105,7 +94,7 @@ angular.module('frontendApp').controller('AttendanceJournalFullCtrl', ['$scope',
 
     // ******** ui-grid section ******* //
     var columnDef = [
-      {name: 'user.userName', displayName: "Name", width: 200, pinnedLeft: true}
+      {name: 'user.userName', displayName: $rootScope.translation.NAME, width: 200, pinnedLeft: true}
     ], data = [], gridApi;
     //dynamic columns
     entries.forEach(function (entity, index, array) {
