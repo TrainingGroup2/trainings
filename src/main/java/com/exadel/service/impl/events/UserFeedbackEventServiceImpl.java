@@ -6,6 +6,9 @@ import com.exadel.model.entity.user.User;
 import com.exadel.repository.events.UserFeedbackEventRepository;
 import com.exadel.service.events.UserFeedbackEventService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.context.request.async.DeferredResult;
@@ -42,6 +45,14 @@ public class UserFeedbackEventServiceImpl implements UserFeedbackEventService {
     @Override
     public Optional<UserFeedbackEvent> addEvent(UserFeedbackEvent event) {
         return Optional.ofNullable(eventRepository.saveAndFlush(event));
+    }
+
+    @Override
+    public Page<UserFeedbackEvent> getUserFeedbackEvents(Integer first, Integer size) {
+        Integer pageNumber = first / size;
+        PageRequest request =
+                new PageRequest(pageNumber, size);
+        return eventRepository.findAll(request);
     }
 
 }

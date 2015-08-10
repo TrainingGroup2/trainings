@@ -10,20 +10,19 @@ angular.module('frontendApp')
         $scope.isLoading = true;
         var pagination = tableState.pagination;
 
-        var start = (pagination.start || 0) + 1;
+        var start = (pagination.start || 0);
         var number = pagination.number || 5;  // Number of entries showed per page.
-        userServiceDelegate.getPageCount(start, number, tableState).then(function(res) {
-          console.log(res);
-          tableState.pagination.numberOfPages = res.data;
-          console.log(tableState);
-          userServiceDelegate.getPage(start, number, tableState).then(function(result) {
-          console.log(result);
-          $scope.users = result.data;
-          //set the number of pages so the pagination can update
-          $scope.isLoading = false;
-        } )
-      });
-    };
+        userServiceDelegate.getPage(start, number, tableState).then(function(res) {
+          $scope.users = res.data;
+          userServiceDelegate.getPageCount(start, number, tableState).then(function(result) {
+
+            tableState.pagination.numberOfPages = result.data;
+
+            //set the number of pages so the pagination can update
+            $scope.isLoading = false;
+          } )
+        });
+      };
 
       $scope.openCreatePopup = function (type) {
         ngDialog.open({

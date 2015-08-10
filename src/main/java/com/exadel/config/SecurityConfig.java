@@ -47,8 +47,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "select login, password, 'true' as enabled from authentification  where login = ?")
                 .authoritiesByUsernameQuery(
                         "select an.login, us.role  from users us join authentification an on us.id = an.user_id where an.login = ?");
-
-
     }
 
     private CsrfTokenRepository csrfTokenRepository() {
@@ -73,7 +71,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/login")
-
                 .failureHandler(authenticationFailureHandler)
                 .successHandler(authenticationSuccessHandler)
                 .loginProcessingUrl("http://localhost:9000/#/")
@@ -85,7 +82,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .deleteCookies("JSESSIONID")
                 .deleteCookies("XSRF-TOKEN")
                 .permitAll()
-                .logoutSuccessUrl("http://localhost:9000/#/");
+                .logoutSuccessUrl("http://localhost:9000/#/login");
 //                .and()
 //                .addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class).csrf().csrfTokenRepository(csrfTokenRepository());
 

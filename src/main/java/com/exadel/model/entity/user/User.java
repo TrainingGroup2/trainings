@@ -1,27 +1,77 @@
 package com.exadel.model.entity.user;
 
 import com.exadel.dto.UserDTO;
+import org.apache.lucene.analysis.core.KeywordTokenizerFactory;
+import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
+import org.apache.lucene.analysis.miscellaneous.LengthFilterFactory;
+import org.apache.lucene.analysis.ngram.EdgeNGramFilterFactory;
+import org.apache.lucene.analysis.ngram.NGramFilterFactory;
+import org.apache.lucene.analysis.snowball.SnowballPorterFilterFactory;
+import org.apache.lucene.analysis.standard.StandardTokenizerFactory;
+import org.hibernate.search.annotations.*;
+import org.hibernate.search.annotations.Parameter;
+import org.hibernate.search.bridge.builtin.EnumBridge;
 
 import javax.persistence.*;
 
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.bridge.builtin.IntegerBridge;
+
 @Entity
+@Indexed
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "role", discriminatorType = DiscriminatorType.INTEGER)
+@AnalyzerDef(name = "customanalyz",
+        tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class),
+        filters = {
+                @TokenFilterDef(factory = LowerCaseFilterFactory.class),
+                @TokenFilterDef(factory = SnowballPorterFilterFactory.class, params = {
+                        @Parameter(name = "language", value = "English")
+                }),
+                @TokenFilterDef(factory = SnowballPorterFilterFactory.class, params = {
+                        @Parameter(name = "language", value = "Russian")
+                }),
+                @TokenFilterDef(factory = EdgeNGramFilterFactory.class, params = {
+                        @Parameter(name = "minGramSize", value = "1"), @Parameter(name = "maxGramSize", value = "15")}),
+
+        })
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @Fields({
+            @Field(analyze = Analyze.YES, store = Store.NO),
+            @Field(analyze = Analyze.YES, store = Store.NO)})
+    @Analyzer(definition = "customanalyz")
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @Fields({
+            @Field(analyze = Analyze.YES, store = Store.NO),
+            @Field(analyze = Analyze.YES, store = Store.NO)})
+    @Analyzer(definition = "customanalyz")
     @Column(name = "surname", nullable = false)
     private String surname;
+
+
+    @Fields({
+            @Field(analyze = Analyze.YES, store = Store.NO),
+            @Field(analyze = Analyze.YES, store = Store.NO)})
+    @Analyzer(definition = "customanalyz")
     @Column(name = "phone", nullable = false)
     private String phone;
 
+    @Fields({
+            @Field(analyze = Analyze.YES, store = Store.NO),
+            @Field(analyze = Analyze.YES, store = Store.NO)})
+    @Analyzer(definition = "customanalyz")
     private String email;
 
+    @Field(analyze = Analyze.YES, index = Index.YES)
     @Column(insertable = false, updatable = false)
+    @FieldBridge(impl = EnumBridge.class)
     private UserRole role;
 
     public User() {
@@ -74,7 +124,6 @@ public class User {
         this.surname = surname;
     }
 
-
     public String getEmail() {
         return email;
     }
@@ -90,8 +139,6 @@ public class User {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-
-
 
     public UserRole getRole() {
         return role;

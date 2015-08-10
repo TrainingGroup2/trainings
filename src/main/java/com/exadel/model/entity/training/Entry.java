@@ -2,20 +2,45 @@ package com.exadel.model.entity.training;
 
 import com.exadel.dto.EntryDTO;
 import com.exadel.model.entity.user.Absentee;
+import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
+import org.apache.lucene.analysis.ngram.EdgeNGramFilterFactory;
+import org.apache.lucene.analysis.ngram.NGramFilterFactory;
+import org.apache.lucene.analysis.snowball.SnowballPorterFilterFactory;
+import org.apache.lucene.analysis.standard.StandardTokenizerFactory;
+import org.hibernate.search.annotations.*;
+import org.hibernate.search.annotations.Parameter;
 
 import javax.persistence.*;
+import javax.persistence.Index;
 import java.util.Date;
 import java.util.List;
 
 @Entity
+@Indexed
 @Table(name = "entries")
+@AnalyzerDef(name = "canalyzer",
+        tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class),
+        filters = {
+                @TokenFilterDef(factory = LowerCaseFilterFactory.class),
+                @TokenFilterDef(factory = SnowballPorterFilterFactory.class, params = {
+                        @Parameter(name = "language", value = "English")
+                }),
+                @TokenFilterDef(factory = SnowballPorterFilterFactory.class, params = {
+                        @Parameter(name = "language", value = "Russian")
+                })
+
+        })
 public class Entry implements Comparable<Entry> {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     private String place;
 
+    @Field( analyze = Analyze.YES, store = Store.YES)
+    @Analyzer(definition = "canalyzer")
     @Column(name = "begin_time")
     private Date beginTime;
     @Column(name = "end_time")

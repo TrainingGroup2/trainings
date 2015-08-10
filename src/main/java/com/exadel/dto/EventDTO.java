@@ -1,9 +1,6 @@
 package com.exadel.dto;
 
-import com.exadel.model.entity.events.EventType;
-import com.exadel.model.entity.events.TrainingEvent;
-import com.exadel.model.entity.events.TrainingFeedbackEvent;
-import com.exadel.model.entity.events.UserFeedbackEvent;
+import com.exadel.model.entity.events.*;
 import com.exadel.model.entity.feedback.TrainingFeedback;
 import com.exadel.model.entity.feedback.UserFeedback;
 import com.exadel.model.entity.training.Training;

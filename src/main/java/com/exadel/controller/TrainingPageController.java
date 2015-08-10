@@ -2,8 +2,24 @@ package com.exadel.controller;
 
 
 import com.exadel.dto.*;
-import com.exadel.model.entity.ParticipationStatus;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+
 import com.exadel.model.entity.events.Event;
+import com.exadel.repository.TrainingFeedbackRepository;
+import com.exadel.service.events.UserFeedbackEventService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import com.exadel.model.entity.ParticipationStatus;
 import com.exadel.model.entity.events.TrainingEvent;
 import com.exadel.model.entity.events.TrainingFeedbackEvent;
 import com.exadel.model.entity.feedback.TrainingFeedback;
@@ -11,24 +27,15 @@ import com.exadel.model.entity.training.*;
 import com.exadel.model.entity.user.ExternalVisitor;
 import com.exadel.model.entity.user.User;
 import com.exadel.model.entity.user.UserRole;
-import com.exadel.repository.TrainingFeedbackRepository;
 import com.exadel.service.*;
 import com.exadel.service.events.TrainingEventService;
 import com.exadel.service.events.TrainingFeedbackEventService;
-import com.exadel.service.events.UserFeedbackEventService;
 import com.exadel.service.impl.EmailMessages;
 import com.exadel.service.impl.SmtpMailSender;
 import com.exadel.util.UserUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.async.DeferredResult;
 
 import javax.crypto.Cipher;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/training")
@@ -332,10 +339,10 @@ public class TrainingPageController {
 
     @Autowired
     TrainingFeedbackRepository trainingFeedbackRepository;
-
     @RequestMapping("/byFeedback")
-    public TrainingDTO getTrainingId(@RequestParam String id) {
-        TrainingFeedback feedback = trainingFeedbackRepository.findById(Long.parseLong(id));
+    public TrainingDTO getTrainingId(@RequestParam String id)
+    {
+        TrainingFeedback feedback=trainingFeedbackRepository.findById(Long.parseLong(id));
         TrainingDTO trainingDTO = new TrainingDTO(feedback.getTraining());
         return trainingDTO;
     }

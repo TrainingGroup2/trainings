@@ -39,4 +39,5 @@ public class TrainingFeedbackServiceImpl implements TrainingFeedbackService{
     public void deleteById(long id) {
         trainingFeedbackRepository.delete(id);
     }
+
 }

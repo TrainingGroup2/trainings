@@ -24,6 +24,8 @@ public interface UserService {
 
     List<User> getAllUsers();
 
+    long addUserExt(User user);
+
     User addUser(User user);
 
     void updateUser(User user);
@@ -40,5 +42,6 @@ public interface UserService {
 
     Long getUserIdByFeedbackId(String id);
 
-    Page<User> getUsers(Integer pageNumber, Integer size);
+    Page<User> getUsers(Integer pageNumber, Integer size, String sort, boolean isReversed);
+
 }

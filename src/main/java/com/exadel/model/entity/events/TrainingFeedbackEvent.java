@@ -3,6 +3,15 @@ package com.exadel.model.entity.events;
 import com.exadel.dto.EventDTO;
 import com.exadel.dto.TrainingFeedbackDTO;
 import com.exadel.model.entity.feedback.TrainingFeedback;
+import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
+import org.apache.lucene.analysis.ngram.EdgeNGramFilterFactory;
+import org.apache.lucene.analysis.ngram.NGramFilterFactory;
+import org.apache.lucene.analysis.snowball.SnowballPorterFilterFactory;
+import org.apache.lucene.analysis.standard.StandardTokenizerFactory;
+import org.hibernate.search.annotations.AnalyzerDef;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.TokenFilterDef;
+import org.hibernate.search.annotations.TokenizerDef;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -10,7 +19,20 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
+@Indexed
 @Table(name = "training_feedback_events")
+@AnalyzerDef(name = "cust",
+        tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class),
+        filters = {
+                @TokenFilterDef(factory = LowerCaseFilterFactory.class),
+                @TokenFilterDef(factory = SnowballPorterFilterFactory.class, params = {
+                        @org.hibernate.search.annotations.Parameter(name = "language", value = "English")
+                }),
+                @TokenFilterDef(factory = SnowballPorterFilterFactory.class, params = {
+                        @org.hibernate.search.annotations.Parameter(name = "language", value = "Russian")
+                })
+
+        })
 public class TrainingFeedbackEvent extends Event {
     @OneToOne
     @JoinColumn(name = "training_feedback_id", nullable = false)

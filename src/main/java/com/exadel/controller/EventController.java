@@ -2,17 +2,28 @@ package com.exadel.controller;
 
 import com.exadel.dto.EventDTO;
 import com.exadel.model.entity.events.*;
+import com.exadel.model.entity.feedback.TrainingFeedback;
+import com.exadel.model.entity.feedback.UserFeedback;
+import com.exadel.model.entity.training.Training;
+import com.exadel.model.entity.user.User;
+import com.exadel.search.EventSearch;
 import com.exadel.service.events.TrainingEventService;
 import com.exadel.service.events.TrainingFeedbackEventService;
 import com.exadel.service.events.UserFeedbackEventService;
+import com.google.common.collect.Lists;
+import org.apache.lucene.search.Query;
+import org.hibernate.search.jpa.FullTextEntityManager;
+import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.async.DeferredResult;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.PriorityBlockingQueue;
 
 @RestController
 @RequestMapping(value = "/events", headers = "Accept=application/json")
@@ -23,10 +34,11 @@ public class EventController {
     private TrainingFeedbackEventService trainingFeedbackEventService;
     @Autowired
     private UserFeedbackEventService userFeedbackEventService;
+    @Autowired
+    EventSearch eventSearch;
 
     public static Map<DeferredResult<List<EventDTO>>, Integer> eventRequests =
             new ConcurrentHashMap<DeferredResult<List<EventDTO>>, Integer>();
-
     @PreAuthorize("hasRole('0')")
     @RequestMapping(method = RequestMethod.GET)
     public Set<EventDTO> getEvents() {
@@ -43,6 +55,7 @@ public class EventController {
         }
         return eventDTOs;
     }
+
     public List<EventDTO> getAll() {
         List<Event> events = new ArrayList<>();
         events.addAll(trainingEventService.getUnwatchedEvents());
@@ -103,7 +116,11 @@ public class EventController {
         else {
             userFeedbackEventService.addEvent(eventDTO.toUserFeedbackEvent());
         }
-        //TODO: EXCEPTION
+        for (Map.Entry<DeferredResult<List<EventDTO>>, Integer> entry : EventController.eventRequests.entrySet()) {
+            entry.getKey().setResult(new ArrayList<>());
+        }
+
     }
+
 
 }

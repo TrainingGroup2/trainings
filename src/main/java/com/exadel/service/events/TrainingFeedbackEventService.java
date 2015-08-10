@@ -2,7 +2,9 @@ package com.exadel.service.events;
 
 import com.exadel.model.entity.events.TrainingEvent;
 import com.exadel.model.entity.events.TrainingFeedbackEvent;
+import com.exadel.model.entity.events.UserFeedbackEvent;
 import com.exadel.model.entity.feedback.TrainingFeedback;
+import org.springframework.data.domain.Page;
 
 import java.util.Collection;
 import java.util.List;
@@ -21,4 +23,5 @@ public interface TrainingFeedbackEventService {
 
     void deleteByTrainingFeedbackId(long id);
 
+    Page<TrainingFeedbackEvent> getTrainingFeedbackEvents(Integer first, Integer size);
 }

@@ -5,6 +5,14 @@ import com.exadel.model.entity.ParticipationStatus;
 import com.exadel.model.entity.feedback.TrainingFeedback;
 import com.exadel.model.entity.user.ExternalTrainer;
 import com.exadel.model.entity.user.User;
+import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
+import org.apache.lucene.analysis.ngram.EdgeNGramFilterFactory;
+import org.apache.lucene.analysis.ngram.NGramFilterFactory;
+import org.apache.lucene.analysis.snowball.SnowballPorterFilterFactory;
+import org.apache.lucene.analysis.standard.StandardTokenizerFactory;
+import org.hibernate.search.annotations.*;
+import org.apache.lucene.document.Field.Index;
+import org.hibernate.search.annotations.Parameter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -13,20 +21,45 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Indexed
 @Table(name = "trainings")
-public class Training {
+@AnalyzerDef(name = "customanalyzer",
+        tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class),
+        filters = {
+                @TokenFilterDef(factory = LowerCaseFilterFactory.class),
+                @TokenFilterDef(factory = SnowballPorterFilterFactory.class, params = {
+                        @Parameter(name = "language", value = "English")
+                }),
+                @TokenFilterDef(factory = SnowballPorterFilterFactory.class, params = {
+                        @Parameter(name = "language", value = "Russian")
+                }),
+                @TokenFilterDef(factory =EdgeNGramFilterFactory.class, params  ={
+                        @Parameter(name="minGramSize",value="1")})
+
+        })
+public class Training{
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-
+@Fields({
+   @Field(analyze= Analyze.YES, store= Store.NO),
+   @Field( analyze= Analyze.YES, store= Store.NO)})
+    @Analyzer(definition = "customanalyzer")
     @Column(name = "name")
     private String name;
 
+    @IndexedEmbedded
     @ManyToOne
     @JoinColumn(name = "trainer_id")
     private ExternalTrainer trainer;
 
+
+    @Fields({
+            @Field( analyze= Analyze.YES, store= Store.NO),
+            @Field( analyze= Analyze.YES, store= Store.NO)})
     @Column(name = "target_audience")
+    @Analyzer(definition = "customanalyzer")
     private String targetAudience;
 
     @Column(name = "is_external")
@@ -55,9 +88,11 @@ public class Training {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> participants;
 
+
     @OneToMany(mappedBy = "training", cascade = CascadeType.ALL)
     private List<TrainingFeedback> feedbacks;
 
+    @IndexedEmbedded
     @OneToMany(mappedBy = "training", cascade = CascadeType.ALL)
     private List<Entry> entries;
 
@@ -74,7 +109,6 @@ public class Training {
 
     public Training() {
     }
-
     public Training(long id) {
         this.id = id;
     }

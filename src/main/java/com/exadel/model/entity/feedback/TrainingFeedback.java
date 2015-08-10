@@ -26,7 +26,7 @@ public class TrainingFeedback {
     @Column(name = "new_knowledge")
     private boolean newKnowledge;
 
-    //@Size(max = 5, min = 0) todo: with this we get EXCEPTION on Integer.
+    //@Size(max = 5, min = 0) todo: with this we getByDescriptionFromTrainingEvents EXCEPTION on Integer.
     private int effectiveness;
 
     @Column(name = "study_with_trainer")

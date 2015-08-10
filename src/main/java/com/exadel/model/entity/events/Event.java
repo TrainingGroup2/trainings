@@ -1,11 +1,35 @@
 package com.exadel.model.entity.events;
 
 import com.exadel.dto.EventDTO;
+import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
+import org.apache.lucene.analysis.ngram.EdgeNGramFilterFactory;
+import org.apache.lucene.analysis.ngram.NGramFilterFactory;
+import org.apache.lucene.analysis.snowball.SnowballPorterFilterFactory;
+import org.apache.lucene.analysis.standard.StandardTokenizerFactory;
+import org.hibernate.search.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.Parameter;
 import java.util.Date;
 
 @MappedSuperclass
+@Indexed
+@AnalyzerDef(name = "customanalize",
+        tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class),
+        filters = {
+                @TokenFilterDef(factory = LowerCaseFilterFactory.class),
+                @TokenFilterDef(factory = SnowballPorterFilterFactory.class, params = {
+                        @org.hibernate.search.annotations.Parameter(name = "language", value = "English")
+                }),
+                @TokenFilterDef(factory = SnowballPorterFilterFactory.class, params = {
+                        @org.hibernate.search.annotations.Parameter(name = "language", value = "Russian")
+                }),
+                @TokenFilterDef(factory = NGramFilterFactory.class,params  ={
+                        @org.hibernate.search.annotations.Parameter(name="minGramSize",value="3"), @org.hibernate.search.annotations.Parameter(name = "maxGramSize", value = "100")}),
+                @TokenFilterDef(factory =EdgeNGramFilterFactory.class, params  ={
+                        @org.hibernate.search.annotations.Parameter(name="minGramSize",value="3"), @org.hibernate.search.annotations.Parameter(name = "maxGramSize", value = "100")})
+
+        })
 public abstract class Event implements Comparable<Event> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -14,6 +38,8 @@ public abstract class Event implements Comparable<Event> {
     @Column(name = "is_watched")
     private boolean isWatched;
 
+    @Field
+    @Analyzer(definition = "customanalize")
     private String description;
 
     private Date date;

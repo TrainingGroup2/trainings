@@ -1,6 +1,10 @@
 package com.exadel.repository;
 
+import com.exadel.model.entity.events.UserFeedbackEvent;
 import com.exadel.model.entity.feedback.UserFeedback;
+import com.exadel.model.entity.user.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

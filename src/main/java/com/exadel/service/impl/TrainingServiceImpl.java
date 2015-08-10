@@ -129,10 +129,22 @@ public class TrainingServiceImpl implements TrainingService {
         return trainingRepository.findAll(request);
     }
 
-    public Page<Training> getTrainings(Integer first, Integer size) {
+    public Page<Training> getTrainings(Integer first, Integer size, String sortParam, boolean isReversed) {
         Integer pageNumber = first / size;
-        PageRequest request =
-                new PageRequest(pageNumber, size);
+        Sort.Direction direction;
+        PageRequest request;
+        if(!isReversed) {
+            direction = Sort.Direction.DESC;
+        }
+        else
+            direction =  Sort.Direction.ASC;
+        if(sortParam!=null) {
+            request =
+                    new PageRequest(pageNumber, size, direction, sortParam);
+        }
+        else
+            request =
+                    new PageRequest(pageNumber, size);
         return trainingRepository.findAll(request);
     }
 }

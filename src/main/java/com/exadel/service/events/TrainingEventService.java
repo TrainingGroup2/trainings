@@ -1,6 +1,8 @@
 package com.exadel.service.events;
 
 import com.exadel.model.entity.events.TrainingEvent;
+import com.exadel.model.entity.events.TrainingFeedbackEvent;
+import org.springframework.data.domain.Page;
 
 import java.util.Collection;
 import java.util.List;
@@ -14,5 +16,7 @@ public interface TrainingEventService {
     Collection<TrainingEvent> getUnwatchedEvents();
 
     Optional<TrainingEvent> addEvent(TrainingEvent event);
+
+    Page<TrainingEvent> getTrainingEvents(Integer first, Integer size);
 
 }

@@ -100,8 +100,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User addUser(User user) {
-        return userRepository.saveAndFlush(user);
+    public long addUserExt(User user) {
+        userRepository.saveAndFlush(user);
+        return user.getId();
     }
 
     @Override
@@ -154,10 +155,26 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByRoleNot(UserRole.EXTERNAL_VISITOR);
     }
 
-    public Page<User> getUsers(Integer first, Integer size) {
+    public Page<User> getUsers(Integer first, Integer size, String sort, boolean isReversed) {
         Integer pageNumber = first / size;
-        PageRequest request =
-                new PageRequest(pageNumber, size);
+        Sort.Direction direction;
+        PageRequest request;
+        if(isReversed) {
+             direction = Sort.Direction.DESC;
+        }
+        else
+        direction =  Sort.Direction.ASC;
+        if(sort!=null) {
+            request =
+                    new PageRequest(pageNumber, size, direction, sort);
+        }
+        else
+            request =
+                    new PageRequest(pageNumber, size);
         return userRepository.findAll(request);
+    }
+
+    public User addUser(User user) {
+        return userRepository.saveAndFlush(user);
     }
 }

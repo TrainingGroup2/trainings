@@ -29,7 +29,7 @@ public interface TrainingService {
 
     List<Long> getParticipants(long id);
 
-    Page<Training> getTrainings(Integer pageNumber, Integer size);
-
     List<Training> getTrainingsByTrainingStatus(TrainingStatus status);
+
+    Page<Training> getTrainings(Integer pageNumber, Integer size, String sortParam,boolean isReversed );
 }
