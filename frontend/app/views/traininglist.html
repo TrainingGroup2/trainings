@@ -1,7 +1,7 @@
 <div class="training-menu">
   {{translation.TRAININGS_LIST}}
 </div>
-<table st-table="trainingsList" class="table table-striped" >
+<table st-table="trainingsList" st-pipe="callServer" class="table table-striped" >
   <thead>
   <tr>
     <th st-sort="name">
@@ -16,13 +16,11 @@
       {{translation.ALL_TRAININGS_TARGET_AUDIENCE}}
       <i class="fa fa-sort-desc"></i>
     </th>
-    <th st-sort="trainingStatus">
+    <th>
       {{translation.ALL_TRAININGS_TRAINING_STATUS}}
-      <i class="fa fa-sort-desc"></i>
     </th>
-    <th st-sort="rating">
+    <th>
       {{translation.ALL_TRAININGS_RAITINGS}}
-      <i class="fa fa-sort-desc"></i>
     </th>
 
   </tr>
@@ -37,8 +35,10 @@
     <th>
       <input st-search="targetAudience" placeholder="" class="input-sm form-control" type="search"/>
     </th>
-    <th> <input st-search="trainingStatus" placeholder="" class="input-sm form-control" type="search"/> </th>
-    <th> <input st-search="rating" placeholder="" class="input-sm form-control" type="search"/></th>
+   <!-- <th> <input st-search="trainingStatus" placeholder="" class="input-sm form-control" type="search"/> </th>
+    <th> <input st-search="rating" placeholder="" class="input-sm form-control" type="search"/></th>-->
+    <th></th>
+    <th></th>
 
   </tr>
   </thead>

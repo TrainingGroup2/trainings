@@ -13,12 +13,12 @@ angular.module('frontendApp').service('userServiceDelegate', function ($http) {
       _url += '&' + key + '=' + value;
     });
     if(!_.isEmpty(tableState.sort)) {
-      _url += '&sort=' + tableState.sort.predicate + '&isReversed=' + tableState.sort.reverse;
+      _url += '&sortParam=' + tableState.sort.predicate + '&isReversed=' + tableState.sort.reverse;
     }
     return $http.get(_url);
   };
-  this.getPageCount = function(start, number) {
-    return $http.get('http://localhost:8080/users/pages/count/'+start+'?size='+number);
+  this.getPageCount = function(start, number, tableState) {
+    return $http.get('http://localhost:8080/users/pages/count/'+start+'?size='+number+'&sortParam='+tableState.sort.predicate);
   };
 });
 
