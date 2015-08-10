@@ -32,7 +32,12 @@
           <div ng-include="'views/tabs/trainingAttendanceJournalTab.html'"></div>
         </tab>
 
-        <tab select="openFeedbacks()" heading="{{translation.FEEDBACKS}}">
+      <tab heading="UI_GRID">
+        <div ng-include="'views/tabs/trainingAttendanceJournalTestTab.html'"></div>
+      </tab>
+
+
+      <tab select="openFeedbacks()" heading="{{translation.FEEDBACKS}}">
           <div ng-include="'views/tabs/trainingFeedbacksTab.html'"></div>
         </tab>
 

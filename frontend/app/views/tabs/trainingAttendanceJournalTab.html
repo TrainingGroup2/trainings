@@ -1,4 +1,34 @@
-<div ng-controller="AttendanceJournalCtrl">
+<div ng-controller="AttendanceJournalCtrl" class="attendance-journal">
+ <div class="row">
+    <div class="col-md-5">
+      <label>Date Start:</label>
+      <p class="input-group">
+
+        <input type="text" class="form-control" datepicker-popup  ng-model="dateStart" is-open="status.dateStart" close-text="Close" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open('dateStart')"><i class="fa fa-calendar"></i></button>
+              </span>
+      </p>
+    </div>
+
+    <div class="col-md-5">
+      <label>Date End:</label>
+      <p class="input-group">
+
+        <input type="text" class="form-control" datepicker-popup  ng-model="dateEnd" is-open="status.dateEnd" close-text="Close" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open('dateEnd')"><i class="fa fa-calendar"></i></button>
+              </span>
+      </p>
+    </div>
+
+    <div class="col-md-2">
+      <label>&nbsp;</label>
+      <button type="button" class="btn btn-primary form-control" ng-click="loadAtt()">
+        Load Attendancies
+      </button>
+    </div>
+  </div>
   <table id="attendanceJournalTable" ng-if="ajArray && ajArray.length" class="table text-center attendance-journal-table">
     <thead>
       <tr>

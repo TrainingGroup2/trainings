@@ -1,5 +1,8 @@
 'use strict';
-angular.module('frontendApp').controller('AttendanceJournalCtrl', ['$scope', '$rootScope', '$localStorage', '$q', 'training', 'attendanceJournalService', 'ngDialog', '$filter', '$interval', function ($scope, $rootScope, $localStorage, $q, training, attendanceJournalService, ngDialog, $filter, $interval) {
+angular.module('frontendApp').controller('AttendanceJournalTestCtrl', ['$scope', '$rootScope', '$localStorage', '$q', 'training', 'attendanceJournalService', 'ngDialog', '$filter', '$interval', function ($scope, $rootScope, $localStorage, $q, training, attendanceJournalService, ngDialog, $filter, $interval) {
+
+  $scope.gridAttendanceOptions = {};
+
   var now = new Date();
   var prevMonth = new Date();
   prevMonth.setMonth(now.getMonth() - 1);
@@ -7,7 +10,7 @@ angular.module('frontendApp').controller('AttendanceJournalCtrl', ['$scope', '$r
   $scope.dateEnd = now;
 
   var ABSENT = 'н';
-  var PRESENT = ' ';
+  var PRESENT = '&nbsp;';
   var NOT_ATTEND = 'x';
 
   $scope.open = function (type) {
@@ -17,13 +20,51 @@ angular.module('frontendApp').controller('AttendanceJournalCtrl', ['$scope', '$r
     dateStart: false,
     dateEnd: false
   };
+  /*/////
+   app.controller('MainCtrl', ['$scope', '$http', function ($scope, $http) {
+   $scope.gridOptions = {
+   columnDefs: [
+   { field: 'name' },
+   { field: 'gender', visible: false},
+   { field: 'company' }
+   ],
+   enableGridMenu: true,
+   enableSelectAll: true,
+   exporterCsvFilename: 'myFile.csv',
+   exporterPdfDefaultStyle: {fontSize: 9},
+   exporterPdfTableStyle: {margin: [30, 30, 30, 30]},
+   exporterPdfTableHeaderStyle: {fontSize: 10, bold: true, italics: true, color: 'red'},
+   exporterPdfHeader: { text: "My Header", style: 'headerStyle' },
+   exporterPdfFooter: function ( currentPage, pageCount ) {
+   return { text: currentPage.toString() + ' of ' + pageCount.toString(), style: 'footerStyle' };
+   },
+   exporterPdfCustomFormatter: function ( docDefinition ) {
+   docDefinition.styles.headerStyle = { fontSize: 22, bold: true };
+   docDefinition.styles.footerStyle = { fontSize: 10, bold: true };
+   return docDefinition;
+   },
+   exporterPdfOrientation: 'portrait',
+   exporterPdfPageSize: 'LETTER',
+   exporterPdfMaxGridWidth: 500,
+   exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
+   onRegisterApi: function(gridApi){
+   $scope.gridApi = gridApi;
+   }
+   };
+   //*/
 
-  $scope.loadAtt = function () {
-   console.log($scope.dateStart.toLocaleDateString());
+
+  // $scope.loadAtt = function () {
+
+  //  console.log($scope.dateStart.toLocaleDateString());
+
   $q.all({
     participants: training.getParticipants({id: $scope.trainingId}).$promise,
     participation: training.getParticipation({id: $scope.trainingId}).$promise,
-    entries: training.getAbsentees({id: $scope.trainingId, beginDate: $scope.dateStart.getTime(), endDate: $scope.dateEnd.getTime()}).$promise
+    entries: training.getAllAbsentees({
+      id: $scope.trainingId,
+      endDate: $scope.dateEnd.getTime()
+    }).$promise
   }).then(function (values) {
     var participants = values.participants;
     var participation = values.participation;
@@ -78,10 +119,83 @@ angular.module('frontendApp').controller('AttendanceJournalCtrl', ['$scope', '$r
 
     $scope.entries = entries;
     $scope.ajArray = ajArray;
-  });
-  }
 
-  $scope.cellClickHandler = function (attend, user) {
+    // ******** ui-grid section ******* //
+    var columnDef = [
+      {name: 'user.userName', displayName: "Name", width: 200, pinnedLeft: true}
+    ], data = [], gridApi, options = {
+      onRegisterApi: function (_gridApi) {
+        gridApi = _gridApi;
+      },
+
+//exporting
+      enableSelectAll: true,
+      enableGridMenu: true,
+      exporterCsvFilename: 'myFile.csv',
+      exporterPdfDefaultStyle: {fontSize: 9},
+      exporterPdfTableStyle: {margin: [30, 30, 30, 30]},
+      exporterPdfTableHeaderStyle: {fontSize: 10, bold: true, italics: true, color: 'red'},
+      exporterPdfHeader: {text: "My Header", style: 'headerStyle'},
+      exporterPdfFooter: function (currentPage, pageCount) {
+        return {text: currentPage.toString() + ' of ' + pageCount.toString(), style: 'footerStyle'};
+      },
+      exporterPdfCustomFormatter: function (docDefinition) {
+        docDefinition.styles.headerStyle = {fontSize: 22, bold: true};
+        docDefinition.styles.footerStyle = {fontSize: 10, bold: true};
+        return docDefinition;
+      },
+      exporterPdfOrientation: 'landscape',
+      exporterPdfPageSize: 'LETTER',
+      exporterPdfMaxGridWidth: 500,
+      exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
+
+//exporting
+
+    };
+    //dynamic columns
+
+    entries.forEach(function (entity, index, array) {
+      var key = entity.id.toString();
+      columnDef.push({
+        id: key,
+        field: key + ".state",
+        displayName: $filter('date')(entity.beginTime, 'dd-MM-yy'),
+        width: 80,
+        cellClass: 'text-center',
+        enableSorting: false,
+        enableColumnMenu: false,
+        cellTemplate: '<div data-toggle="tooltip" title="{{row.entity[col.colDef.id].reason}}" ng-click="grid.appScope.cellClickHandler(row,col)"><span ng-bind-html="row.entity[col.colDef.id].state"></span></div>',
+
+      });
+    });
+    options.columnDefs = columnDef;
+
+    //dynamic rows
+    ajArray.forEach(function (user, index, array) {
+      var entity = {};
+      entity.user = user;
+      user.attendance.forEach(function (attendance, index, array) {
+        entity[attendance.entryId] = attendance;
+      });
+      data.push(entity);
+    });
+
+    options.data = data;
+
+    $scope.gridAttendanceOptions = options;
+
+
+    // load rows asynchronously - HACK! need manual refresh by some reason - please investigate!
+    $interval(function () {
+      gridApi.grid.refresh();
+    }, 1500, 70);
+  });
+  // }
+
+  $scope.cellClickHandler = function (row, col) {
+    var attend = row.entity[col.colDef.id];
+    var user = row.entity.user;
+
     if (!isActionAllowed(user)) {
       return;
     }

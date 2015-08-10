@@ -23,7 +23,11 @@ angular
     'ngAside',
     'base64',
     'angularFileUpload',
-    'ui.select'
+    'ui.select',
+    'ui.grid',
+    'ui.grid.pinning',
+    'ui.grid.selection',
+    'ui.grid.exporter'
   ])
   .config(function ($routeProvider,$httpProvider,stConfig) {
     $routeProvider
