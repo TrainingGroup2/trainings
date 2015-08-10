@@ -11,6 +11,7 @@ angular.module('frontendApp')
     $scope.data.entries = [];
 
     $scope.data.trainerId = $localStorage.userData.id;
+    $scope.data.trainer = $localStorage.userData;
 
     $scope.entryNum = 1;
 
