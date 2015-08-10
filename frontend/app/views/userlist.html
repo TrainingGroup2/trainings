@@ -40,7 +40,7 @@
   <tr ng-click="rowClickHandler(user)" ng-repeat="user in users">
     <td>{{user.name}}</td>
     <td>{{user.surname}}</td>
-    <td>{{user.role}}</td>
+    <td>{{user.role | enumToNormalString}}</td>
     <td>{{user.email}}</td>
     <td>{{user.phone}}</td>
   </tr>

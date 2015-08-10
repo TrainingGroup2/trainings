@@ -53,7 +53,7 @@
     <td>{{row.trainer.name}} {{row.trainer.surname}}</td>
     <td>{{row.targetAudience}}</td>
 
-    <td>{{row.status}}</td>
+    <td>{{row.status | enumToNormalString}}</td>
 
     <td>
       <span trn-star-rating value="true" readonly="true" rating-value="row.rating" ng-model="ratings" max="ratings.max" ></span>
