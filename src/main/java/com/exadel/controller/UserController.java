@@ -33,7 +33,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
-import java.util.NoSuchElementException;
 
 
 
@@ -160,6 +159,8 @@ public String generatePass(UserDTO userDTO) {
             emailCriterion = userSearch.searchByEmail(email);
             criteria.add(emailCriterion);
         }
+        criteria.setMaxResults(size);
+        criteria.setFirstResult(pageNumber);
         if(sortParam!=null) {
             Sort sort = new Sort(
                     new SortField(sortParam, SortField.Type.STRING));
@@ -174,8 +175,6 @@ public String generatePass(UserDTO userDTO) {
                 this.size = 1;
             } else
                 this.size = this.size / size;
-            criteria.setMaxResults(size);
-            criteria.setFirstResult(pageNumber);
             users = criteria.list();
             session.close();
 
