@@ -1,13 +1,20 @@
 package com.exadel.model.entity.user;
 
 import com.exadel.dto.UserDTO;
+import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.core.KeywordTokenizer;
 import org.apache.lucene.analysis.core.KeywordTokenizerFactory;
+import org.apache.lucene.analysis.core.LowerCaseFilter;
 import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
 import org.apache.lucene.analysis.miscellaneous.LengthFilterFactory;
+import org.apache.lucene.analysis.miscellaneous.TrimFilter;
 import org.apache.lucene.analysis.ngram.EdgeNGramFilterFactory;
 import org.apache.lucene.analysis.ngram.NGramFilterFactory;
+import org.apache.lucene.analysis.pattern.PatternReplaceFilter;
 import org.apache.lucene.analysis.snowball.SnowballPorterFilterFactory;
 import org.apache.lucene.analysis.standard.StandardTokenizerFactory;
+import org.apache.lucene.util.PagedBytes;
+import org.apache.lucene.util.packed.PackedInts;
 import org.hibernate.search.annotations.*;
 import org.hibernate.search.annotations.Parameter;
 import org.hibernate.search.bridge.builtin.EnumBridge;
@@ -15,7 +22,6 @@ import org.hibernate.search.bridge.builtin.EnumBridge;
 import javax.persistence.*;
 
 import org.hibernate.search.annotations.Index;
-import org.hibernate.search.bridge.builtin.IntegerBridge;
 
 @Entity
 @Indexed
@@ -41,31 +47,27 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Fields({
-            @Field(analyze = Analyze.YES, store = Store.NO),
-            @Field(analyze = Analyze.YES, store = Store.NO)})
+
+    @Field(analyze = Analyze.YES, store = Store.NO)
     @Analyzer(definition = "customanalyz")
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Fields({
-            @Field(analyze = Analyze.YES, store = Store.NO),
-            @Field(analyze = Analyze.YES, store = Store.NO)})
+
+    @Field(analyze = Analyze.YES, store = Store.NO)
     @Analyzer(definition = "customanalyz")
     @Column(name = "surname", nullable = false)
     private String surname;
 
 
-    @Fields({
-            @Field(analyze = Analyze.YES, store = Store.NO),
-            @Field(analyze = Analyze.YES, store = Store.NO)})
+
+    @Field(analyze = Analyze.YES, store = Store.NO)
     @Analyzer(definition = "customanalyz")
     @Column(name = "phone", nullable = false)
     private String phone;
 
-    @Fields({
-            @Field(analyze = Analyze.YES, store = Store.NO),
-            @Field(analyze = Analyze.YES, store = Store.NO)})
+
+    @Field(analyze = Analyze.YES, store = Store.NO)
     @Analyzer(definition = "customanalyz")
     private String email;
 
@@ -147,4 +149,5 @@ public class User {
     public void setRole(UserRole role) {
         this.role = role;
     }
+
 }

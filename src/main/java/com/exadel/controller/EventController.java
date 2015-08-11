@@ -60,9 +60,7 @@ public class EventController {
         List<Event> events = new ArrayList<>();
         events.addAll(trainingEventService.getUnwatchedEvents());
         events.addAll(trainingFeedbackEventService.getUnwatchedEvents());
-
         events.addAll(userFeedbackEventService.getUnwatchedEvents());
-
         List<EventDTO> list = new ArrayList<>();
         for (Event event: events){
             list.add(event.toEventDTO());
@@ -123,14 +121,12 @@ public class EventController {
             List<Event> events = new ArrayList<>();
             events.addAll(trainingEventService.getUnwatchedEvents());
             events.addAll(trainingFeedbackEventService.getUnwatchedEvents());
+            events.addAll(userFeedbackEventService.getUnwatchedEvents());
             List<EventDTO> result = new ArrayList<>();
             for (Event event: events){
                 result.add(event.toEventDTO());
             }
             entry.getKey().setResult(result);
-        }
-        for (Map.Entry<DeferredResult<List<EventDTO>>, Integer> entry : EventController.eventRequests.entrySet()) {
-            entry.getKey().setResult(new ArrayList<>());
         }
 
     }

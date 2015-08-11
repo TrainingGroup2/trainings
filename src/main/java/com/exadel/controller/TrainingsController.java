@@ -78,6 +78,7 @@ public class TrainingsController {
     @PersistenceContext
     private EntityManager entityManager;
 
+    @Autowired
     private TrainingFeedbackEventService trainingFeedbackEventService;
     @Autowired
     private UserFeedbackEventService userFeedbackEventService;
@@ -207,7 +208,9 @@ public class TrainingsController {
                 fullTextEntityManager.getSearchFactory()
                         .buildQueryBuilder().forEntity(Training.class).get();
         List<Training> results = new ArrayList<>();
-
+        if(sortParam!=null && sortParam.equals("trainer")) {
+            sortParam = "trainer.name";
+        }
        Query query = null;
         Query trainerNameQuery ;
       Query targetAudienceQuery;
@@ -246,7 +249,7 @@ public class TrainingsController {
                 this.size=1;
             }
             else
-            this.size = this.size/size;
+            this.size = this.size/ size;
             size = jpaQuery.getResultSize();
             results=jpaQuery.getResultList();
 
