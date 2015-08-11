@@ -149,6 +149,6 @@
   "FEEDBACK_RATINGS" : "Mark",
   "AUTHENTICATION_FAILURE" : "Authentication failure. Please try again.",
   "LOADING_ATTENDANCE_DATA" : "Loading Attendance Data...",
-  "SHOW_MORE" : "Show more"
+  "SHOW_MORE" : "Show more",
   "USER_NOT_ATTEND_TRAINING" : "This user has not attended this training at all"
 }
