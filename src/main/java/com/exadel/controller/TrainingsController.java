@@ -3,16 +3,13 @@ package com.exadel.controller;
 import com.exadel.dto.EntryDTO;
 import com.exadel.dto.EventDTO;
 import com.exadel.dto.TrainingDTO;
-import com.exadel.dto.UserDTO;
 import com.exadel.model.entity.events.Event;
 import com.exadel.model.entity.events.TrainingEvent;
 import com.exadel.model.entity.training.Entry;
 import com.exadel.model.entity.training.Training;
 import com.exadel.model.entity.training.TrainingStatus;
 import com.exadel.model.entity.user.UserRole;
-import com.exadel.model.entity.user.User;
 import com.exadel.search.TrainingSearch;
-import com.exadel.search.UserSearch;
 import com.exadel.service.EntryService;
 import com.exadel.service.TrainingService;
 import com.exadel.service.UserService;
@@ -26,10 +23,6 @@ import com.google.common.collect.Lists;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
-import org.hibernate.search.Search;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.query.dsl.QueryBuilder;
@@ -39,20 +32,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.async.DeferredResult;
 
-import java.text.SimpleDateFormat;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.*;
 
 import static com.exadel.Utils.addWeekToDate;
 import static com.exadel.Utils.getDayNumberToAdd;
-import com.exadel.service.events.TrainingFeedbackEventService;
-import com.exadel.service.events.UserFeedbackEventService;
-import org.springframework.web.context.request.async.DeferredResult;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @PreAuthorize("hasAnyRole('0','1','2')")
@@ -107,7 +92,7 @@ public class TrainingsController {
             training.setStatus(TrainingStatus.DRAFTED);
             training = trainingService.addTraining(training);
             trainingDTO.setId(training.getId());
-            trainingDTO.setEventDescription(emailMessages.newTrainingToAdmin(training));
+            trainingDTO.setEventDescription(training.getTrainer().getName()+" wants to create a new training \""+training.getName()+"\"");
             smtpMailSender.sendToUsers(userService.getUsersByRole(UserRole.ADMIN), "Changes in Trainings", emailMessages.newTrainingToAdmin(training));
             trainingEventService.addEvent(new TrainingEvent(trainingDTO));
             List<EventDTO> eventDTOs = new ArrayList<>();
