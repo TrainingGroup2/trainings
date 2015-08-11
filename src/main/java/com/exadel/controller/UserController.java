@@ -152,7 +152,9 @@ public class UserController {
             emailCriterion = userSearch.searchByEmail(email);
             criteria.add(emailCriterion);
         }
-        if (sortParam != null) {
+        criteria.setMaxResults(size);
+        criteria.setFirstResult(pageNumber);
+        if(sortParam!=null) {
             Sort sort = new Sort(
                     new SortField(sortParam, SortField.Type.STRING));
 
@@ -161,18 +163,16 @@ public class UserController {
             } else
                 criteria.addOrder(Order.asc(sortParam));
         }
-        this.size = criteria.list().size();
-        if (this.size < size) {
-            this.size = 1;
-        } else
-            this.size = this.size / size;
-        criteria.setMaxResults(size);
-        criteria.setFirstResult(pageNumber);
-        users = criteria.list();
-        session.close();
+            this.size = criteria.list().size();
+            if (this.size < size) {
+                this.size = 1;
+            } else
+                this.size = this.size / size;
+            users = criteria.list();
+            session.close();
 
-        if (name == null && surname == null && email == null && phone == null) {
-            Page<User> page = userService.getUsers(pageNumber, size, sortParam, isReversed);
+        if(name == null && surname==null && email ==null && phone==null) {
+            Page<User> page = userService.getUsers(pageNumber, size,sortParam,isReversed);
             users = page.getContent();
             this.size = page.getTotalPages();
         }

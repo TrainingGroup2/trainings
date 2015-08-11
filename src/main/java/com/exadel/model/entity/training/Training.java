@@ -34,7 +34,7 @@ import java.util.List;
                         @Parameter(name = "language", value = "Russian")
                 }),
                 @TokenFilterDef(factory =EdgeNGramFilterFactory.class, params  ={
-                        @Parameter(name="minGramSize",value="1")})
+                        @Parameter(name="minGramSize",value="1"),@Parameter(name="maxGramSize",value="10")})
 
         })
 public class Training{
@@ -42,9 +42,8 @@ public class Training{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-@Fields({
-   @Field(analyze= Analyze.YES, store= Store.NO),
-   @Field( analyze= Analyze.YES, store= Store.NO)})
+
+    @Field(analyze= Analyze.YES, store= Store.NO)
     @Analyzer(definition = "customanalyzer")
     @Column(name = "name")
     private String name;
@@ -55,9 +54,8 @@ public class Training{
     private ExternalTrainer trainer;
 
 
-    @Fields({
-            @Field( analyze= Analyze.YES, store= Store.NO),
-            @Field( analyze= Analyze.YES, store= Store.NO)})
+
+    @Field( analyze= Analyze.YES, store= Store.NO)
     @Column(name = "target_audience")
     @Analyzer(definition = "customanalyzer")
     private String targetAudience;
