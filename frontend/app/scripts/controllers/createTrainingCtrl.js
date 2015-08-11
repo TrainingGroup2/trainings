@@ -78,13 +78,20 @@ angular.module('frontendApp')
         for(var i = 0; i < $scope.attachments.length; i++) {
           _.extend($scope.attachments[i], {trainingId : $scope.trainingId});
         }
-        postAttachLinks.save($scope.attachments).$promise.then(function(resp) {
-          uploader.uploadAll();
-          $scope.pendingR = false;
+        if(!_.isEmpty($scope.attachments)) {
+          postAttachLinks.save($scope.attachments).$promise.then(function (resp) {
+            uploader.uploadAll();
+            $scope.pendingR = false;
+            if (_.isEmpty(uploader.queue)) {
+              $location.path('/training/' + $scope.trainingId);
+            }
+          });
+        } else {
           if(_.isEmpty(uploader.queue)) {
             $location.path('/training/' + $scope.trainingId);
           }
-        });
+        }
+
       });
     };
 
@@ -123,7 +130,7 @@ angular.module('frontendApp')
           $scope.users = angular.copy(resp);
         })
       } else {
-        $scope.users = $localStorage.userData;
+        $scope.users.push($localStorage.userData);
       }
 
     }]);

@@ -62,7 +62,6 @@ public class TrainingsController {
 
     @PersistenceContext
     private EntityManager entityManager;
-
     @Autowired
     private TrainingFeedbackEventService trainingFeedbackEventService;
     @Autowired
