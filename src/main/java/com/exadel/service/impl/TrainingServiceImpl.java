@@ -88,8 +88,7 @@ public class TrainingServiceImpl implements TrainingService {
 
     @Override
     public Training addTraining(Training training) {
-        trainingRepository.saveAndFlush(training);
-        return training;
+        return trainingRepository.saveAndFlush(training);
     }
 
     @Override

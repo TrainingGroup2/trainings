@@ -289,7 +289,7 @@ public class TrainingPageController {
         return entry;
     }
 
-    @PreAuthorize("@trainerControlBean.isTrainer(#trainingDTO) or hasRole('0')")
+    @PreAuthorize("hasRole('0') or @trainerControlBean.isTrainer(#trainingDTO)")
     @RequestMapping(method = RequestMethod.PUT)
     public void modifyTraining(@RequestBody TrainingDTO trainingDTO) {
         Training training = trainingService.getTrainingById(trainingDTO.getId());

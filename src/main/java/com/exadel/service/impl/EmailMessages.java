@@ -191,9 +191,9 @@ public class EmailMessages  {
         return messageSource.getMessage("eventNotification.training.lessThanHalf", arr, null);
     }
 
-    public String newTrainingToAdmin(Training training) {
+    public String newTrainingToAdmin(Training training, ExternalTrainer trainer) {
         Object[] arr = {
-                training.getTrainer().getName(),
+                trainer.getName(),
                 training.getName(),
                 domain + "training/" + training.getId()
         };
