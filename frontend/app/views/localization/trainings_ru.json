@@ -149,6 +149,6 @@
   "FEEDBACK_RATINGS" : "Оценка",
   "AUTHENTICATION_FAILURE" : "Ошибка авторизации. Попробуйте снова",
   "LOADING_ATTENDANCE_DATA" : "Идет загрузка данных о посещении курса...",
-  "SHOW_MORE" : "Показать еще"
+  "SHOW_MORE" : "Показать еще",
   "USER_NOT_ATTEND_TRAINING" : "Пользователь вовсе не посещал тренинг"
 }
