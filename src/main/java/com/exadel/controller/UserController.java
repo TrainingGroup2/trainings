@@ -2,8 +2,8 @@ package com.exadel.controller;
 
 import com.exadel.dto.NewTrainerDTO;
 import com.exadel.dto.UserDTO;
-import com.exadel.model.entity.user.ExternalTrainer;
 import com.exadel.model.entity.user.Authentification;
+import com.exadel.model.entity.user.ExternalTrainer;
 import com.exadel.model.entity.user.ExternalVisitor;
 import com.exadel.model.entity.user.User;
 import com.exadel.search.UserSearch;
@@ -22,21 +22,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
-
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.NoSuchElementException;
 
 
 @PreAuthorize("hasRole('0')")
@@ -77,7 +70,7 @@ public class UserController {
         trainerDTO.setId(trainer.getId());
 
         String password = generatePass(trainerDTO);
-        smtpMailSender.send(trainer.getEmail(), "Exadel-Trainings System", emailMessages.newExternalTrainer(trainer, password));
+        smtpMailSender.send(trainer.getEmail(), "Exadel-Trainings System", emailMessages.newExternalTrainer(trainer, trainerDTO.getUsername(), password));
     }
 
     @PreAuthorize("hasRole('0')")

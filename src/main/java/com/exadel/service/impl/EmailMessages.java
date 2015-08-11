@@ -142,10 +142,11 @@ public class EmailMessages  {
         return messageSource.getMessage("emailNotification.register.becomeMember", arr, null);
     }
 
-    public String newExternalTrainer(ExternalTrainer trainer, String password) {
+    public String newExternalTrainer(ExternalTrainer trainer, String username, String password) {
         Object[] arr = {
                 trainer.getName(),
                 domain + "userTrainings",
+                username,
                 password
         };
         return messageSource.getMessage("emailNotification.newExternalTrainer", arr, null);
