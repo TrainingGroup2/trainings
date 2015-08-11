@@ -8,6 +8,7 @@ import com.exadel.model.entity.events.TrainingEvent;
 import com.exadel.model.entity.training.Entry;
 import com.exadel.model.entity.training.Training;
 import com.exadel.model.entity.training.TrainingStatus;
+import com.exadel.model.entity.user.ExternalTrainer;
 import com.exadel.model.entity.user.UserRole;
 import com.exadel.search.TrainingSearch;
 import com.exadel.service.EntryService;
@@ -83,6 +84,8 @@ public class TrainingsController {
     @RequestMapping(value = "/newTraining", method = RequestMethod.POST)   //called only by ADMIN
     public Training createTraining(@RequestBody TrainingDTO trainingDTO) {
         Training training = new Training(trainingDTO);
+        //training.setTrainer(userService.getTrainerById(String.valueOf(trainingDTO.getTrainer().getId())));
+        //training.setTrainer(trainingDTO.getTrainer());
         if (UserUtil.hasRole(0)) {
             training.setStatus(TrainingStatus.APPROVED);
             training = trainingService.addTraining(training);
@@ -90,9 +93,11 @@ public class TrainingsController {
         else {
             training.setStatus(TrainingStatus.DRAFTED);
             training = trainingService.addTraining(training);
+            ExternalTrainer t = userService.getTrainerById(String.valueOf(trainingDTO.getTrainer().getId()));
             trainingDTO.setId(training.getId());
-            trainingDTO.setEventDescription(training.getTrainer().getName()+" wants to create a new training \""+training.getName()+"\"");
-            smtpMailSender.sendToUsers(userService.getUsersByRole(UserRole.ADMIN), "Changes in Trainings", emailMessages.newTrainingToAdmin(training));
+            String message = emailMessages.newTrainingToAdmin(training, t);
+            trainingDTO.setEventDescription(t.getName()+" wants to create a new training \""+training.getName()+"\"");
+            smtpMailSender.sendToUsers(userService.getUsersByRole(UserRole.ADMIN), "Changes in Trainings", message);
             trainingEventService.addEvent(new TrainingEvent(trainingDTO));
             List<EventDTO> eventDTOs = new ArrayList<>();
 
